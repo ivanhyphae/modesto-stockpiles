@@ -1,225 +1,225 @@
-well,date,is_duplicate,is_dry_or_no_sample,arsenic_ugl,barium_ugl,lead_ugl,manganese_ugl,nitrate_mgl,notes
-MW-1,6/14/2006,false,false,2.1,130,<1.0,34,5.0,
-MW-1,10/5/2006,false,false,2.2,120,<1.0,<1.0,6.8,
-MW-1,3/12/2012,false,false,<5.0,120,<5.0,<50,12,
-MW-1,3/12/2012 S,true,false,1.6,105,EXCLUDED_LABERR,2.0,11.4,footnote 2 on Pb cell = laboratory error in sample prep; duplicate of 3/12/2012
-MW-1,5/17/2012,false,false,2.3,150,<1.0,35,12,
-MW-1,7/16/2012,false,false,2.2,130,<1.0,<10,12,
-MW-1,9/19/2012,false,false,2.1,120,<1.0,<10,12,
-MW-1,11/28/2012,false,false,2.2,140,<1.0,<10,12,
-MW-1,1/22/2013,false,false,2.0,110,<1.0,12,12,
-MW-1,3/18/2013,false,false,3.3,190,2.2,160,13,
-MW-1,6/5/2013,false,false,2.2,110,<1.0,<10,12,
-MW-1,9/4/2013,false,false,2.4,130,<1.0,<10,12,
-MW-1,12/11/2013,false,false,1.8,120,<1.0,<10,13,
-MW-1,2/25/2014,false,false,1.9,110,<1.0,<10,10,
-MW-1,6/4/2014,false,false,1.1,140,<1.0,<10,15,
-MW-1,9/16/2014,false,false,1.3,130,<1.0,<10,18,
-MW-1,5/8/2015,false,false,<2.0,150,<1.0,<20,17,"date printed as ""5/8/3015"" in source table - treated as typo for 2015; VERIFY"
-MW-1,5/2/2016,false,false,1.6,100,<1.0,26,9.2,
-MW-1,4/12/2017,false,false,1.9,180,<2.1,71,15,
-MW-1,4/12/2018,false,false,1.7,170,<6.3,<1.6,17,
-MW-1,4/9/2019,false,false,<4.9,150,<3.6,<32,15,
-MW-1,,false,false,,,,,,well decommissioned per table (no date given for decommission row)
-MW-2,6/13/2006,false,false,2.1,87,<1.0,24,5.5,
-MW-2,10/5/2006,false,false,2.6,84,<1.0,27,6.1,
-MW-2,3/12/2012,false,false,<5.0,88,<5.0,<50,9.0,
-MW-2,3/12/2012 S,true,false,<10,89.6,EXCLUDED_LABERR,1.4,8.77,footnote 2 on Pb cell = laboratory error in sample prep; duplicate of 3/12/2012
-MW-2,5/17/2012,false,false,2.6,89,<1.0,10,7.5,
-MW-2,7/16/2012,false,false,3.1,100,<1.0,10,7.2,
-MW-2,9/19/2012,false,false,2.1,88,<1.0,22,7.3,
-MW-2,11/28/2012,false,false,2.5,84,<1.0,<10,7.5,
-MW-2,1/22/2013,false,false,2.7,87,<1.0,<10,6.9,
-MW-2,3/18/2013,false,false,2.6,83,<1.0,<10,6.2,
-MW-2,6/5/2013,false,false,2.5,84,<1.0,17,6.1,
-MW-2,9/4/2013,false,false,3.2,85,<1.0,<10,9.0,
-MW-2,12/11/2013,false,false,2.2,72,<1.0,<20,8.9,
-MW-2,2/25/2014,false,false,2.5,80,<1.0,<10,7.4,
-MW-2,6/4/2014,false,false,1.9,86,<1.0,<10,9.2,
-MW-2,9/16/2014,false,true,,,,,,No sample collected due to insufficient water in well
-MW-2,4/30/2015,false,false,2.2,100,<1.0,<20,12,
-MW-2,5/2/2016,false,true,,,,,,No sample collected due to insufficient water in well
-MW-2,4/12/2017,false,false,1.9,150,<2.1,1.3,24,
-MW-2,4/12/2018,false,false,1.8,120,<6.3,16,18,
-MW-2,4/8/2019,false,false,<4.9,120,<3.6,<32,16,
-MW-2,,false,false,,,,,,well decommissioned per table (no date given for decommission row)
-MW-3,6/13/2006,false,false,3.0,60,<1.0,4.7,5.4,
-MW-3,10/5/2006,false,false,3.3,58,<1.0,18,5.0,
-MW-3,3/12/2012,false,false,<5.0,58,<5.0,<50,2.9,
-MW-3,3/12/2012 S,true,false,2.1,44.4,EXCLUDED_LABERR,1.8,2.24,footnote 2 on Pb cell = laboratory error in sample prep; duplicate of 3/12/2012
-MW-3,5/17/2012,false,false,3.8,64,<1.0,<10,2.5,
-MW-3,7/16/2012,false,false,2.2,240,<1.0,<10,2.8,
-MW-3,9/19/2012,false,false,4.6,84,<1.0,74,3.0,
-MW-3,11/28/2012,false,false,4.0,60,<1.0,<10,2.8,
-MW-3,1/22/2013,false,false,5.5,55,<1.0,<10,2.9,
-MW-3,3/18/2013,false,false,5.2,43,<1.0,<10,2.7,
-MW-3,6/6/2013,false,false,4.8,45,<1.0,<10,3.3,
-MW-3,9/4/2013,false,false,5.8,36,<1.0,<10,2.5,
-MW-3,12/11/2013,false,false,5.4,34,<1.0,<10,2.4,
-MW-3,2/25/2014,false,false,5.1,48,<1.0,<10,2.8,
-MW-3,6/4/2014,false,false,4.5,51,<1.0,<10,2.6,
-MW-3,9/16/2014,false,true,,,,,,No sample collected due to insufficient water in well
-MW-3,4/30/2015,false,true,,,,,,No sample collected due to insufficient water in well
-MW-3,5/2/2016,false,true,,,,,,No sample collected due to insufficient water in well
-MW-3,4/12/2017,false,false,4.8,33,<0.10,1.3,2.6,
-MW-3,4/12/2018,false,false,2.7,61,<6.3,11,2.1,
-MW-3,4/9/2019,false,false,<4.9,49,<3.6,<32,2.3,
-MW-3,,false,false,,,,,,well decommissioned per table (no date given for decommission row)
-MW-4,6/13/2006,false,false,1.8,130,<1.0,62,3.5,
-MW-4,10/4/2006,false,false,9.9,100,<1.0,4.1,3.5,
-MW-4,3/12/2012,false,false,<5.0,160,<5.0,88,9.5,
-MW-4,3/12/2012 S,true,false,1.4,134,EXCLUDED_LABERR,0.7,9.59,footnote 2 on Pb cell = laboratory error in sample prep; duplicate of 3/12/2012
-MW-4,5/17/2012,false,false,2.1,160,<1.0,<10,10,
-MW-4,7/16/2012,false,false,6.6,110,<1.0,<10,8.2,
-MW-4,9/19/2012,false,false,2.2,140,<1.0,<10,8.2,
-MW-4,11/28/2012,false,false,2.1,140,<1.0,11,8.9,
-MW-4,1/22/2013,false,false,1.8,100,<1.0,<10,7.2,
-MW-4,3/18/2013,false,false,2.0,110,<1.0,<10,7.1,
-MW-4,6/5/2013,false,false,2.0,120,<1.0,<10,7.1,
-MW-4,9/4/2013,false,false,2.7,140,<1.0,<10,10,
-MW-4,12/11/2013,false,false,1.8,110,<1.0,<10,9.6,
-MW-4,2/25/2014,false,false,1.9,130,<1.0,<10,9.5,
-MW-4,6/4/2014,false,false,1.3,140,<1.0,<10,9.6,
-MW-4,9/16/2014,false,true,,,,,,No sample collected due to insufficient water in well
-MW-4,4/30/2015,false,false,<2.0,150,<1.0,<50,7.9,"date printed as ""4/30/3015"" in source - treated as typo for 2015"
-MW-4,5/2/2016,false,true,,,,,,No sample collected due to insufficient water in well
-MW-4,4/12/2017,false,false,1.6,160,<2.1,1.3,14,
-MW-4,4/12/2018,false,false,1.9,160,<6.3,77,6.6,
-MW-4,4/9/2019,false,false,<4.9,140,<3.6,<32,7.0,
-MW-4,2/28/2020,false,false,,140,,,,row shows Ba and Sr only; other cells printed as ---; not analyzed this round; not a dry well
-MW-4,3/11/2021,false,false,,160,,,,row shows Ba and Sr only; other cells printed as ---; not analyzed this round; not a dry well
-MW-4,3/14/2022,false,true,,,,,,No sample collected due to insufficient water in well
-MW-4,2/21/2023,false,true,,,,,,No sample collected due to insufficient water in well
-MW-5,6/14/2006,false,false,1.8,400,1.4,260,8.3,
-MW-5,10/5/2006,false,false,2.5,410,<1.0,120,10,
-MW-5,3/12/2012,false,false,<5.0,340,<5.0,<50,27,
-MW-5,3/12/2012 S,true,false,1.3,310,EXCLUDED_LABERR,4.4,25.4,footnote 2 on Pb cell = laboratory error in sample prep; duplicate of 3/12/2012
-MW-5,5/17/2012,false,false,2.4,300,<1.0,18,26,
-MW-5,7/17/2012,false,false,2.8,280,<1.0,<10,20,
-MW-5,9/20/2012,false,false,2.3,280,<1.0,<10,22,
-MW-5,11/29/2012,false,false,2.9,300,<1.0,<10,24,
-MW-5,1/23/2013,false,false,1.7,310,<1.0,<10,30,
-MW-5,3/18/2013,false,false,2.3,300,<1.0,<10,30,
-MW-5,6/6/2013,false,false,2.2,230,<1.0,<10,17,
-MW-5,9/5/2013,false,false,1.7,320,<1.0,<10,36,
-MW-5,12/12/2013,false,false,2.2,230,<1.0,<20,25,
-MW-5,2/25/2014,false,false,2.4,310,<1.0,<10,34,
-MW-5,6/5/2014,false,false,2.0,280,<1.0,<10,29,
-MW-5,9/16/2014,false,true,,,,,,No sample collected due to insufficient water in well
-MW-5,4/30/2015,false,true,,,,,,No sample collected due to insufficient water in well
-MW-5,5/2/2016,false,true,,,,,,No sample collected due to insufficient water in well
-MW-5,4/12/2017,false,true,,,,,,No sample collected due to insufficient water in well
-MW-5,4/12/2018,false,false,1.5,260,0.32,<1.6,14,
-MW-5,4/9/2019,false,false,<4.9,370,<3.6,59,40,
-MW-5,,false,false,,,,,,well decommissioned per table (no date given for decommission row)
-MW-6,6/14/2006,false,false,3.6,160,3.4,190,12,
-MW-6,10/5/2006,false,false,5.2,120,<1.0,130,15,
-MW-6,3/12/2012,false,false,<5.0,99,<5.0,<50,18,
-MW-6,3/12/2012 S,true,false,2.8,94.2,EXCLUDED_LABERR,2.7,17.7,footnote 2 on Pb cell = laboratory error in sample prep; duplicate of 3/12/2012
-MW-6,5/17/2012,false,false,3.9,93,<1.0,5.5,18,
-MW-6,7/17/2012,false,false,6.3,110,<1.0,8.2,19,
-MW-6,9/20/2012,false,false,4.7,110,<1.0,5.6,18,
-MW-6,11/29/2012,false,false,5.1,98,<1.0,6.0,18,
-MW-6,1/23/2013,false,false,4.2,120,<1.0,100,18,
-MW-6,3/18/2013,false,false,4.6,79,<1.0,5.1,17,
-MW-6,6/6/2013,false,false,4.3,76,<1.0,5.1,23,
-MW-6,9/5/2013,false,false,3.3,90,<1.0,5.0,16,
-MW-6,12/12/2013,false,false,4.4,130,1.3,140,16,
-MW-6,2/26/2014,false,false,4.1,80,<1.0,<10,15,
-MW-6,6/5/2014,false,false,3.7,84,<1.0,5.0,15,
-MW-6,9/16/2014,false,true,,,,,,No sample collected due to insufficient water in well
-MW-6,4/30/2015,false,true,,,,,,No sample collected due to insufficient water in well
-MW-6,5/2/2016,false,true,,,,,,No sample collected due to insufficient water in well
-MW-6,4/12/2017,false,true,,,,,,No sample collected due to insufficient water in well
-MW-6,4/12/2018,false,false,2.1,120,<6.3,12,15,
-MW-6,4/9/2019,false,false,<4.9,100,<3.6,<32,16,
-MW-6,2/28/2020,false,false,,99,,,,row shows Ba and Sr only; other cells printed as ---; not analyzed this round; not a dry well
-MW-6,3/11/2021,false,false,,130,,,,row shows Ba and Sr only; other cells printed as ---; not analyzed this round; not a dry well
-MW-6,3/14/2022,false,true,,,,,,No sample collected due to insufficient water in well
-MW-6,2/21/2023,false,true,,,,,,No sample collected due to insufficient water in well
-MW-7,6/14/2006,false,false,2.3,80,<1.0,9.0,3.0,
-MW-7,10/4/2006,false,false,2.7,73,<1.0,1.1,3.1,
-MW-7,3/12/2012,false,false,<5.0,76,<5.0,<50,3.0,
-MW-7,5/17/2012,false,false,2.3,63,<1.0,<10,2.5,
-MW-7,7/17/2012,false,false,2.2,66,<1.0,<10,3.3,
-MW-7,9/20/2012,false,false,3.1,96,<1.0,<10,3.6,
-MW-7,11/29/2012,false,false,2.5,77,<1.0,<10,3.4,
-MW-7,1/23/2013,false,false,2.9,68,<1.0,<10,3.4,
-MW-7,3/18/2013,false,false,4.0,150,2.5,260,3.0,
-MW-7,6/6/2013,false,false,2.7,66,<1.0,<10,3.9,
-MW-7,9/5/2013,false,false,1.4,78,<1.0,<10,4.1,
-MW-7,12/12/2013,false,false,2.2,78,<1.0,<20,4.2,
-MW-7,2/26/2014,false,false,2.9,79,<1.0,<10,4.2,
-MW-7,6/5/2014,false,false,2.2,92,<1.0,<10,5.1,
-MW-7,9/16/2014,false,false,2.0,94,<1.0,<10,6.3,
-MW-7,4/30/2015,false,false,2.5,120,<1.0,33,7.0,
-MW-7,5/2/2016,false,false,2.2,110,<1.0,<10,8.7,
-MW-7,4/12/2017,false,false,2.5,130,<2.1,1.3,7.1,
-MW-7,4/11/2018,false,false,1.7,85,<6.3,<1.6,3.3,
-MW-7,4/9/2019,false,false,<4.9,99,<3.6,<32,3.2,
-MW-7,,false,false,,,,,,well decommissioned per table (no date given for decommission row)
-MW-8,6/14/2006,false,false,2.7,84,<1.0,5.8,9.2,
-MW-8,10/4/2006,false,false,4.0,57,<1.0,1.0,7.8,
-MW-8,3/12/2012,false,false,<5.0,39,<5.0,<50,6.7,
-MW-8,3/12/2012 S,true,false,2.5,39.4,EXCLUDED_LABERR,1.7,5.31,footnote 2 on Pb cell = laboratory error in sample prep; duplicate of 3/12/2012
-MW-8,5/17/2012,false,false,3.2,55,<1.0,<10,6.3,
-MW-8,7/17/2012,false,false,3.2,51,<1.0,<10,5.2,
-MW-8,9/20/2012,false,false,3.9,47,<1.0,<10,5.9,
-MW-8,11/29/2012,false,false,4.0,110,<1.0,160,11,
-MW-8,1/23/2013,false,false,4.2,57,<1.0,2.1,3.6,
-MW-8,3/18/2013,false,false,4.0,56,<1.0,1.9,4.2,row printed at bottom edge of table page; column alignment low-confidence; materiality low (small value) - VERIFY
-MW-8,6/6/2013,false,false,3.8,51,<1.0,2.0,4.8,
-MW-8,9/5/2013,false,false,2.5,67,<1.0,1.4,7.1,
-MW-8,12/12/2013,false,false,2.8,61,<1.0,<20,4.3,
-MW-8,2/26/2014,false,false,4.0,55,<1.0,<10,3.6,
-MW-8,6/5/2014,false,false,3.2,59,<1.0,<10,4.0,
-MW-8,9/16/2014,false,true,,,,,,No sample collected due to insufficient water in well
-MW-8,4/30/2015,false,true,,,,,,No sample collected due to insufficient water in well
-MW-8,5/2/2016,false,true,,,,,,No sample collected due to insufficient water in well
-MW-8,4/12/2017,false,true,,,,,,No sample collected due to insufficient water in well
-MW-8,4/11/2018,false,false,3.1,130,0.76,410,6.2,HIGH VALUE - highest Table 3 manganese result observed in this well block; flagged for QA re-check
-MW-8,4/9/2019,false,false,<4.9,59,<3.6,<32,5.2,
-MW-8,,false,false,,,,,,well decommissioned per table (no date given for decommission row)
-MW-9,6/20/2012,false,false,2.3,67,<1.0,43,13,
-MW-9,7/17/2012,false,false,2.7,51,<1.0,<10,11,
-MW-9,9/19/2012,false,false,3.1,100,<1.0,73,11,
-MW-9,11/28/2012,false,false,3.2,100,<1.0,15,9.0,
-MW-9,1/22/2013,false,false,2.6,90,<1.0,<20,8.5,
-MW-9,3/18/2013,false,false,3.1,92,<1.0,<10,8.8,
-MW-9,6/6/2013,false,false,2.8,99,<1.0,<10,12,
-MW-9,9/5/2013,false,false,2.3,110,<1.0,<10,7.0,
-MW-9,12/12/2013,false,false,2.4,110,<1.0,<20,11,
-MW-9,2/26/2014,false,false,3.3,120,<1.0,<10,7.7,
-MW-9,6/4/2014,false,false,1.8,120,<1.0,<10,10,
-MW-9,9/16/2014,false,true,,,,,,No sample collected due to insufficient water in well
-MW-9,4/30/2015,false,true,,,,,,No sample collected due to insufficient water in well
-MW-9,5/2/2016,false,true,,,,,,No sample collected due to insufficient water in well
-MW-9,4/12/2017,false,true,,,,,,No sample collected due to insufficient water in well
-MW-9,4/11/2018,false,false,2.0,160,<0.32,3.0,12,
-MW-9,4/9/2019,false,true,,,,,,No sample collected due to insufficient water in well
-MW-9,2/28/2020,false,false,,180,,,,row shows Ba and Sr only; other cells printed as ---; not analyzed this round; not a dry well
-MW-9,3/11/2021,false,true,,,,,,No sample collected due to insufficient water in well
-MW-9,3/14/2022,false,true,,,,,,No sample collected due to insufficient water in well
-MW-9,2/21/2023,false,true,,,,,,No sample collected due to insufficient water in well
-MW-10,6/20/2012,false,false,4.1,160,2.2,290,9.2,HIGH VALUE - highest Table 3 manganese result observed in raw extraction so far; flagged for QA re-check
-MW-10,7/17/2012,false,false,2.8,59,<1.0,<10,9.8,
-MW-10,9/20/2012,false,false,2.7,83,<1.0,16,14,
-MW-10,11/29/2012,false,false,3.1,76,<1.0,<10,16,
-MW-10,1/22/2013,false,false,3.8,86,<1.0,<10,18,
-MW-10,3/18/2013,false,false,3.5,78,<1.0,14,17,
-MW-10,6/6/2013,false,false,3.1,68,<1.0,<10,20,
-MW-10,9/5/2013,false,false,1.8,86,<1.0,<10,17,
-MW-10,12/12/2013,false,false,2.8,83,<1.0,<50,18,
-MW-10,2/26/2014,false,false,3.4,120,<1.0,73,18,
-MW-10,6/5/2014,false,false,2.3,96,<1.0,<10,18,
-MW-10,9/16/2014,false,true,,,,,,No sample collected due to insufficient water in well (well listed DRY in Table 2 from this date forward)
-MW-10,4/30/2015,false,true,,,,,,No sample collected / DRY
-MW-10,5/2/2016,false,true,,,,,,No sample collected / DRY
-MW-10,4/12/2017,false,true,,,,,,No sample collected / DRY
-MW-10,4/11/2018,false,false,2.3,140,<6.3,73,17,
-MW-10,4/9/2019,false,true,,,,,,No sample collected / DRY
-MW-10,2/28/2020,false,true,,,,,,No sample collected / DRY
-MW-10,3/11/2021,false,true,,,,,,No sample collected / DRY
-MW-10,3/14/2022,false,true,,,,,,No sample collected / DRY
-MW-10,2/21/2023,false,true,,,,,,No sample collected / DRY
-REFERENCE,MCL_ROW_TABLE3,false,false,10,1000,15,50,,"Table 3 footnote row: Arsenic MCL=10 ug/L; Barium MCL=1000/700(footnote4) ug/L; Lead=15 ug/L is footnoted (3) as California Department of Public Health Regulatory Action Level, NOT an MCL; Manganese Secondary MCL(footnote1)=50 ug/L"
+well,date,is_duplicate,is_dry_or_no_sample,arsenic_ugl,barium_ugl,lead_ugl,manganese_ugl,strontium_ugl,nitrate_mgl,notes
+MW-1,6/14/2006,false,false,2.1,130,<1.0,34,---,5.0,
+MW-1,10/5/2006,false,false,2.2,120,<1.0,<1.0,---,6.8,
+MW-1,3/12/2012,false,false,<5.0,120,<5.0,<50,960,12,
+MW-1,3/12/2012 S,true,false,1.6,105,EXCLUDED_LABERR,2.0,1010,11.4,footnote 2 on Pb cell = laboratory error in sample prep; duplicate of 3/12/2012
+MW-1,5/17/2012,false,false,2.3,150,<1.0,35,1100,12,
+MW-1,7/16/2012,false,false,2.2,130,<1.0,<10,1100,12,
+MW-1,9/19/2012,false,false,2.1,120,<1.0,<10,1100,12,
+MW-1,11/28/2012,false,false,2.2,140,<1.0,<10,1100,12,
+MW-1,1/22/2013,false,false,2.0,110,<1.0,12,1100,12,
+MW-1,3/18/2013,false,false,3.3,190,2.2,160,1000,13,
+MW-1,6/5/2013,false,false,2.2,110,<1.0,<10,1000,12,
+MW-1,9/4/2013,false,false,2.4,130,<1.0,<10,1200,12,
+MW-1,12/11/2013,false,false,1.8,120,<1.0,<10,1200,13,
+MW-1,2/25/2014,false,false,1.9,110,<1.0,<10,920,10,
+MW-1,6/4/2014,false,false,1.1,140,<1.0,<10,1100,15,
+MW-1,9/16/2014,false,false,1.3,130,<1.0,<10,1000,18,
+MW-1,5/8/2015,false,false,<2.0,150,<1.0,<20,1300,17,"date printed as ""5/8/3015"" in source table - treated as typo for 2015; VERIFY"
+MW-1,5/2/2016,false,false,1.6,100,<1.0,26,810,9.2,
+MW-1,4/12/2017,false,false,1.9,180,<2.1,71,1200,15,
+MW-1,4/12/2018,false,false,1.7,170,<6.3,<1.6,1400,17,
+MW-1,4/9/2019,false,false,<4.9,150,<3.6,<32,1200,15,
+MW-1,,false,false,,,,,,,well decommissioned per table (no date given for decommission row)
+MW-2,6/13/2006,false,false,2.1,87,<1.0,24,---,5.5,
+MW-2,10/5/2006,false,false,2.6,84,<1.0,27,---,6.1,
+MW-2,3/12/2012,false,false,<5.0,88,<5.0,<50,610,9.0,
+MW-2,3/12/2012 S,true,false,<10,89.6,EXCLUDED_LABERR,1.4,642,8.77,footnote 2 on Pb cell = laboratory error in sample prep; duplicate of 3/12/2012
+MW-2,5/17/2012,false,false,2.6,89,<1.0,10,700,7.5,
+MW-2,7/16/2012,false,false,3.1,100,<1.0,10,740,7.2,
+MW-2,9/19/2012,false,false,2.1,88,<1.0,22,650,7.3,
+MW-2,11/28/2012,false,false,2.5,84,<1.0,<10,640,7.5,
+MW-2,1/22/2013,false,false,2.7,87,<1.0,<10,680,6.9,
+MW-2,3/18/2013,false,false,2.6,83,<1.0,<10,580,6.2,
+MW-2,6/5/2013,false,false,2.5,84,<1.0,17,620,6.1,
+MW-2,9/4/2013,false,false,3.2,85,<1.0,<10,640,9.0,
+MW-2,12/11/2013,false,false,2.2,72,<1.0,<20,530,8.9,
+MW-2,2/25/2014,false,false,2.5,80,<1.0,<10,570,7.4,
+MW-2,6/4/2014,false,false,1.9,86,<1.0,<10,590,9.2,
+MW-2,9/16/2014,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-2,4/30/2015,false,false,2.2,100,<1.0,<20,760,12,
+MW-2,5/2/2016,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-2,4/12/2017,false,false,1.9,150,<2.1,1.3,940,24,
+MW-2,4/12/2018,false,false,1.8,120,<6.3,16,770,18,
+MW-2,4/8/2019,false,false,<4.9,120,<3.6,<32,780,16,
+MW-2,,false,false,,,,,,,well decommissioned per table (no date given for decommission row)
+MW-3,6/13/2006,false,false,3.0,60,<1.0,4.7,---,5.4,
+MW-3,10/5/2006,false,false,3.3,58,<1.0,18,---,5.0,
+MW-3,3/12/2012,false,false,<5.0,58,<5.0,<50,390,2.9,
+MW-3,3/12/2012 S,true,false,2.1,44.4,EXCLUDED_LABERR,1.8,342,2.24,footnote 2 on Pb cell = laboratory error in sample prep; duplicate of 3/12/2012
+MW-3,5/17/2012,false,false,3.8,64,<1.0,<10,490,2.5,
+MW-3,7/16/2012,false,false,2.2,240,<1.0,<10,840,2.8,
+MW-3,9/19/2012,false,false,4.6,84,<1.0,74,560,3.0,
+MW-3,11/28/2012,false,false,4.0,60,<1.0,<10,430,2.8,
+MW-3,1/22/2013,false,false,5.5,55,<1.0,<10,430,2.9,
+MW-3,3/18/2013,false,false,5.2,43,<1.0,<10,300,2.7,
+MW-3,6/6/2013,false,false,4.8,45,<1.0,<10,350,3.3,
+MW-3,9/4/2013,false,false,5.8,36,<1.0,<10,260,2.5,
+MW-3,12/11/2013,false,false,5.4,34,<1.0,<10,240,2.4,
+MW-3,2/25/2014,false,false,5.1,48,<1.0,<10,300,2.8,
+MW-3,6/4/2014,false,false,4.5,51,<1.0,<10,300,2.6,
+MW-3,9/16/2014,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-3,4/30/2015,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-3,5/2/2016,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-3,4/12/2017,false,false,4.8,33,<0.10,1.3,190,2.6,
+MW-3,4/12/2018,false,false,2.7,61,<6.3,11,420,2.1,
+MW-3,4/9/2019,false,false,<4.9,49,<3.6,<32,330,2.3,
+MW-3,,false,false,,,,,,,well decommissioned per table (no date given for decommission row)
+MW-4,6/13/2006,false,false,1.8,130,<1.0,62,---,3.5,
+MW-4,10/4/2006,false,false,9.9,100,<1.0,4.1,---,3.5,
+MW-4,3/12/2012,false,false,<5.0,160,<5.0,88,840,9.5,
+MW-4,3/12/2012 S,true,false,1.4,134,EXCLUDED_LABERR,0.7,812,9.59,footnote 2 on Pb cell = laboratory error in sample prep; duplicate of 3/12/2012
+MW-4,5/17/2012,false,false,2.1,160,<1.0,<10,960,10,
+MW-4,7/16/2012,false,false,6.6,110,<1.0,<10,850,8.2,
+MW-4,9/19/2012,false,false,2.2,140,<1.0,<10,980,8.2,
+MW-4,11/28/2012,false,false,2.1,140,<1.0,11,920,8.9,
+MW-4,1/22/2013,false,false,1.8,100,<1.0,<10,850,7.2,
+MW-4,3/18/2013,false,false,2.0,110,<1.0,<10,780,7.1,
+MW-4,6/5/2013,false,false,2.0,120,<1.0,<10,900,7.1,
+MW-4,9/4/2013,false,false,2.7,140,<1.0,<10,890,10,
+MW-4,12/11/2013,false,false,1.8,110,<1.0,<10,830,9.6,
+MW-4,2/25/2014,false,false,1.9,130,<1.0,<10,810,9.5,
+MW-4,6/4/2014,false,false,1.3,140,<1.0,<10,820,9.6,
+MW-4,9/16/2014,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-4,4/30/2015,false,false,<2.0,150,<1.0,<50,960,7.9,"date printed as ""4/30/3015"" in source - treated as typo for 2015"
+MW-4,5/2/2016,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-4,4/12/2017,false,false,1.6,160,<2.1,1.3,940,14,
+MW-4,4/12/2018,false,false,1.9,160,<6.3,77,760,6.6,
+MW-4,4/9/2019,false,false,<4.9,140,<3.6,<32,820,7.0,
+MW-4,2/28/2020,false,false,,140,,,930,,row shows Ba and Sr only; other cells printed as ---; not analyzed this round; not a dry well
+MW-4,3/11/2021,false,false,,160,,,930,,row shows Ba and Sr only; other cells printed as ---; not analyzed this round; not a dry well
+MW-4,3/14/2022,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-4,2/21/2023,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-5,6/14/2006,false,false,1.8,400,1.4,260,---,8.3,
+MW-5,10/5/2006,false,false,2.5,410,<1.0,120,---,10,
+MW-5,3/12/2012,false,false,<5.0,340,<5.0,<50,1200,27,
+MW-5,3/12/2012 S,true,false,1.3,310,EXCLUDED_LABERR,4.4,1140,25.4,footnote 2 on Pb cell = laboratory error in sample prep; duplicate of 3/12/2012
+MW-5,5/17/2012,false,false,2.4,300,<1.0,18,1400,26,
+MW-5,7/17/2012,false,false,2.8,280,<1.0,<10,1100,20,
+MW-5,9/20/2012,false,false,2.3,280,<1.0,<10,1100,22,
+MW-5,11/29/2012,false,false,2.9,300,<1.0,<10,960,24,
+MW-5,1/23/2013,false,false,1.7,310,<1.0,<10,1200,30,
+MW-5,3/18/2013,false,false,2.3,300,<1.0,<10,1100,30,
+MW-5,6/6/2013,false,false,2.2,230,<1.0,<10,940,17,
+MW-5,9/5/2013,false,false,1.7,320,<1.0,<10,1100,36,
+MW-5,12/12/2013,false,false,2.2,230,<1.0,<20,790,25,
+MW-5,2/25/2014,false,false,2.4,310,<1.0,<10,920,34,
+MW-5,6/5/2014,false,false,2.0,280,<1.0,<10,880,29,
+MW-5,9/16/2014,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-5,4/30/2015,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-5,5/2/2016,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-5,4/12/2017,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-5,4/12/2018,false,false,1.5,260,0.32,<1.6,930,14,
+MW-5,4/9/2019,false,false,<4.9,370,<3.6,59,1300,40,
+MW-5,,false,false,,,,,,,well decommissioned per table (no date given for decommission row)
+MW-6,6/14/2006,false,false,3.6,160,3.4,190,---,12,
+MW-6,10/5/2006,false,false,5.2,120,<1.0,130,---,15,
+MW-6,3/12/2012,false,false,<5.0,99,<5.0,<50,680,18,
+MW-6,3/12/2012 S,true,false,2.8,94.2,EXCLUDED_LABERR,2.7,655,17.7,footnote 2 on Pb cell = laboratory error in sample prep; duplicate of 3/12/2012
+MW-6,5/17/2012,false,false,3.9,93,<1.0,5.5,690,18,
+MW-6,7/17/2012,false,false,6.3,110,<1.0,8.2,1100,19,
+MW-6,9/20/2012,false,false,4.7,110,<1.0,5.6,860,18,
+MW-6,11/29/2012,false,false,5.1,98,<1.0,6.0,760,18,
+MW-6,1/23/2013,false,false,4.2,120,<1.0,100,620,18,
+MW-6,3/18/2013,false,false,4.6,79,<1.0,5.1,610,17,
+MW-6,6/6/2013,false,false,4.3,76,<1.0,5.1,650,23,
+MW-6,9/5/2013,false,false,3.3,90,<1.0,5.0,640,16,
+MW-6,12/12/2013,false,false,4.4,130,1.3,140,590,16,
+MW-6,2/26/2014,false,false,4.1,80,<1.0,<10,590,15,
+MW-6,6/5/2014,false,false,3.7,84,<1.0,5.0,550,15,
+MW-6,9/16/2014,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-6,4/30/2015,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-6,5/2/2016,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-6,4/12/2017,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-6,4/12/2018,false,false,2.1,120,<6.3,12,810,15,
+MW-6,4/9/2019,false,false,<4.9,100,<3.6,<32,700,16,
+MW-6,2/28/2020,false,false,,99,,,740,,row shows Ba and Sr only; other cells printed as ---; not analyzed this round; not a dry well
+MW-6,3/11/2021,false,false,,130,,,720,,row shows Ba and Sr only; other cells printed as ---; not analyzed this round; not a dry well
+MW-6,3/14/2022,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-6,2/21/2023,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-7,6/14/2006,false,false,2.3,80,<1.0,9.0,---,3.0,
+MW-7,10/4/2006,false,false,2.7,73,<1.0,1.1,---,3.1,
+MW-7,3/12/2012,false,false,<5.0,76,<5.0,<50,690,3.0,
+MW-7,5/17/2012,false,false,2.3,63,<1.0,<10,590,2.5,
+MW-7,7/17/2012,false,false,2.2,66,<1.0,<10,600,3.3,
+MW-7,9/20/2012,false,false,3.1,96,<1.0,<10,900,3.6,
+MW-7,11/29/2012,false,false,2.5,77,<1.0,<10,690,3.4,
+MW-7,1/23/2013,false,false,2.9,68,<1.0,<10,670,3.4,
+MW-7,3/18/2013,false,false,4.0,150,2.5,260,650,3.0,
+MW-7,6/6/2013,false,false,2.7,66,<1.0,<10,690,3.9,
+MW-7,9/5/2013,false,false,1.4,78,<1.0,<10,650,4.1,
+MW-7,12/12/2013,false,false,2.2,78,<1.0,<20,740,4.2,
+MW-7,2/26/2014,false,false,2.9,79,<1.0,<10,720,4.2,
+MW-7,6/5/2014,false,false,2.2,92,<1.0,<10,740,5.1,
+MW-7,9/16/2014,false,false,2.0,94,<1.0,<10,850,6.3,
+MW-7,4/30/2015,false,false,2.5,120,<1.0,33,970,7.0,
+MW-7,5/2/2016,false,false,2.2,110,<1.0,<10,1100,8.7,
+MW-7,4/12/2017,false,false,2.5,130,<2.1,1.3,1000,7.1,
+MW-7,4/11/2018,false,false,1.7,85,<6.3,<1.6,720,3.3,
+MW-7,4/9/2019,false,false,<4.9,99,<3.6,<32,860,3.2,
+MW-7,,false,false,,,,,,,well decommissioned per table (no date given for decommission row)
+MW-8,6/14/2006,false,false,2.7,84,<1.0,5.8,---,9.2,
+MW-8,10/4/2006,false,false,4.0,57,<1.0,1.0,---,7.8,
+MW-8,3/12/2012,false,false,<5.0,39,<5.0,<50,180,6.7,
+MW-8,3/12/2012 S,true,false,2.5,39.4,EXCLUDED_LABERR,1.7,211,5.31,footnote 2 on Pb cell = laboratory error in sample prep; duplicate of 3/12/2012
+MW-8,5/17/2012,false,false,3.2,55,<1.0,<10,270,6.3,
+MW-8,7/17/2012,false,false,3.2,51,<1.0,<10,210,5.2,
+MW-8,9/20/2012,false,false,3.9,47,<1.0,<10,220,5.9,
+MW-8,11/29/2012,false,false,4.0,110,<1.0,160,450,11,
+MW-8,1/23/2013,false,false,4.2,57,<1.0,2.1,260,3.6,
+MW-8,3/18/2013,false,false,4.0,56,<1.0,1.9,250,4.2,row printed at bottom edge of table page; column alignment low-confidence; materiality low (small value) - VERIFY
+MW-8,6/6/2013,false,false,3.8,51,<1.0,2.0,250,4.8,
+MW-8,9/5/2013,false,false,2.5,67,<1.0,1.4,300,7.1,
+MW-8,12/12/2013,false,false,2.8,61,<1.0,<20,340,4.3,
+MW-8,2/26/2014,false,false,4.0,55,<1.0,<10,260,3.6,
+MW-8,6/5/2014,false,false,3.2,59,<1.0,<10,250,4.0,
+MW-8,9/16/2014,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-8,4/30/2015,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-8,5/2/2016,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-8,4/12/2017,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-8,4/11/2018,false,false,3.1,130,0.76,410,230,6.2,HIGH VALUE - highest Table 3 manganese result observed in this well block; flagged for QA re-check
+MW-8,4/9/2019,false,false,<4.9,59,<3.6,<32,310,5.2,
+MW-8,,false,false,,,,,,,well decommissioned per table (no date given for decommission row)
+MW-9,6/20/2012,false,false,2.3,67,<1.0,43,840,13,
+MW-9,7/17/2012,false,false,2.7,51,<1.0,<10,800,11,
+MW-9,9/19/2012,false,false,3.1,100,<1.0,73,970,11,
+MW-9,11/28/2012,false,false,3.2,100,<1.0,15,820,9.0,
+MW-9,1/22/2013,false,false,2.6,90,<1.0,<20,710,8.5,
+MW-9,3/18/2013,false,false,3.1,92,<1.0,<10,700,8.8,
+MW-9,6/6/2013,false,false,2.8,99,<1.0,<10,770,12,
+MW-9,9/5/2013,false,false,2.3,110,<1.0,<10,690,7.0,
+MW-9,12/12/2013,false,false,2.4,110,<1.0,<20,780,11,
+MW-9,2/26/2014,false,false,3.3,120,<1.0,<10,730,7.7,
+MW-9,6/4/2014,false,false,1.8,120,<1.0,<10,700,10,
+MW-9,9/16/2014,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-9,4/30/2015,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-9,5/2/2016,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-9,4/12/2017,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-9,4/11/2018,false,false,2.0,160,<0.32,3.0,1000,12,
+MW-9,4/9/2019,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-9,2/28/2020,false,false,,180,,,1100,,row shows Ba and Sr only; other cells printed as ---; not analyzed this round; not a dry well
+MW-9,3/11/2021,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-9,3/14/2022,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-9,2/21/2023,false,true,,,,,,,No sample collected due to insufficient water in well
+MW-10,6/20/2012,false,false,4.1,160,2.2,290,990,9.2,HIGH VALUE - highest Table 3 manganese result observed in raw extraction so far; flagged for QA re-check
+MW-10,7/17/2012,false,false,2.8,59,<1.0,<10,1000,9.8,
+MW-10,9/20/2012,false,false,2.7,83,<1.0,16,1100,14,
+MW-10,11/29/2012,false,false,3.1,76,<1.0,<10,970,16,
+MW-10,1/22/2013,false,false,3.8,86,<1.0,<10,1200,18,
+MW-10,3/18/2013,false,false,3.5,78,<1.0,14,930,17,
+MW-10,6/6/2013,false,false,3.1,68,<1.0,<10,1000,20,
+MW-10,9/5/2013,false,false,1.8,86,<1.0,<10,910,17,
+MW-10,12/12/2013,false,false,2.8,83,<1.0,<50,950,18,
+MW-10,2/26/2014,false,false,3.4,120,<1.0,73,970,18,
+MW-10,6/5/2014,false,false,2.3,96,<1.0,<10,940,18,
+MW-10,9/16/2014,false,true,,,,,,,No sample collected due to insufficient water in well (well listed DRY in Table 2 from this date forward)
+MW-10,4/30/2015,false,true,,,,,,,No sample collected / DRY
+MW-10,5/2/2016,false,true,,,,,,,No sample collected / DRY
+MW-10,4/12/2017,false,true,,,,,,,No sample collected / DRY
+MW-10,4/11/2018,false,false,2.3,140,<6.3,73,1100,17,
+MW-10,4/9/2019,false,true,,,,,,,No sample collected / DRY
+MW-10,2/28/2020,false,true,,,,,,,No sample collected / DRY
+MW-10,3/11/2021,false,true,,,,,,,No sample collected / DRY
+MW-10,3/14/2022,false,true,,,,,,,No sample collected / DRY
+MW-10,2/21/2023,false,true,,,,,,,No sample collected / DRY
+REFERENCE,MCL_ROW_TABLE3,false,false,10,1000,15,50,4000,,"Table 3 footnote row: Arsenic MCL=10 ug/L; Barium MCL=1000/700(footnote4) ug/L; Lead=15 ug/L is footnoted (3) as California Department of Public Health Regulatory Action Level, NOT an MCL; Manganese Secondary MCL(footnote1)=50 ug/L; Strontium=4000 ug/L is footnoted (4) as EPA Drinking Water Health Advisory, NOT an MCL - reconstructed from a garbled/multi-line MCL summary row via cross-page text extraction and footnote-key matching, not a direct single-line read; recommend a visual re-check of Table 3 page 29's MCL row before treating as final"

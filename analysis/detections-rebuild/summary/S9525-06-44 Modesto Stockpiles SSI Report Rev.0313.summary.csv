@@ -1,0 +1,124 @@
+# Part 1: min/max computed from RAW DETECTIONS ONLY (value_type == 'detection'), grouped by (location, analyte), from the SSI Report raw CSV.
+location,analyte,min_detected_mgkg,min_sample_id,min_depth_ft,max_detected_mgkg,max_sample_id,max_depth_ft,n_detections_contributing,regulatory_limit_mgkg,limit_type,exceedance_ratio_at_max,extreme_deep_barium_flag,source_document
+Stockpile 1 - East End,Barium,170.0,PB6-0.0,0.0,210.0,PB7-0.0,0.0,4,10000,TTLC,0.021,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - East End,Barium,170.0,PB6-0.0,0.0,210.0,PB7-0.0,0.0,4,1000,10x STLC,0.21,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - East End,Barium,170.0,PB6-0.0,0.0,210.0,PB7-0.0,0.0,4,63000,CHHSL (industrial),0.0033,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - East End,Barium,170.0,PB6-0.0,0.0,210.0,PB7-0.0,0.0,4,5200,CHHSL (residential),0.0404,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - NORTH SIDE,Arsenic,0.25,FB1-3.0,3.0,1.0,FB2-4.0,4.0,8,500,TTLC,0.002,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - NORTH SIDE,Arsenic,0.25,FB1-3.0,3.0,1.0,FB2-4.0,4.0,8,50,10x STLC,0.02,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - NORTH SIDE,Arsenic,0.25,FB1-3.0,3.0,1.0,FB2-4.0,4.0,8,0.24,CHHSL (industrial),4.1667,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - NORTH SIDE,Arsenic,0.25,FB1-3.0,3.0,1.0,FB2-4.0,4.0,8,0.07,CHHSL (residential),14.2857,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - NORTH SIDE,Barium,43.0,FB2-4.0,4.0,240.0,FB4-0.0,0.0,8,10000,TTLC,0.024,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - NORTH SIDE,Barium,43.0,FB2-4.0,4.0,240.0,FB4-0.0,0.0,8,1000,10x STLC,0.24,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - NORTH SIDE,Barium,43.0,FB2-4.0,4.0,240.0,FB4-0.0,0.0,8,63000,CHHSL (industrial),0.0038,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - NORTH SIDE,Barium,43.0,FB2-4.0,4.0,240.0,FB4-0.0,0.0,8,5200,CHHSL (residential),0.0462,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - NORTH SIDE,Lead,1.1,FB2-4.0,4.0,16.0,FB2-0.0,0.0,8,1000,TTLC,0.016,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - NORTH SIDE,Lead,1.1,FB2-4.0,4.0,16.0,FB2-0.0,0.0,8,250,10x STLC,0.064,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - NORTH SIDE,Lead,1.1,FB2-4.0,4.0,16.0,FB2-0.0,0.0,8,320,CHHSL (industrial),0.05,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - NORTH SIDE,Lead,1.1,FB2-4.0,4.0,16.0,FB2-0.0,0.0,8,80,CHHSL (residential),0.2,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - NORTH SIDE,Strontium,18.0,FB3-4.0,4.0,61.0,FB4-0.0,0.0,8,610000,CHHSL (industrial),0.0001,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - NORTH SIDE,Strontium,18.0,FB3-4.0,4.0,61.0,FB4-0.0,0.0,8,47000,CHHSL (residential) / USEPA RSL,0.0013,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - SOUTH SIDE,Arsenic,0.31,FB8-4.0,4.0,1.3,FB5-0.0,0.0,10,500,TTLC,0.0026,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - SOUTH SIDE,Arsenic,0.31,FB8-4.0,4.0,1.3,FB5-0.0,0.0,10,50,10x STLC,0.026,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - SOUTH SIDE,Arsenic,0.31,FB8-4.0,4.0,1.3,FB5-0.0,0.0,10,0.24,CHHSL (industrial),5.4167,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - SOUTH SIDE,Arsenic,0.31,FB8-4.0,4.0,1.3,FB5-0.0,0.0,10,0.07,CHHSL (residential),18.5714,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - SOUTH SIDE,Barium,52.0,FB5-4.0,4.0,200.0,FB5-0.0,0.0,10,10000,TTLC,0.02,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - SOUTH SIDE,Barium,52.0,FB5-4.0,4.0,200.0,FB5-0.0,0.0,10,1000,10x STLC,0.2,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - SOUTH SIDE,Barium,52.0,FB5-4.0,4.0,200.0,FB5-0.0,0.0,10,63000,CHHSL (industrial),0.0032,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - SOUTH SIDE,Barium,52.0,FB5-4.0,4.0,200.0,FB5-0.0,0.0,10,5200,CHHSL (residential),0.0385,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - SOUTH SIDE,Lead,1.5,FB8-4.0,4.0,17.0,FB5-0.0,0.0,10,1000,TTLC,0.017,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - SOUTH SIDE,Lead,1.5,FB8-4.0,4.0,17.0,FB5-0.0,0.0,10,250,10x STLC,0.068,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - SOUTH SIDE,Lead,1.5,FB8-4.0,4.0,17.0,FB5-0.0,0.0,10,320,CHHSL (industrial),0.0531,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - SOUTH SIDE,Lead,1.5,FB8-4.0,4.0,17.0,FB5-0.0,0.0,10,80,CHHSL (residential),0.2125,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - SOUTH SIDE,Strontium,27.0,FB7-0.0,0.0,190.0,FB9-4.0,4.0,10,610000,CHHSL (industrial),0.0003,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - SOUTH SIDE,Strontium,27.0,FB7-0.0,0.0,190.0,FB9-4.0,4.0,10,47000,CHHSL (residential) / USEPA RSL,0.004,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - West End,Barium,97.0,PB2-0.0,0.0,160.0,PB3-0.0,0.0,5,10000,TTLC,0.016,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - West End,Barium,97.0,PB2-0.0,0.0,160.0,PB3-0.0,0.0,5,1000,10x STLC,0.16,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - West End,Barium,97.0,PB2-0.0,0.0,160.0,PB3-0.0,0.0,5,63000,CHHSL (industrial),0.0025,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 1 - West End,Barium,97.0,PB2-0.0,0.0,160.0,PB3-0.0,0.0,5,5200,CHHSL (residential),0.0308,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2,Barium,58.0,CB1-0.0,0.0,130000.0,CB2-11.0,11.0,16,10000,TTLC,13.0,"YES - >=50,000 mg/kg deep Cadmium Boring value",S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2,Barium,58.0,CB1-0.0,0.0,130000.0,CB2-11.0,11.0,16,1000,10x STLC,130.0,"YES - >=50,000 mg/kg deep Cadmium Boring value",S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2,Barium,58.0,CB1-0.0,0.0,130000.0,CB2-11.0,11.0,16,63000,CHHSL (industrial),2.0635,"YES - >=50,000 mg/kg deep Cadmium Boring value",S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2,Barium,58.0,CB1-0.0,0.0,130000.0,CB2-11.0,11.0,16,5200,CHHSL (residential),25.0,"YES - >=50,000 mg/kg deep Cadmium Boring value",S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - NORTH SIDE,Arsenic,0.25,FB12-4.0,4.0,1.1,FB10-0.0,0.0,16,500,TTLC,0.0022,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - NORTH SIDE,Arsenic,0.25,FB12-4.0,4.0,1.1,FB10-0.0,0.0,16,50,10x STLC,0.022,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - NORTH SIDE,Arsenic,0.25,FB12-4.0,4.0,1.1,FB10-0.0,0.0,16,0.24,CHHSL (industrial),4.5833,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - NORTH SIDE,Arsenic,0.25,FB12-4.0,4.0,1.1,FB10-0.0,0.0,16,0.07,CHHSL (residential),15.7143,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - NORTH SIDE,Barium,65.0,FB17-4.0,4.0,4300.0,FB11-0.0,0.0,16,10000,TTLC,0.43,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - NORTH SIDE,Barium,65.0,FB17-4.0,4.0,4300.0,FB11-0.0,0.0,16,1000,10x STLC,4.3,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - NORTH SIDE,Barium,65.0,FB17-4.0,4.0,4300.0,FB11-0.0,0.0,16,63000,CHHSL (industrial),0.0683,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - NORTH SIDE,Barium,65.0,FB17-4.0,4.0,4300.0,FB11-0.0,0.0,16,5200,CHHSL (residential),0.8269,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - NORTH SIDE,Lead,1.2,FB14-3.0,3.0,44.0,FB10-0.0,0.0,16,1000,TTLC,0.044,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - NORTH SIDE,Lead,1.2,FB14-3.0,3.0,44.0,FB10-0.0,0.0,16,250,10x STLC,0.176,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - NORTH SIDE,Lead,1.2,FB14-3.0,3.0,44.0,FB10-0.0,0.0,16,320,CHHSL (industrial),0.1375,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - NORTH SIDE,Lead,1.2,FB14-3.0,3.0,44.0,FB10-0.0,0.0,16,80,CHHSL (residential),0.55,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - NORTH SIDE,Strontium,15.0,FB12-4.0,4.0,190.0,FB14-3.0,3.0,16,610000,CHHSL (industrial),0.0003,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - NORTH SIDE,Strontium,15.0,FB12-4.0,4.0,190.0,FB14-3.0,3.0,16,47000,CHHSL (residential) / USEPA RSL,0.004,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - North Side East End,Barium,860.0,PB18-0.0,0.0,1100.0,PB17-0.0,0.0,3,10000,TTLC,0.11,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - North Side East End,Barium,860.0,PB18-0.0,0.0,1100.0,PB17-0.0,0.0,3,1000,10x STLC,1.1,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - North Side East End,Barium,860.0,PB18-0.0,0.0,1100.0,PB17-0.0,0.0,3,63000,CHHSL (industrial),0.0175,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - North Side East End,Barium,860.0,PB18-0.0,0.0,1100.0,PB17-0.0,0.0,3,5200,CHHSL (residential),0.2115,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - SOUTH SIDE,Arsenic,0.25,FB29-4.0,4.0,2.1,FB20-0.0,0.0,24,500,TTLC,0.0042,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - SOUTH SIDE,Arsenic,0.25,FB29-4.0,4.0,2.1,FB20-0.0,0.0,24,50,10x STLC,0.042,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - SOUTH SIDE,Arsenic,0.25,FB29-4.0,4.0,2.1,FB20-0.0,0.0,24,0.24,CHHSL (industrial),8.75,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - SOUTH SIDE,Arsenic,0.25,FB29-4.0,4.0,2.1,FB20-0.0,0.0,24,0.07,CHHSL (residential),30.0,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - SOUTH SIDE,Barium,55.0,FB29-4.0,4.0,1000.0,FB26-0.0,0.0,24,10000,TTLC,0.1,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - SOUTH SIDE,Barium,55.0,FB29-4.0,4.0,1000.0,FB26-0.0,0.0,24,1000,10x STLC,1.0,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - SOUTH SIDE,Barium,55.0,FB29-4.0,4.0,1000.0,FB26-0.0,0.0,24,63000,CHHSL (industrial),0.0159,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - SOUTH SIDE,Barium,55.0,FB29-4.0,4.0,1000.0,FB26-0.0,0.0,24,5200,CHHSL (residential),0.1923,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - SOUTH SIDE,Lead,1.2,FB19-4.0,4.0,26.0,FB18-0.0,0.0,24,1000,TTLC,0.026,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - SOUTH SIDE,Lead,1.2,FB19-4.0,4.0,26.0,FB18-0.0,0.0,24,250,10x STLC,0.104,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - SOUTH SIDE,Lead,1.2,FB19-4.0,4.0,26.0,FB18-0.0,0.0,24,320,CHHSL (industrial),0.0813,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - SOUTH SIDE,Lead,1.2,FB19-4.0,4.0,26.0,FB18-0.0,0.0,24,80,CHHSL (residential),0.325,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - SOUTH SIDE,Strontium,17.0,FB29-4.0,4.0,270.0,FB18-2.0,2.0,24,610000,CHHSL (industrial),0.0004,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - SOUTH SIDE,Strontium,17.0,FB29-4.0,4.0,270.0,FB18-2.0,2.0,24,47000,CHHSL (residential) / USEPA RSL,0.0057,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - South Side East End,Barium,76.0,PB14-0.0,0.0,790.0,PB15-0.0,0.0,4,10000,TTLC,0.079,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - South Side East End,Barium,76.0,PB14-0.0,0.0,790.0,PB15-0.0,0.0,4,1000,10x STLC,0.79,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - South Side East End,Barium,76.0,PB14-0.0,0.0,790.0,PB15-0.0,0.0,4,63000,CHHSL (industrial),0.0125,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - South Side East End,Barium,76.0,PB14-0.0,0.0,790.0,PB15-0.0,0.0,4,5200,CHHSL (residential),0.1519,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - West End,Barium,190.0,PB10-0.0,0.0,280.0,PB11-0.0,0.0,2,10000,TTLC,0.028,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - West End,Barium,190.0,PB10-0.0,0.0,280.0,PB11-0.0,0.0,2,1000,10x STLC,0.28,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - West End,Barium,190.0,PB10-0.0,0.0,280.0,PB11-0.0,0.0,2,63000,CHHSL (industrial),0.0044,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 2 - West End,Barium,190.0,PB10-0.0,0.0,280.0,PB11-0.0,0.0,2,5200,CHHSL (residential),0.0538,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3,Barium,68.0,CB4-14.0,14.0,87000.0,CB5-6.0,6.0,9,10000,TTLC,8.7,"YES - >=50,000 mg/kg deep Cadmium Boring value",S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3,Barium,68.0,CB4-14.0,14.0,87000.0,CB5-6.0,6.0,9,1000,10x STLC,87.0,"YES - >=50,000 mg/kg deep Cadmium Boring value",S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3,Barium,68.0,CB4-14.0,14.0,87000.0,CB5-6.0,6.0,9,63000,CHHSL (industrial),1.381,"YES - >=50,000 mg/kg deep Cadmium Boring value",S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3,Barium,68.0,CB4-14.0,14.0,87000.0,CB5-6.0,6.0,9,5200,CHHSL (residential),16.7308,"YES - >=50,000 mg/kg deep Cadmium Boring value",S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - NORTH AND NORTHEAST SIDE,Arsenic,0.25,FB30-4.0,4.0,2.1,FB32-0.0,0.0,11,500,TTLC,0.0042,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - NORTH AND NORTHEAST SIDE,Arsenic,0.25,FB30-4.0,4.0,2.1,FB32-0.0,0.0,11,50,10x STLC,0.042,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - NORTH AND NORTHEAST SIDE,Arsenic,0.25,FB30-4.0,4.0,2.1,FB32-0.0,0.0,11,0.24,CHHSL (industrial),8.75,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - NORTH AND NORTHEAST SIDE,Arsenic,0.25,FB30-4.0,4.0,2.1,FB32-0.0,0.0,11,0.07,CHHSL (residential),30.0,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - NORTH AND NORTHEAST SIDE,Barium,42.0,FB35-4.0,4.0,910.0,FB32-0.0,0.0,11,10000,TTLC,0.091,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - NORTH AND NORTHEAST SIDE,Barium,42.0,FB35-4.0,4.0,910.0,FB32-0.0,0.0,11,1000,10x STLC,0.91,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - NORTH AND NORTHEAST SIDE,Barium,42.0,FB35-4.0,4.0,910.0,FB32-0.0,0.0,11,63000,CHHSL (industrial),0.0144,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - NORTH AND NORTHEAST SIDE,Barium,42.0,FB35-4.0,4.0,910.0,FB32-0.0,0.0,11,5200,CHHSL (residential),0.175,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - NORTH AND NORTHEAST SIDE,Lead,1.3,FB34-3.0,3.0,34.0,FB31-0.0,0.0,11,1000,TTLC,0.034,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - NORTH AND NORTHEAST SIDE,Lead,1.3,FB34-3.0,3.0,34.0,FB31-0.0,0.0,11,250,10x STLC,0.136,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - NORTH AND NORTHEAST SIDE,Lead,1.3,FB34-3.0,3.0,34.0,FB31-0.0,0.0,11,320,CHHSL (industrial),0.1062,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - NORTH AND NORTHEAST SIDE,Lead,1.3,FB34-3.0,3.0,34.0,FB31-0.0,0.0,11,80,CHHSL (residential),0.425,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - NORTH AND NORTHEAST SIDE,Strontium,0.5,FB32-0.0,0.0,100.0,FB31-0.0,0.0,11,610000,CHHSL (industrial),0.0002,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - NORTH AND NORTHEAST SIDE,Strontium,0.5,FB32-0.0,0.0,100.0,FB31-0.0,0.0,11,47000,CHHSL (residential) / USEPA RSL,0.0021,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - Southwest Side and South End,Barium,130.0,PB28-0.0,0.0,1600.0,PB23-0.0,0.0,10,10000,TTLC,0.16,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - Southwest Side and South End,Barium,130.0,PB28-0.0,0.0,1600.0,PB23-0.0,0.0,10,1000,10x STLC,1.6,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - Southwest Side and South End,Barium,130.0,PB28-0.0,0.0,1600.0,PB23-0.0,0.0,10,63000,CHHSL (industrial),0.0254,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+Stockpile 3 - Southwest Side and South End,Barium,130.0,PB28-0.0,0.0,1600.0,PB23-0.0,0.0,10,5200,CHHSL (residential),0.3077,,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf
+
+# Part 2: ALL individual Cadmium Boring barium detections >= 50,000 mg/kg (not just the single max) -- multiple deep extreme values exist under Stockpile 2 (CB1, CB2, CB3) and Stockpile 3 (CB5), not a single outlier.
+sample_id,location,depth_ft,value_mgkg,notes
+CB2-11.0,Stockpile 2,11.0,130000.0,"SSI Report Table 3 (Barium and Cadmium), PDF pp.39-41; Cadmium Borings analyzed for barium/cadmium only, not full Title 22 panel (Arsenic/Lead/Strontium not analyzed for this boring set) -- EXTREME DEEP VALUE, re-verified against page image (QA)"
+CB2-16.0,Stockpile 2,16.0,97000.0,"SSI Report Table 3 (Barium and Cadmium), PDF pp.39-41; Cadmium Borings analyzed for barium/cadmium only, not full Title 22 panel (Arsenic/Lead/Strontium not analyzed for this boring set) -- EXTREME DEEP VALUE, re-verified against page image (QA)"
+CB3-4.0,Stockpile 2,4.0,95000.0,"SSI Report Table 3 (Barium and Cadmium), PDF pp.39-41; Cadmium Borings analyzed for barium/cadmium only, not full Title 22 panel (Arsenic/Lead/Strontium not analyzed for this boring set) -- EXTREME DEEP VALUE, re-verified against page image (QA)"
+CB5-6.0,Stockpile 3,6.0,87000.0,"SSI Report Table 3 (Barium and Cadmium), PDF pp.39-41; Cadmium Borings analyzed for barium/cadmium only, not full Title 22 panel (Arsenic/Lead/Strontium not analyzed for this boring set) -- EXTREME DEEP VALUE, re-verified against page image (QA)"
+CB1-19.0,Stockpile 2,19.0,60000.0,"SSI Report Table 3 (Barium and Cadmium), PDF pp.39-41; Cadmium Borings analyzed for barium/cadmium only, not full Title 22 panel (Arsenic/Lead/Strontium not analyzed for this boring set) -- EXTREME DEEP VALUE, re-verified against page image (QA)"
+CB3-9.0,Stockpile 2,9.0,53000.0,"SSI Report Table 3 (Barium and Cadmium), PDF pp.39-41; Cadmium Borings analyzed for barium/cadmium only, not full Title 22 panel (Arsenic/Lead/Strontium not analyzed for this boring set) -- EXTREME DEEP VALUE, re-verified against page image (QA)"
+
+# Part 3: reported summary statistics found IN THE SSI REPORT itself (background 95% UCL / mean rows from Table 2 and Table 3), quoted as-is.
+investigation_event,location,sample_id,depth_ft,is_background,analyte,value_type,value_mgkg,source_document,notes
+"Background (Shaw 2009 Final PEA, reproduced in SSI Report Table 2)","Background (offsite reference, composite)",background_composite,,True,Arsenic,background_95UCL,1.2,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf,"SSI Report Table 2 footnote 1, PDF pp.35-38; source: Final PEA, Shaw 2009"
+"Background (Shaw 2009 Final PEA, reproduced in SSI Report Table 2)","Background (offsite reference, composite)",background_composite,,True,Arsenic,background_mean,0.97,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf,"SSI Report Table 2 footnote 1, PDF pp.35-38; source: Final PEA, Shaw 2009"
+"Background (Shaw 2009 Final PEA, reproduced in SSI Report Table 2)","Background (offsite reference, composite)",background_composite,,True,Barium,background_95UCL,72.8,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf,"SSI Report Table 2 footnote 1, PDF pp.35-38; source: Final PEA, Shaw 2009"
+"Background (Shaw 2009 Final PEA, reproduced in SSI Report Table 2)","Background (offsite reference, composite)",background_composite,,True,Barium,background_mean,63.5,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf,"SSI Report Table 2 footnote 1, PDF pp.35-38; source: Final PEA, Shaw 2009"
+"Background (Shaw 2009 Final PEA, reproduced in SSI Report Table 2)","Background (offsite reference, composite)",background_composite,,True,Lead,background_95UCL,2.0,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf,"SSI Report Table 2 footnote 1, PDF pp.35-38; source: Final PEA, Shaw 2009"
+"Background (Shaw 2009 Final PEA, reproduced in SSI Report Table 2)","Background (offsite reference, composite)",background_composite,,True,Lead,background_mean,1.8,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf,"SSI Report Table 2 footnote 1, PDF pp.35-38; source: Final PEA, Shaw 2009"
+"Background (Shaw 2009 Final PEA, reproduced in SSI Report Table 3)","Background (offsite reference, composite)",background_composite,,True,Barium,background_95UCL,72.8,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf,"SSI Report Table 3 footnote 1, PDF pp.39-41; source: Final PEA, Shaw 2009"
+"Background (Shaw 2009 Final PEA, reproduced in SSI Report Table 3)","Background (offsite reference, composite)",background_composite,,True,Barium,background_mean,63.5,S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf,"SSI Report Table 3 footnote 1, PDF pp.39-41; source: Final PEA, Shaw 2009"

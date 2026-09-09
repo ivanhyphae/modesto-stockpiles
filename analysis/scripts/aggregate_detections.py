@@ -2,8 +2,12 @@ import csv
 import re
 from datetime import datetime
 
-RAW = "/tmp/claude-1000/-home-ivanh-hyphae-hyphae-work-sr132-envirostor-wiki/698718b9-2844-43ab-b3b7-a6ef0abef829/scratchpad/gw2023_raw_extraction.csv"
-OUT = "/tmp/claude-1000/-home-ivanh-hyphae-hyphae-work-sr132-envirostor-wiki/698718b9-2844-43ab-b3b7-a6ef0abef829/scratchpad/gw2023_detections_summary.csv"
+import os
+
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_ROOT = os.path.dirname(_HERE)  # analysis/
+RAW = os.path.join(_ROOT, "detections-rebuild", "raw", "06A2542ct_TO97_GW Rpt_final.20230308.raw.csv")
+OUT = os.path.join(_ROOT, "detections-rebuild", "summary", "06A2542ct_TO97_GW Rpt_final.20230308.summary.csv")
 
 SOURCE_DOC = "06A2542ct_TO97_GW Rpt_final.20230308.pdf"
 
@@ -27,6 +31,11 @@ ANALYTES = {
         "col": "manganese_ugl", "unit": "ug/L", "table": "Table 3",
         "pages": "21-29 (values); 30 (footnote key); 29 (MCL row)",
         "limit": 50.0, "limit_type": "Secondary MCL",
+    },
+    "strontium": {
+        "col": "strontium_ugl", "unit": "ug/L", "table": "Table 3",
+        "pages": "21-29 (values); 30 (footnote key); 29 (MCL row)",
+        "limit": 4000.0, "limit_type": "EPA Drinking Water Health Advisory (footnote 4; NOT an MCL)",
     },
     "nitrate_as_n": {
         "col": "nitrate_mgl", "unit": "mg/L", "table": "Table 4",
@@ -57,6 +66,10 @@ def parse_cell(raw):
         return ("blank", None, None)
     if v.upper() == "ILLEGIBLE":
         return ("illegible", None, None)
+    if v == "---":
+        # Source-table notation: not analyzed for this analyte this round
+        # (e.g. strontium was not part of the panel before 3/12/2012).
+        return ("not_analyzed", None, None)
     if v.startswith("EXCLUDED"):
         return ("excluded", None, None)
     if v.startswith("<"):
@@ -102,7 +115,7 @@ def main():
             n_nondetect = 0
             for r in subset:
                 kind, val, rl = parse_cell(r.get(col))
-                if kind == "blank" or kind == "excluded" or kind == "illegible":
+                if kind in ("blank", "excluded", "illegible", "not_analyzed"):
                     continue
                 n_samples += 1
                 if kind == "detect":
