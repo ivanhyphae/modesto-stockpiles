@@ -1,0 +1,3025 @@
+<title>Stockpile Detections</title>
+<style>
+:root{
+  --bg:#f7f7f5; --surface:#ffffff; --surface-2:#f0f0ee; --border:#dcdcd8;
+  --text:#1c1c1a; --text-2:#55554f; --text-muted:#84847c;
+  --accent:#2f6f4f; --link:#1d5fae;
+  --good:#2f8f5b; --warn:#b7791f; --serious:#c2540a; --critical:#c0392b;
+  --well:#3a6ea5; --zone:#6a5acd; --aggregate:#8a8a20; --background:#4a4a46;
+  font-family:ui-sans-serif,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e0f10; --surface:#17181a; --surface-2:#1e2022; --border:#2c2f33;
+    --text:#e9e9e6; --text-2:#b7b8b3; --text-muted:#7d7f7a;
+    --accent:#5fbf8a; --link:#6fa8dc;
+    --good:#4cbf80; --warn:#e0a94a; --serious:#e0793a; --critical:#e05b4e;
+    --well:#6fa8dc; --zone:#a89ce8; --aggregate:#c9c95a; --background:#9a9a94;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e0f10; --surface:#17181a; --surface-2:#1e2022; --border:#2c2f33;
+  --text:#e9e9e6; --text-2:#b7b8b3; --text-muted:#7d7f7a;
+  --accent:#5fbf8a; --link:#6fa8dc;
+  --good:#4cbf80; --warn:#e0a94a; --serious:#e0793a; --critical:#e05b4e;
+  --well:#6fa8dc; --zone:#a89ce8; --aggregate:#c9c95a; --background:#9a9a94;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);margin:0;font-size:13px}
+.app{max-width:1180px;margin:0 auto;padding:0 0 40px}
+.header{padding:16px 18px 10px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:5}
+.title{font-size:16px;font-weight:700;margin:0 0 2px}
+.subtitle{font-size:11.5px;color:var(--text-muted);margin:0 0 10px;line-height:1.5}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tab{padding:6px 13px;border-radius:6px 6px 0 0;border:1px solid var(--border);border-bottom:none;
+  background:var(--surface-2);color:var(--text-2);cursor:pointer;font-size:12px;font-weight:600}
+.tab.active{background:var(--surface);color:var(--text);border-color:var(--accent)}
+.panel{background:var(--surface);border:1px solid var(--border);border-top:none;padding:14px 18px 20px}
+.controls{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.controls .lbl{font-size:10.5px;color:var(--text-muted);letter-spacing:.04em;text-transform:uppercase;margin-right:2px}
+.chip{padding:4px 11px;border-radius:20px;border:1px solid var(--border);background:var(--surface-2);
+  color:var(--text-2);cursor:pointer;font-size:11.5px;font-weight:600}
+.chip.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.chip .n{opacity:.7;font-weight:400;margin-left:3px}
+.unit-note{margin-left:auto;font-size:10.5px;color:var(--text-muted)}
+
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px;font-size:11px;color:var(--text-2)}
+.legend .item{display:flex;align-items:center;gap:5px}
+.swatch{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+
+.limitline-legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.limitline-legend .item{display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--text-2)}
+.limitline-legend .swatch{width:12px;height:2px;border-radius:0}
+
+.rows{max-height:560px;overflow-y:auto;overflow-x:auto}
+.row{display:flex;align-items:center;border-bottom:1px solid var(--border);min-width:820px}
+.row:nth-child(even){background:var(--surface-2)}
+.row-label{width:280px;flex-shrink:0;padding:6px 10px;position:sticky;left:0;background:inherit}
+.row-label .name{font-size:11.5px;font-weight:600;color:var(--text)}
+.row-label .type{font-size:9.5px;color:var(--text-muted);display:flex;align-items:center;gap:4px;margin-top:1px}
+.row-svg{flex:1;padding:4px 10px}
+.axis-row{display:flex;border-bottom:1px solid var(--border)}
+.axis-label{width:280px;flex-shrink:0;padding:2px 10px;font-size:9.5px;color:var(--text-muted)}
+.axis-svg{flex:1;padding:0 10px}
+
+.bar-fg{cursor:crosshair}
+.tooltip-box{fill:var(--surface);stroke-width:1}
+.tooltip-text{font-family:ui-monospace,monospace}
+
+.notes-list{display:flex;flex-direction:column;gap:10px}
+.note-card{border:1px solid var(--border);border-radius:6px;padding:10px 12px;background:var(--surface-2)}
+.note-card .k{font-size:10px;color:var(--accent);font-weight:700;letter-spacing:.05em;margin-bottom:3px}
+.note-card .v{font-size:12px;font-weight:600;margin-bottom:4px}
+.note-card .meta{font-size:10.5px;color:var(--text-muted);margin-bottom:4px}
+.note-card .body{font-size:11px;color:var(--text-2);line-height:1.6}
+
+.ref-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ref-card{border:1px solid var(--border);border-radius:6px;padding:10px 12px;background:var(--surface-2)}
+.ref-card h4{margin:0 0 4px;font-size:12px}
+.ref-card p{margin:0;font-size:11px;color:var(--text-2);line-height:1.6}
+.caveat{border:1px solid var(--warn);background:color-mix(in srgb, var(--warn) 12%, var(--surface));
+  border-radius:6px;padding:10px 12px;margin-bottom:14px;font-size:11.5px;line-height:1.6;color:var(--text)}
+@media (max-width:700px){.ref-grid{grid-template-columns:1fr}}
+</style>
+
+<div class="app">
+  <div class="header">
+    <p class="title">SR 132 Stockpiles — Detected Concentrations vs. Regulatory Limits</p>
+    <p class="subtitle">Groundwater and soil metals/anions data compiled from six site-investigation and risk-assessment reports (2006–2024). Ranges shown are per-well or per-location detected min/max; vertical lines mark applicable regulatory or risk-screening limits.</p>
+    <div class="tabs" id="tabs"></div>
+  </div>
+  <div class="panel" id="panel"></div>
+</div>
+
+<script id="raw-data" type="application/json">
+{
+ "analytes": {
+  "arsenic": {
+   "groundwater": {
+    "unit": "ug/L",
+    "limits": [
+     {
+      "label": "MCL",
+      "value": 10.0,
+      "unit": "ug/L",
+      "doc": "GW Monitoring Rpt (2023)",
+      "full": "MCL"
+     }
+    ],
+    "locations": [
+     {
+      "loc": "MW-1",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       1.1,
+       3.3
+      ],
+      "meta": {
+       "n": "20",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "3/18/2013"
+      }
+     },
+     {
+      "loc": "MW-10",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       1.8,
+       4.1
+      ],
+      "meta": {
+       "n": "12",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "6/20/2012"
+      }
+     },
+     {
+      "loc": "MW-2",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       1.8,
+       3.2
+      ],
+      "meta": {
+       "n": "18",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "9/4/2013"
+      }
+     },
+     {
+      "loc": "MW-3",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       2.2,
+       5.8
+      ],
+      "meta": {
+       "n": "17",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "9/4/2013"
+      }
+     },
+     {
+      "loc": "MW-4",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       1.3,
+       9.9
+      ],
+      "meta": {
+       "n": "18",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "10/4/2006"
+      }
+     },
+     {
+      "loc": "MW-5",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       1.5,
+       2.9
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "11/29/2012"
+      }
+     },
+     {
+      "loc": "MW-6",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       2.1,
+       6.3
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "7/17/2012"
+      }
+     },
+     {
+      "loc": "MW-7",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       1.4,
+       4.0
+      ],
+      "meta": {
+       "n": "20",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "3/18/2013"
+      }
+     },
+     {
+      "loc": "MW-8",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       2.5,
+       4.2
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "1/23/2013"
+      }
+     },
+     {
+      "loc": "MW-9",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       1.8,
+       3.3
+      ],
+      "meta": {
+       "n": "12",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "2/26/2014"
+      }
+     },
+     {
+      "loc": "ALL_WELLS",
+      "type": "aggregate",
+      "unit": "ug/L",
+      "range": [
+       1.1,
+       9.9
+      ],
+      "meta": {
+       "n": "165",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "10/4/2006"
+      }
+     }
+    ]
+   },
+   "soil": {
+    "unit": "mg/kg",
+    "limits": [
+     {
+      "label": "TTLC",
+      "value": 500.0,
+      "unit": "mg/kg",
+      "doc": "SSI Report (2013)",
+      "full": "TTLC"
+     },
+     {
+      "label": "10x STLC",
+      "value": 50.0,
+      "unit": "mg/kg",
+      "doc": "SSI Report (2013)",
+      "full": "10x STLC"
+     },
+     {
+      "label": "CHHSL (industrial)",
+      "value": 0.24,
+      "unit": "mg/kg",
+      "doc": "SSI Report (2013)",
+      "full": "CHHSL (industrial)"
+     },
+     {
+      "label": "CHHSL (residential)",
+      "value": 0.07,
+      "unit": "mg/kg",
+      "doc": "SSI Report (2013)",
+      "full": "CHHSL (residential)"
+     }
+    ],
+    "locations": [
+     {
+      "loc": "Stockpile 1 - NORTH SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       0.25,
+       1.0
+      ],
+      "meta": {
+       "n": "8",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 1 - SOUTH SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       0.31,
+       1.3
+      ],
+      "meta": {
+       "n": "10",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 2 - NORTH SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       0.25,
+       1.1
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 2 - SOUTH SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       0.25,
+       2.1
+      ],
+      "meta": {
+       "n": "24",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 3 - NORTH AND NORTHEAST SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       0.25,
+       2.1
+      ],
+      "meta": {
+       "n": "11",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Background (offsite reference, composite)",
+      "type": "background",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "background_point",
+        "vtype": "background_95UCL",
+        "v": 1.2,
+        "doc": "SSI Report (2013)",
+        "date": "Background (Shaw 2009 Final PEA, reproduced in SSI Report Table 2)",
+        "notes": "sample_id=background_composite; SSI Report Table 2 footnote 1, PDF pp.35-38; source: Final PEA, Shaw 2009"
+       },
+       {
+        "k": "background_point",
+        "vtype": "background_mean",
+        "v": 0.97,
+        "doc": "SSI Report (2013)",
+        "date": "Background (Shaw 2009 Final PEA, reproduced in SSI Report Table 2)",
+        "notes": "sample_id=background_composite; SSI Report Table 2 footnote 1, PDF pp.35-38; source: Final PEA, Shaw 2009"
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 2",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "central",
+        "vtype": "95_UCL",
+        "v": 1.63,
+        "doc": "Final FS Report (2014)",
+        "date": "2007 HHRA (based on 2006 SI data)",
+        "notes": "Drove the 2007 HHRA's Stockpile 2 cancer-risk estimate (1.45E-5). Excluded from the final Stockpile 2 risk total because it was statistically indistinguishable from the background arsenic UCL below."
+       }
+      ]
+     },
+     {
+      "loc": "Background",
+      "type": "background",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "central",
+        "vtype": "95_UCL",
+        "v": 1.15,
+        "doc": "Final FS Report (2014)",
+        "date": "2007 HHRA (based on 2006 SI data)",
+        "notes": "Background arsenic 95th UCL; associated cancer-risk estimate (1.15E-5) is very close to the Stockpile 2 arsenic estimate, which is why Shaw excluded arsenic from Stockpile 2's final risk total."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 1 (surface soil, 0-1ft bgs)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 1.1,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 2 (SP#1 surface soil COPC selection))",
+        "notes": "sample_id=multiple; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 2 (SP#1 surface soil COPC selection), PDF p.73. Frequency of detection 5/5 (100%). Max background concentration 4.1 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data). Arsenic NOT selected as COPC (max detected <= max background); no EPC assigned."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 2 (surface soil, 0-1ft bgs)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 4.9,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 3 (SP#2 surface soil COPC selection))",
+        "notes": "sample_id=SR99/132-S20; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 3 (SP#2 surface soil COPC selection), PDF p.74. Frequency of detection 33/33 (100%). Max background concentration 4.1 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       },
+       {
+        "k": "central",
+        "vtype": "EPC",
+        "v": 1.63,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 3 (SP#2 surface soil COPC selection))",
+        "notes": "sample_id=n/a; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 3 (SP#2 surface soil COPC selection), PDF p.74. Frequency of detection 33/33 (100%). Max background concentration 4.1 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       },
+       {
+        "k": "central",
+        "vtype": "95_UCL",
+        "v": 1.63,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 3 (SP#2 surface soil COPC selection))",
+        "notes": "sample_id=n/a; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 3 (SP#2 surface soil COPC selection), PDF p.74. Frequency of detection 33/33 (100%). Max background concentration 4.1 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 3 (surface soil, 0-1ft bgs)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 1.3,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 4 (SP#3 surface soil COPC selection))",
+        "notes": "sample_id=SR99/132-S31; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 4 (SP#3 surface soil COPC selection), PDF p.75. Frequency of detection 9/13 (69%). Max background concentration 4.1 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data). Arsenic NOT selected as COPC (max detected <= max background); no EPC assigned."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpiles 1-3 combined (0-20ft bgs)",
+      "type": "aggregate",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 5.5,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 5 (SP#1/2/3 combined construction-zone COPC selection))",
+        "notes": "sample_id=SR99/132-N08; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 5 (SP#1/2/3 combined construction-zone COPC selection), PDF p.76. Frequency of detection 152/165 (92%). Max background concentration 4.1 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data). IMPORTANT: the '14' in this row is the SAMPLE DEPTH (ft bgs) at which the maximum was detected, NOT a concentration. The maximum arsenic concentration is 5.5 mg/kg. A prior extraction mis-transcribed the depth column value (14) as the concentration -- corrected here."
+       },
+       {
+        "k": "central",
+        "vtype": "EPC",
+        "v": 5.5,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 5 (SP#1/2/3 combined construction-zone COPC selection))",
+        "notes": "sample_id=n/a; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 5 (SP#1/2/3 combined construction-zone COPC selection), PDF p.76. Frequency of detection 152/165 (92%). Max background concentration 4.1 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data). IMPORTANT: the '14' in this row is the SAMPLE DEPTH (ft bgs) at which the maximum was detected, NOT a concentration. The maximum arsenic concentration is 5.5 mg/kg. A prior extraction mis-transcribed the depth column value (14) as the concentration -- corrected here."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "barium": {
+   "groundwater": {
+    "unit": "ug/L",
+    "limits": [
+     {
+      "label": "MCL",
+      "value": 1000.0,
+      "unit": "ug/L",
+      "doc": "GW Monitoring Rpt (2023)",
+      "full": "MCL"
+     },
+     {
+      "label": "FMC Upgradient Background",
+      "value": 151.0,
+      "unit": "\u00b5g/L",
+      "doc": "Updated Stat. Eval. Rpt (2024)",
+      "full": "FMC Upgradient Background"
+     },
+     {
+      "label": "EPA DWHA",
+      "value": 700.0,
+      "unit": "\u00b5g/L",
+      "doc": "Updated Stat. Eval. Rpt (2024)",
+      "full": "EPA DWHA"
+     },
+     {
+      "label": "FMC Site-Specific Target Level",
+      "value": 6210.0,
+      "unit": "\u00b5g/L",
+      "doc": "Updated Stat. Eval. Rpt (2024)",
+      "full": "FMC Site-Specific Target Level"
+     }
+    ],
+    "locations": [
+     {
+      "loc": "MW-1",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       100.0,
+       190.0
+      ],
+      "meta": {
+       "n": "20",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "3/18/2013"
+      }
+     },
+     {
+      "loc": "MW-10",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       59.0,
+       160.0
+      ],
+      "meta": {
+       "n": "12",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "6/20/2012"
+      }
+     },
+     {
+      "loc": "MW-2",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       72.0,
+       150.0
+      ],
+      "meta": {
+       "n": "18",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "4/12/2017"
+      }
+     },
+     {
+      "loc": "MW-3",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       33.0,
+       240.0
+      ],
+      "meta": {
+       "n": "17",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "7/16/2012"
+      }
+     },
+     {
+      "loc": "MW-4",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       100.0,
+       160.0
+      ],
+      "meta": {
+       "n": "20",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "3/12/2012"
+      }
+     },
+     {
+      "loc": "MW-5",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       230.0,
+       410.0
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "10/5/2006"
+      }
+     },
+     {
+      "loc": "MW-6",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       76.0,
+       160.0
+      ],
+      "meta": {
+       "n": "18",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "6/14/2006"
+      }
+     },
+     {
+      "loc": "MW-7",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       63.0,
+       150.0
+      ],
+      "meta": {
+       "n": "20",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "3/18/2013"
+      }
+     },
+     {
+      "loc": "MW-8",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       39.0,
+       130.0
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "4/11/2018"
+      }
+     },
+     {
+      "loc": "MW-9",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       51.0,
+       180.0
+      ],
+      "meta": {
+       "n": "13",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "2/28/2020"
+      }
+     },
+     {
+      "loc": "ALL_WELLS",
+      "type": "aggregate",
+      "unit": "ug/L",
+      "range": [
+       33.0,
+       410.0
+      ],
+      "meta": {
+       "n": "170",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "10/5/2006"
+      }
+     }
+    ]
+   },
+   "soil": {
+    "unit": "mg/kg",
+    "limits": [
+     {
+      "label": "TTLC",
+      "value": 10000.0,
+      "unit": "mg/kg",
+      "doc": "SSI Report (2013)",
+      "full": "TTLC"
+     },
+     {
+      "label": "10x STLC",
+      "value": 1000.0,
+      "unit": "mg/kg",
+      "doc": "SSI Report (2013)",
+      "full": "10x STLC"
+     },
+     {
+      "label": "CHHSL (industrial)",
+      "value": 63000.0,
+      "unit": "mg/kg",
+      "doc": "SSI Report (2013)",
+      "full": "CHHSL (industrial)"
+     },
+     {
+      "label": "CHHSL (residential)",
+      "value": 5200.0,
+      "unit": "mg/kg",
+      "doc": "SSI Report (2013)",
+      "full": "CHHSL (residential)"
+     }
+    ],
+    "locations": [
+     {
+      "loc": "Stockpile 1 - East End",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       170.0,
+       210.0
+      ],
+      "meta": {
+       "n": "4",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 1 - NORTH SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       43.0,
+       240.0
+      ],
+      "meta": {
+       "n": "8",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 1 - SOUTH SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       52.0,
+       200.0
+      ],
+      "meta": {
+       "n": "10",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 1 - West End",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       97.0,
+       160.0
+      ],
+      "meta": {
+       "n": "5",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 2",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       58.0,
+       130000.0
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      },
+      "points": [
+       {
+        "k": "outlier",
+        "vtype": "extreme_deep_detection",
+        "v": 130000.0,
+        "doc": "SSI Report (2013)",
+        "date": "2012 SSI",
+        "notes": "sample_id=CB2-11.0; SSI Report Table 3 (Barium and Cadmium), PDF pp.39-41; Cadmium Borings analyzed for barium/cadmium only, not full Title 22 panel (Arsenic/Lead/Strontium not analyzed for this boring set) -- EXTREME DEEP VALUE, re-verified against page image (QA)"
+       },
+       {
+        "k": "outlier",
+        "vtype": "extreme_deep_detection",
+        "v": 97000.0,
+        "doc": "SSI Report (2013)",
+        "date": "2012 SSI",
+        "notes": "sample_id=CB2-16.0; SSI Report Table 3 (Barium and Cadmium), PDF pp.39-41; Cadmium Borings analyzed for barium/cadmium only, not full Title 22 panel (Arsenic/Lead/Strontium not analyzed for this boring set) -- EXTREME DEEP VALUE, re-verified against page image (QA)"
+       },
+       {
+        "k": "outlier",
+        "vtype": "extreme_deep_detection",
+        "v": 95000.0,
+        "doc": "SSI Report (2013)",
+        "date": "2012 SSI",
+        "notes": "sample_id=CB3-4.0; SSI Report Table 3 (Barium and Cadmium), PDF pp.39-41; Cadmium Borings analyzed for barium/cadmium only, not full Title 22 panel (Arsenic/Lead/Strontium not analyzed for this boring set) -- EXTREME DEEP VALUE, re-verified against page image (QA)"
+       },
+       {
+        "k": "outlier",
+        "vtype": "extreme_deep_detection",
+        "v": 60000.0,
+        "doc": "SSI Report (2013)",
+        "date": "2012 SSI",
+        "notes": "sample_id=CB1-19.0; SSI Report Table 3 (Barium and Cadmium), PDF pp.39-41; Cadmium Borings analyzed for barium/cadmium only, not full Title 22 panel (Arsenic/Lead/Strontium not analyzed for this boring set) -- EXTREME DEEP VALUE, re-verified against page image (QA)"
+       },
+       {
+        "k": "outlier",
+        "vtype": "extreme_deep_detection",
+        "v": 53000.0,
+        "doc": "SSI Report (2013)",
+        "date": "2012 SSI",
+        "notes": "sample_id=CB3-9.0; SSI Report Table 3 (Barium and Cadmium), PDF pp.39-41; Cadmium Borings analyzed for barium/cadmium only, not full Title 22 panel (Arsenic/Lead/Strontium not analyzed for this boring set) -- EXTREME DEEP VALUE, re-verified against page image (QA)"
+       },
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 60700.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2004 PSI",
+        "notes": ""
+       },
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 64000.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2006 SI",
+        "notes": ""
+       },
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 4300.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2012 SSI (Fenceline + Perimeter Borings)",
+        "notes": ""
+       },
+       {
+        "k": "central",
+        "vtype": "EPC",
+        "v": 1100.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2006 SI (2007 HHRA EPC)",
+        "notes": "2007 HHRA EPC for Stockpile 2 barium; Stockpile 2's 2007 HHRA COPCs used 95% UCLs (not MDCs) per Section 3.2, so this EPC differs from the raw 2006 SI MDC of 64,000 mg/kg reported on printed p.14 -- it is a separately-computed statistic, not transcribed here beyond what the FS report states."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 2 - NORTH SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       65.0,
+       4300.0
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 2 - North Side East End",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       860.0,
+       1100.0
+      ],
+      "meta": {
+       "n": "3",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 2 - SOUTH SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       55.0,
+       1000.0
+      ],
+      "meta": {
+       "n": "24",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 2 - South Side East End",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       76.0,
+       790.0
+      ],
+      "meta": {
+       "n": "4",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 2 - West End",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       190.0,
+       280.0
+      ],
+      "meta": {
+       "n": "2",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 3",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       68.0,
+       87000.0
+      ],
+      "meta": {
+       "n": "9",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      },
+      "points": [
+       {
+        "k": "outlier",
+        "vtype": "extreme_deep_detection",
+        "v": 87000.0,
+        "doc": "SSI Report (2013)",
+        "date": "2012 SSI",
+        "notes": "sample_id=CB5-6.0; SSI Report Table 3 (Barium and Cadmium), PDF pp.39-41; Cadmium Borings analyzed for barium/cadmium only, not full Title 22 panel (Arsenic/Lead/Strontium not analyzed for this boring set) -- EXTREME DEEP VALUE, re-verified against page image (QA)"
+       },
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 44900.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2004 PSI",
+        "notes": ""
+       },
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 72000.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2006 SI",
+        "notes": ""
+       },
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 1600.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2012 SSI (Fenceline + Perimeter Borings)",
+        "notes": ""
+       },
+       {
+        "k": "central",
+        "vtype": "EPC",
+        "v": 250.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2006 SI (2007 HHRA EPC)",
+        "notes": ""
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 3 - NORTH AND NORTHEAST SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       42.0,
+       910.0
+      ],
+      "meta": {
+       "n": "11",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 3 - Southwest Side and South End",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       130.0,
+       1600.0
+      ],
+      "meta": {
+       "n": "10",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Background (offsite reference, composite)",
+      "type": "background",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "background_point",
+        "vtype": "background_95UCL",
+        "v": 72.8,
+        "doc": "SSI Report (2013)",
+        "date": "Background (Shaw 2009 Final PEA, reproduced in SSI Report Table 2)",
+        "notes": "sample_id=background_composite; SSI Report Table 2 footnote 1, PDF pp.35-38; source: Final PEA, Shaw 2009"
+       },
+       {
+        "k": "background_point",
+        "vtype": "background_mean",
+        "v": 63.5,
+        "doc": "SSI Report (2013)",
+        "date": "Background (Shaw 2009 Final PEA, reproduced in SSI Report Table 2)",
+        "notes": "sample_id=background_composite; SSI Report Table 2 footnote 1, PDF pp.35-38; source: Final PEA, Shaw 2009"
+       },
+       {
+        "k": "background_point",
+        "vtype": "background_95UCL",
+        "v": 72.8,
+        "doc": "SSI Report (2013)",
+        "date": "Background (Shaw 2009 Final PEA, reproduced in SSI Report Table 3)",
+        "notes": "sample_id=background_composite; SSI Report Table 3 footnote 1, PDF pp.39-41; source: Final PEA, Shaw 2009"
+       },
+       {
+        "k": "background_point",
+        "vtype": "background_mean",
+        "v": 63.5,
+        "doc": "SSI Report (2013)",
+        "date": "Background (Shaw 2009 Final PEA, reproduced in SSI Report Table 3)",
+        "notes": "sample_id=background_composite; SSI Report Table 3 footnote 1, PDF pp.39-41; source: Final PEA, Shaw 2009"
+       }
+      ]
+     },
+     {
+      "loc": "Cadmium Borings (Stockpiles 2 and 3)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       58.0,
+       130000.0
+      ],
+      "meta": {
+       "n": "1",
+       "doc": "Final FS Report (2014)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Fenceline Borings (all stockpiles, deepest sample 3-5 ft)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       42.0,
+       680.0
+      ],
+      "meta": {
+       "n": "1",
+       "doc": "Final FS Report (2014)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Fenceline Borings (all stockpiles, surface)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       140.0,
+       4300.0
+      ],
+      "meta": {
+       "n": "1",
+       "doc": "Final FS Report (2014)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Perimeter Borings (all stockpiles, surface 3-ft)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       76.0,
+       1600.0
+      ],
+      "meta": {
+       "n": "1",
+       "doc": "Final FS Report (2014)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Perimeter Borings (elevated subset: east end Stockpile 2 / SW Stockpile 3)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       710.0,
+       1600.0
+      ],
+      "meta": {
+       "n": "1",
+       "doc": "Final FS Report (2014)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 3 (Kansas Ave off-ramp embankment)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       34.0,
+       1600.0
+      ],
+      "meta": {
+       "n": "1",
+       "doc": "Final FS Report (2014)",
+       "date_max": "Pre-2012 (Geocon direct-push + hand-auger)"
+      }
+     },
+     {
+      "loc": "Stockpiles (unspecified)",
+      "type": "aggregate",
+      "unit": "mg/kg",
+      "range": [
+       25000.0,
+       130000.0
+      ],
+      "meta": {
+       "n": "1",
+       "doc": "Final FS Report (2014)",
+       "date_max": "2006 SI + 2012 SSI (cumulative, 348 samples)"
+      }
+     },
+     {
+      "loc": "Stockpiles 2 and 3 (cadmium-correlated subset)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       25800.0,
+       196000.0
+      ],
+      "meta": {
+       "n": "1",
+       "doc": "Final FS Report (2014)",
+       "date_max": "2004 PSI"
+      }
+     },
+     {
+      "loc": "Stockpile 1",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 1730.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2004 PSI",
+        "notes": "Barium identified as the only metal detected at elevated concentrations of concern and as the primary COPC in the 2004 PSI (50 borings, 194 stockpile + 49 native soil samples, plus 8 background samples)."
+       },
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 130.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2006 SI",
+        "notes": "Barium described as 'the primary COPC.' 2006 SI: 165 stockpile + 89 native soil samples from 51 borings, plus 24 native background samples from 8 background borings."
+       },
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 240.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2012 SSI (Fenceline + Perimeter Borings)",
+        "notes": "Compared against the 2007 HHRA EPC below; same order of magnitude, no CHHSL/RSL exceedance -> 2007 HHRA findings held valid for Stockpile 1."
+       },
+       {
+        "k": "central",
+        "vtype": "EPC",
+        "v": 130.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2006 SI (2007 HHRA EPC)",
+        "notes": "2007 HHRA EPC for Stockpile 1 barium; numerically the same as the 2006 SI Total Metals MDC reported on printed p.14."
+       }
+      ]
+     },
+     {
+      "loc": "Background",
+      "type": "background",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "background_range",
+        "lo": 57.0,
+        "hi": 888.0,
+        "doc": "Final FS Report (2014)"
+       },
+       {
+        "k": "background_range",
+        "lo": 17.0,
+        "hi": 120.0,
+        "doc": "Final FS Report (2014)"
+       }
+      ]
+     },
+     {
+      "loc": "Background (5-ft-deep samples)",
+      "type": "background",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "background_range",
+        "lo": 47.0,
+        "hi": 110.0,
+        "doc": "Final FS Report (2014)"
+       }
+      ]
+     },
+     {
+      "loc": "Stockpiles 1-3 combined",
+      "type": "aggregate",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 130000.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2012 SSI (Fenceline + Cadmium Borings)",
+        "notes": ""
+       },
+       {
+        "k": "central",
+        "vtype": "EPC",
+        "v": 72000.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2006 SI (2007 HHRA EPC)",
+        "notes": "Based on 165 soil samples from the 2006 SI."
+       },
+       {
+        "k": "central",
+        "vtype": "95_UCL",
+        "v": 7556.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2012 SSI",
+        "notes": "Calculated 95% UCL for the 2012 barium data; explicitly reported as 'significantly less than the MDC of 130,000 mg/kg and the EPC of 72,000 mg/kg.'"
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 1 (surface soil, 0-1ft, Fenceline+Perimeter Borings)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC_reported",
+        "v": 240.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2012 SSI - Fenceline/Perimeter/Cadmium Borings, as restated in HHRA UPDATE narrative (mirrors SSI Report raw data; cross-check only, not independently transcribed here)",
+        "notes": "sample_id=multiple; HHRA UPDATE narrative, PDF p.4 (report p.3): '...barium (240 vs. 130 mg/kg)...higher concentrations in the surface soil samples obtained from the September 2012 Fenceline Borings and Perimeter Borings...compared to the HHRA EPCs'"
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 2 (surface soil, 0-1ft, Fenceline+Perimeter Borings)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC_reported",
+        "v": 4300.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2012 SSI - Fenceline/Perimeter/Cadmium Borings, as restated in HHRA UPDATE narrative (mirrors SSI Report raw data; cross-check only, not independently transcribed here)",
+        "notes": "sample_id=multiple; HHRA UPDATE narrative, PDF p.5 (report p.4): 'barium (4,300 vs. 1,100 mg/kg)...higher concentrations in the surface soil samples obtained from the September 2012 Fenceline Borings and Perimeter Borings'"
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 3 (surface soil, 0-1ft, Fenceline+Perimeter Borings)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC_reported",
+        "v": 1600.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2012 SSI - Fenceline/Perimeter/Cadmium Borings, as restated in HHRA UPDATE narrative (mirrors SSI Report raw data; cross-check only, not independently transcribed here)",
+        "notes": "sample_id=multiple; HHRA UPDATE narrative, PDF p.5 (report p.4): 'barium (1,600 vs. 250 mg/kg)...higher levels in the surface soil samples obtained from the September 2012 Fenceline Borings and Perimeter Borings'"
+       }
+      ]
+     },
+     {
+      "loc": "Stockpiles 1-3 combined (0-20ft bgs, Fenceline+Cadmium Borings)",
+      "type": "aggregate",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC_reported",
+        "v": 130000.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2012 SSI - Fenceline/Perimeter/Cadmium Borings, as restated in HHRA UPDATE narrative (mirrors SSI Report raw data; cross-check only, not independently transcribed here)",
+        "notes": "sample_id=multiple; HHRA UPDATE narrative, PDF p.6 (report p.5): 'barium (130,000 vs. 72,000 mg/kg)...detected at higher concentrations in the soil samples obtained from the September 2012 Fenceline Borings and Cadmium Borings...compared to the HHRA EPC'. This is the ~130,000 mg/kg value from SSI Report Table 3, sample CB2-11.0, Stockpile 2, 11 ft bgs (see SSI raw.csv) -- attributed here in the HHRA UPDATE narrative to 'Fenceline Borings and Cadmium Borings' collectively, without naming the specific boring."
+       },
+       {
+        "k": "central",
+        "vtype": "95_UCL_reported",
+        "v": 7556.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2012 SSI - Fenceline/Perimeter/Cadmium Borings, as restated in HHRA UPDATE narrative (mirrors SSI Report raw data; cross-check only, not independently transcribed here)",
+        "notes": "sample_id=multiple; HHRA UPDATE narrative, PDF p.6 (report p.5): 'The calculated 95% UCL for the 2012 barium data is 7,556 mg/kg, significantly less than the MDC of 130,000 mg/kg and the EPC of 72,000 mg/kg used in the HHRA.' -- This is the document that states the 7,556 mg/kg 95% UCL figure; it is NOT stated in the SSI Report itself."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 1 (surface soil, 0-1ft bgs)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 130.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 2 (SP#1 surface soil COPC selection))",
+        "notes": "sample_id=SR99/132-N01; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 2 (SP#1 surface soil COPC selection), PDF p.73. Frequency of detection 5/5 (100%). Max background concentration 120 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       },
+       {
+        "k": "central",
+        "vtype": "EPC",
+        "v": 130.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 2 (SP#1 surface soil COPC selection))",
+        "notes": "sample_id=n/a; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 2 (SP#1 surface soil COPC selection), PDF p.73. Frequency of detection 5/5 (100%). Max background concentration 120 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 2 (surface soil, 0-1ft bgs)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 1100.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 3 (SP#2 surface soil COPC selection))",
+        "notes": "sample_id=SR99/132-S13; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 3 (SP#2 surface soil COPC selection), PDF p.74. Frequency of detection 33/33 (100%). Max background concentration 120 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       },
+       {
+        "k": "central",
+        "vtype": "EPC",
+        "v": 376.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 3 (SP#2 surface soil COPC selection))",
+        "notes": "sample_id=n/a; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 3 (SP#2 surface soil COPC selection), PDF p.74. Frequency of detection 33/33 (100%). Max background concentration 120 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       },
+       {
+        "k": "central",
+        "vtype": "95_UCL",
+        "v": 376.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 3 (SP#2 surface soil COPC selection))",
+        "notes": "sample_id=n/a; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 3 (SP#2 surface soil COPC selection), PDF p.74. Frequency of detection 33/33 (100%). Max background concentration 120 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 3 (surface soil, 0-1ft bgs)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 250.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 4 (SP#3 surface soil COPC selection))",
+        "notes": "sample_id=SR99/132-S31; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 4 (SP#3 surface soil COPC selection), PDF p.75. Frequency of detection 13/13 (100%). Max background concentration 120 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       },
+       {
+        "k": "central",
+        "vtype": "EPC",
+        "v": 250.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 4 (SP#3 surface soil COPC selection))",
+        "notes": "sample_id=n/a; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 4 (SP#3 surface soil COPC selection), PDF p.75. Frequency of detection 13/13 (100%). Max background concentration 120 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpiles 1-3 combined (0-20ft bgs)",
+      "type": "aggregate",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 72000.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 5 (SP#1/2/3 combined construction-zone COPC selection))",
+        "notes": "sample_id=SR99/132-N15; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 5 (SP#1/2/3 combined construction-zone COPC selection), PDF p.76. Frequency of detection 165/165 (100%). Max background concentration 120 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       },
+       {
+        "k": "central",
+        "vtype": "EPC",
+        "v": 72000.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 5 (SP#1/2/3 combined construction-zone COPC selection))",
+        "notes": "sample_id=n/a; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 5 (SP#1/2/3 combined construction-zone COPC selection), PDF p.76. Frequency of detection 165/165 (100%). Max background concentration 120 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "lead": {
+   "groundwater": {
+    "unit": "ug/L",
+    "limits": [
+     {
+      "label": "CA DPH Action Level",
+      "value": 15.0,
+      "unit": "ug/L",
+      "doc": "GW Monitoring Rpt (2023)",
+      "full": "Regulatory Action Level (California Department of Public Health; NOT an MCL per Table 3 footnote 3)"
+     }
+    ],
+    "locations": [
+     {
+      "loc": "MW-1",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       2.2,
+       2.2
+      ],
+      "meta": {
+       "n": "20",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "3/18/2013"
+      }
+     },
+     {
+      "loc": "MW-10",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       2.2,
+       2.2
+      ],
+      "meta": {
+       "n": "12",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "6/20/2012"
+      }
+     },
+     {
+      "loc": "MW-5",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       0.32,
+       1.4
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "6/14/2006"
+      }
+     },
+     {
+      "loc": "MW-6",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       1.3,
+       3.4
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "6/14/2006"
+      }
+     },
+     {
+      "loc": "MW-7",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       2.5,
+       2.5
+      ],
+      "meta": {
+       "n": "20",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "3/18/2013"
+      }
+     },
+     {
+      "loc": "MW-8",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       0.76,
+       0.76
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "4/11/2018"
+      }
+     },
+     {
+      "loc": "ALL_WELLS",
+      "type": "aggregate",
+      "unit": "ug/L",
+      "range": [
+       0.32,
+       3.4
+      ],
+      "meta": {
+       "n": "165",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "6/14/2006"
+      }
+     }
+    ]
+   },
+   "soil": {
+    "unit": "mg/kg",
+    "limits": [
+     {
+      "label": "TTLC",
+      "value": 1000.0,
+      "unit": "mg/kg",
+      "doc": "SSI Report (2013)",
+      "full": "TTLC"
+     },
+     {
+      "label": "10x STLC",
+      "value": 250.0,
+      "unit": "mg/kg",
+      "doc": "SSI Report (2013)",
+      "full": "10x STLC"
+     },
+     {
+      "label": "CHHSL (industrial)",
+      "value": 320.0,
+      "unit": "mg/kg",
+      "doc": "SSI Report (2013)",
+      "full": "CHHSL (industrial)"
+     },
+     {
+      "label": "CHHSL (residential)",
+      "value": 80.0,
+      "unit": "mg/kg",
+      "doc": "SSI Report (2013)",
+      "full": "CHHSL (residential)"
+     }
+    ],
+    "locations": [
+     {
+      "loc": "Stockpile 1 - NORTH SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       1.1,
+       16.0
+      ],
+      "meta": {
+       "n": "8",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 1 - SOUTH SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       1.5,
+       17.0
+      ],
+      "meta": {
+       "n": "10",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 2 - NORTH SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       1.2,
+       44.0
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 2 - SOUTH SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       1.2,
+       26.0
+      ],
+      "meta": {
+       "n": "24",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 3 - NORTH AND NORTHEAST SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       1.3,
+       34.0
+      ],
+      "meta": {
+       "n": "11",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Background (offsite reference, composite)",
+      "type": "background",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "background_point",
+        "vtype": "background_95UCL",
+        "v": 2.0,
+        "doc": "SSI Report (2013)",
+        "date": "Background (Shaw 2009 Final PEA, reproduced in SSI Report Table 2)",
+        "notes": "sample_id=background_composite; SSI Report Table 2 footnote 1, PDF pp.35-38; source: Final PEA, Shaw 2009"
+       },
+       {
+        "k": "background_point",
+        "vtype": "background_mean",
+        "v": 1.8,
+        "doc": "SSI Report (2013)",
+        "date": "Background (Shaw 2009 Final PEA, reproduced in SSI Report Table 2)",
+        "notes": "sample_id=background_composite; SSI Report Table 2 footnote 1, PDF pp.35-38; source: Final PEA, Shaw 2009"
+       }
+      ]
+     },
+     {
+      "loc": "Stockpiles (2 of 278 samples, stockpile unspecified)",
+      "type": "aggregate",
+      "unit": "mg/kg",
+      "range": [
+       150.0,
+       1500.0
+      ],
+      "meta": {
+       "n": "2",
+       "doc": "Final FS Report (2014)",
+       "date_max": "2006 SI"
+      }
+     },
+     {
+      "loc": "Stockpile 2",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "central",
+        "vtype": "95_UCL",
+        "v": 30.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2007 HHRA (based on 2006 SI data)",
+        "notes": "Used in the LeadSpread model; all percentiles of adults/children projected <10 ug/dL blood lead."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 3",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "central",
+        "vtype": "95_UCL",
+        "v": 6.7,
+        "doc": "Final FS Report (2014)",
+        "date": "2007 HHRA (based on 2006 SI data)",
+        "notes": "Used in the LeadSpread model; no unacceptable hazard indicated."
+       },
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 34.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2012 SSI (Fenceline + Perimeter Borings)",
+        "notes": "This is the 'lead fenceline/perimeter' figure discussed in Section 3.2.3; the true investigation event is the September 2012 SSI, not the surrounding section's 2006 SI framing."
+       },
+       {
+        "k": "central",
+        "vtype": "EPC",
+        "v": 12.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2006 SI (2007 HHRA EPC)",
+        "notes": "2007 HHRA EPC for Stockpile 3 lead, based on 13 surface soil samples from the 2006 SI -- distinct from the Stockpile 1 EPC of 12 mg/kg above (same number, different stockpile/dataset)."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpiles 1-3 combined (future construction soil zone, 0-20 ft)",
+      "type": "aggregate",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "central",
+        "vtype": "95_UCL",
+        "v": 54.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2006 SI / 2007 HHRA",
+        "notes": "Used in LeadSpread for the pica-child scenario; blood lead projected <10 ug/dL."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpiles (unspecified)",
+      "type": "aggregate",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 1500.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2006 SI (max, 0-20 ft depth zone)",
+        "notes": "Same 1,500 mg/kg max lead value as the 2006 SI Total Metals section (printed p.15) -- used here to compute a respirable-dust lead concentration of 0.15 ug/m3 in the LeadSpread model, well below the 1.5 ug/m3 default."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 1",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 17.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2012 SSI (Fenceline + Perimeter Borings)",
+        "notes": ""
+       },
+       {
+        "k": "central",
+        "vtype": "EPC",
+        "v": 12.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2006 SI (2007 HHRA EPC)",
+        "notes": ""
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 1 (surface soil, 0-1ft, Fenceline+Perimeter Borings)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC_reported",
+        "v": 17.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2012 SSI - Fenceline/Perimeter/Cadmium Borings, as restated in HHRA UPDATE narrative (mirrors SSI Report raw data; cross-check only, not independently transcribed here)",
+        "notes": "sample_id=multiple; HHRA UPDATE narrative, PDF p.4 (report p.3): 'lead (17 vs. 12 mg/kg)...higher concentrations in the surface soil samples obtained from the September 2012 Fenceline Borings and Perimeter Borings'"
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 3 (surface soil, 0-1ft, Fenceline+Perimeter Borings)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC_reported",
+        "v": 34.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2012 SSI - Fenceline/Perimeter/Cadmium Borings, as restated in HHRA UPDATE narrative (mirrors SSI Report raw data; cross-check only, not independently transcribed here)",
+        "notes": "sample_id=multiple; HHRA UPDATE narrative, PDF p.5 (report p.4): 'lead (34 vs. 12 mg/kg)...higher levels in the surface soil samples obtained from the September 2012 Fenceline Borings and Perimeter Borings'"
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 1 (surface soil, 0-1ft bgs)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 12.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 2 (SP#1 surface soil COPC selection))",
+        "notes": "sample_id=SR99/132-N01; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 2 (SP#1 surface soil COPC selection), PDF p.73. Frequency of detection 5/5 (100%). Max background concentration 3.8 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       },
+       {
+        "k": "central",
+        "vtype": "EPC",
+        "v": 12.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 2 (SP#1 surface soil COPC selection))",
+        "notes": "sample_id=n/a; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 2 (SP#1 surface soil COPC selection), PDF p.73. Frequency of detection 5/5 (100%). Max background concentration 3.8 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 2 (surface soil, 0-1ft bgs)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 150.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 3 (SP#2 surface soil COPC selection))",
+        "notes": "sample_id=SR99/132-S20; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 3 (SP#2 surface soil COPC selection), PDF p.74. Frequency of detection 33/33 (100%). Max background concentration 3.8 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       },
+       {
+        "k": "central",
+        "vtype": "EPC",
+        "v": 29.3,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 3 (SP#2 surface soil COPC selection))",
+        "notes": "sample_id=n/a; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 3 (SP#2 surface soil COPC selection), PDF p.74. Frequency of detection 33/33 (100%). Max background concentration 3.8 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       },
+       {
+        "k": "central",
+        "vtype": "95_UCL",
+        "v": 29.3,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 3 (SP#2 surface soil COPC selection))",
+        "notes": "sample_id=n/a; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 3 (SP#2 surface soil COPC selection), PDF p.74. Frequency of detection 33/33 (100%). Max background concentration 3.8 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 3 (surface soil, 0-1ft bgs)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 12.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 4 (SP#3 surface soil COPC selection))",
+        "notes": "sample_id=SR99/132-S31; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 4 (SP#3 surface soil COPC selection), PDF p.75. Frequency of detection 13/13 (100%). Max background concentration 3.8 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       },
+       {
+        "k": "central",
+        "vtype": "EPC",
+        "v": 12.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 4 (SP#3 surface soil COPC selection))",
+        "notes": "sample_id=n/a; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 4 (SP#3 surface soil COPC selection), PDF p.75. Frequency of detection 13/13 (100%). Max background concentration 3.8 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpiles 1-3 combined (0-20ft bgs)",
+      "type": "aggregate",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 1500.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 5 (SP#1/2/3 combined construction-zone COPC selection))",
+        "notes": "sample_id=SR99/132-N14; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 5 (SP#1/2/3 combined construction-zone COPC selection), PDF p.76. Frequency of detection 165/165 (100%). Max background concentration 3.8 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       },
+       {
+        "k": "central",
+        "vtype": "EPC",
+        "v": 1500.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2006 Shaw site investigation (reproduced in HHRA UPDATE Table 5 (SP#1/2/3 combined construction-zone COPC selection))",
+        "notes": "sample_id=n/a; HHRA UPDATE, Appendix B (2007 Shaw HHRA), Table 5 (SP#1/2/3 combined construction-zone COPC selection), PDF p.76. Frequency of detection 165/165 (100%). Max background concentration 3.8 mg/kg. Reported as MDC unless noted. 2006 Shaw investigation data (NOT 2012 SSI data)."
+       }
+      ]
+     },
+     {
+      "loc": "SR 99 corridor (aerially deposited lead survey)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       3.0,
+       100.0
+      ],
+      "meta": {
+       "n": "",
+       "doc": "SR 132 DEIR/EA",
+       "date_max": ""
+      }
+     }
+    ]
+   }
+  },
+  "manganese": {
+   "groundwater": {
+    "unit": "ug/L",
+    "limits": [
+     {
+      "label": "Secondary MCL",
+      "value": 50.0,
+      "unit": "ug/L",
+      "doc": "GW Monitoring Rpt (2023)",
+      "full": "Secondary MCL"
+     }
+    ],
+    "locations": [
+     {
+      "loc": "MW-1",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       12.0,
+       160.0
+      ],
+      "meta": {
+       "n": "20",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "3/18/2013"
+      }
+     },
+     {
+      "loc": "MW-10",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       14.0,
+       290.0
+      ],
+      "meta": {
+       "n": "12",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "6/20/2012"
+      }
+     },
+     {
+      "loc": "MW-2",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       1.3,
+       27.0
+      ],
+      "meta": {
+       "n": "18",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "10/5/2006"
+      }
+     },
+     {
+      "loc": "MW-3",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       1.3,
+       74.0
+      ],
+      "meta": {
+       "n": "17",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "9/19/2012"
+      }
+     },
+     {
+      "loc": "MW-4",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       1.3,
+       88.0
+      ],
+      "meta": {
+       "n": "18",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "3/12/2012"
+      }
+     },
+     {
+      "loc": "MW-5",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       18.0,
+       260.0
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "6/14/2006"
+      }
+     },
+     {
+      "loc": "MW-6",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       5.0,
+       190.0
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "6/14/2006"
+      }
+     },
+     {
+      "loc": "MW-7",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       1.1,
+       260.0
+      ],
+      "meta": {
+       "n": "20",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "3/18/2013"
+      }
+     },
+     {
+      "loc": "MW-8",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       1.0,
+       410.0
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "4/11/2018"
+      }
+     },
+     {
+      "loc": "MW-9",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       3.0,
+       73.0
+      ],
+      "meta": {
+       "n": "12",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "9/19/2012"
+      }
+     },
+     {
+      "loc": "ALL_WELLS",
+      "type": "aggregate",
+      "unit": "ug/L",
+      "range": [
+       1.0,
+       410.0
+      ],
+      "meta": {
+       "n": "165",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "4/11/2018"
+      }
+     }
+    ]
+   }
+  },
+  "strontium": {
+   "groundwater": {
+    "unit": "ug/L",
+    "limits": [
+     {
+      "label": "EPA DWHA",
+      "value": 4000.0,
+      "unit": "ug/L",
+      "doc": "GW Monitoring Rpt (2023)",
+      "full": "EPA Drinking Water Health Advisory (footnote 4; NOT an MCL)"
+     },
+     {
+      "label": "FMC Site-Specific Target Level",
+      "value": 61900.0,
+      "unit": "\u00b5g/L",
+      "doc": "Updated Stat. Eval. Rpt (2024)",
+      "full": "FMC Site-Specific Target Level"
+     }
+    ],
+    "locations": [
+     {
+      "loc": "MW-1",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       810.0,
+       1400.0
+      ],
+      "meta": {
+       "n": "18",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "4/12/2018"
+      }
+     },
+     {
+      "loc": "MW-10",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       910.0,
+       1200.0
+      ],
+      "meta": {
+       "n": "12",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "1/22/2013"
+      }
+     },
+     {
+      "loc": "MW-2",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       530.0,
+       940.0
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "4/12/2017"
+      }
+     },
+     {
+      "loc": "MW-3",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       190.0,
+       840.0
+      ],
+      "meta": {
+       "n": "15",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "7/16/2012"
+      }
+     },
+     {
+      "loc": "MW-4",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       760.0,
+       980.0
+      ],
+      "meta": {
+       "n": "18",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "9/19/2012"
+      }
+     },
+     {
+      "loc": "MW-5",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       790.0,
+       1400.0
+      ],
+      "meta": {
+       "n": "14",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "5/17/2012"
+      }
+     },
+     {
+      "loc": "MW-6",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       550.0,
+       1100.0
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "7/17/2012"
+      }
+     },
+     {
+      "loc": "MW-7",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       590.0,
+       1100.0
+      ],
+      "meta": {
+       "n": "18",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "5/2/2016"
+      }
+     },
+     {
+      "loc": "MW-8",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       180.0,
+       450.0
+      ],
+      "meta": {
+       "n": "14",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "11/29/2012"
+      }
+     },
+     {
+      "loc": "MW-9",
+      "type": "well",
+      "unit": "ug/L",
+      "range": [
+       690.0,
+       1100.0
+      ],
+      "meta": {
+       "n": "13",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "2/28/2020"
+      }
+     },
+     {
+      "loc": "ALL_WELLS",
+      "type": "aggregate",
+      "unit": "ug/L",
+      "range": [
+       180.0,
+       1400.0
+      ],
+      "meta": {
+       "n": "154",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "4/12/2018"
+      }
+     }
+    ]
+   },
+   "soil": {
+    "unit": "mg/kg",
+    "limits": [
+     {
+      "label": "CHHSL (industrial)",
+      "value": 610000.0,
+      "unit": "mg/kg",
+      "doc": "SSI Report (2013)",
+      "full": "CHHSL (industrial)"
+     },
+     {
+      "label": "CHHSL (residential)",
+      "value": 47000.0,
+      "unit": "mg/kg",
+      "doc": "SSI Report (2013)",
+      "full": "CHHSL (residential) / USEPA RSL"
+     }
+    ],
+    "locations": [
+     {
+      "loc": "Stockpile 1 - NORTH SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       18.0,
+       61.0
+      ],
+      "meta": {
+       "n": "8",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 1 - SOUTH SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       27.0,
+       190.0
+      ],
+      "meta": {
+       "n": "10",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 2 - NORTH SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       15.0,
+       190.0
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 2 - SOUTH SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       17.0,
+       270.0
+      ],
+      "meta": {
+       "n": "24",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "Stockpile 3 - NORTH AND NORTHEAST SIDE",
+      "type": "zone",
+      "unit": "mg/kg",
+      "range": [
+       0.5,
+       100.0
+      ],
+      "meta": {
+       "n": "11",
+       "doc": "SSI Report (2013)",
+       "date_max": "2012 SSI"
+      }
+     },
+     {
+      "loc": "ALL_STOCKPILES",
+      "type": "aggregate",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 231.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2004 PSI",
+        "notes": "Overall max strontium reported in Shaw 2004 PSI, cited in Section 1.4 explaining why Shaw did NOT designate strontium as a COPC in the 2007 HHRA (231 mg/kg is >2 orders of magnitude below USEPA residential RSL of 47,000 mg/kg; no CHHSL exists for strontium). Not stockpile-specific in the source text."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 1",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 61.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2012 SSI (Fenceline + Perimeter Borings)",
+        "notes": "Strontium was not a 2007 HHRA COPC for Stockpile 1 (only 2012 MDC reported, no EPC comparison)."
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 2",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 110.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2012 SSI (Fenceline + Perimeter Borings)",
+        "notes": ""
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 3",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 100.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2012 SSI (Fenceline + Perimeter Borings)",
+        "notes": "'Detected in all but one of the 2012 surface soil samples.'"
+       }
+      ]
+     },
+     {
+      "loc": "Stockpiles 1-3 combined",
+      "type": "aggregate",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 270.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2012 SSI",
+        "notes": "'Detected in all but one of the 2012 soil samples.'"
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 1 (surface soil, 0-1ft, Fenceline+Perimeter Borings)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC_reported",
+        "v": 61.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2012 SSI - Fenceline/Perimeter/Cadmium Borings, as restated in HHRA UPDATE narrative (mirrors SSI Report raw data; cross-check only, not independently transcribed here)",
+        "notes": "sample_id=multiple; HHRA UPDATE narrative, PDF p.4 (report p.4): 'Strontium was detected in each 2012 surface soil sample with a MDC of 61 mg/kg' (Stockpile 1)"
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 2 (surface soil, 0-1ft, Fenceline+Perimeter Borings)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC_reported",
+        "v": 110.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2012 SSI - Fenceline/Perimeter/Cadmium Borings, as restated in HHRA UPDATE narrative (mirrors SSI Report raw data; cross-check only, not independently transcribed here)",
+        "notes": "sample_id=multiple; HHRA UPDATE narrative, PDF p.5 (report p.4): 'Strontium was detected in each of the 2012 surface soil samples, with an MDC of 110 mg/kg' (Stockpile 2)"
+       }
+      ]
+     },
+     {
+      "loc": "Stockpile 3 (surface soil, 0-1ft, Fenceline+Perimeter Borings)",
+      "type": "zone",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC_reported",
+        "v": 100.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2012 SSI - Fenceline/Perimeter/Cadmium Borings, as restated in HHRA UPDATE narrative (mirrors SSI Report raw data; cross-check only, not independently transcribed here)",
+        "notes": "sample_id=multiple; HHRA UPDATE narrative, PDF p.5 (report p.5): 'Strontium was detected in all but one of the 2012 surface soil samples with a MDC of 100 mg/kg' (Stockpile 3)"
+       }
+      ]
+     },
+     {
+      "loc": "Stockpiles 1-3 combined (0-20ft bgs, Fenceline+Cadmium Borings)",
+      "type": "aggregate",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC_reported",
+        "v": 270.0,
+        "doc": "HHRA Update (2013)",
+        "date": "2012 SSI - Fenceline/Perimeter/Cadmium Borings, as restated in HHRA UPDATE narrative (mirrors SSI Report raw data; cross-check only, not independently transcribed here)",
+        "notes": "sample_id=multiple; HHRA UPDATE narrative, PDF p.6 (report p.5): 'Strontium was detected in all but one of the 2012 soil samples with an MDC of 270 mg/kg' (Stockpiles 1-3 combined, 0-20 ft bgs)"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "nitrate": {
+   "groundwater": {
+    "unit": "mg/L",
+    "limits": [
+     {
+      "label": "MCL",
+      "value": 10.0,
+      "unit": "mg/L",
+      "doc": "GW Monitoring Rpt (2023)",
+      "full": "MCL (health-based)"
+     }
+    ],
+    "locations": [
+     {
+      "loc": "MW-1",
+      "type": "well",
+      "unit": "mg/L",
+      "range": [
+       5.0,
+       18.0
+      ],
+      "meta": {
+       "n": "20",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "9/16/2014"
+      }
+     },
+     {
+      "loc": "MW-10",
+      "type": "well",
+      "unit": "mg/L",
+      "range": [
+       9.2,
+       20.0
+      ],
+      "meta": {
+       "n": "12",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "6/6/2013"
+      }
+     },
+     {
+      "loc": "MW-2",
+      "type": "well",
+      "unit": "mg/L",
+      "range": [
+       5.5,
+       24.0
+      ],
+      "meta": {
+       "n": "18",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "4/12/2017"
+      }
+     },
+     {
+      "loc": "MW-3",
+      "type": "well",
+      "unit": "mg/L",
+      "range": [
+       2.1,
+       5.4
+      ],
+      "meta": {
+       "n": "17",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "6/13/2006"
+      }
+     },
+     {
+      "loc": "MW-4",
+      "type": "well",
+      "unit": "mg/L",
+      "range": [
+       3.5,
+       14.0
+      ],
+      "meta": {
+       "n": "18",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "4/12/2017"
+      }
+     },
+     {
+      "loc": "MW-5",
+      "type": "well",
+      "unit": "mg/L",
+      "range": [
+       8.3,
+       40.0
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "4/9/2019"
+      }
+     },
+     {
+      "loc": "MW-6",
+      "type": "well",
+      "unit": "mg/L",
+      "range": [
+       12.0,
+       23.0
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "6/6/2013"
+      }
+     },
+     {
+      "loc": "MW-7",
+      "type": "well",
+      "unit": "mg/L",
+      "range": [
+       2.5,
+       8.7
+      ],
+      "meta": {
+       "n": "20",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "5/2/2016"
+      }
+     },
+     {
+      "loc": "MW-8",
+      "type": "well",
+      "unit": "mg/L",
+      "range": [
+       3.6,
+       11.0
+      ],
+      "meta": {
+       "n": "16",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "11/29/2012"
+      }
+     },
+     {
+      "loc": "MW-9",
+      "type": "well",
+      "unit": "mg/L",
+      "range": [
+       7.0,
+       13.0
+      ],
+      "meta": {
+       "n": "12",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "6/20/2012"
+      }
+     },
+     {
+      "loc": "ALL_WELLS",
+      "type": "aggregate",
+      "unit": "mg/L",
+      "range": [
+       2.1,
+       40.0
+      ],
+      "meta": {
+       "n": "165",
+       "doc": "GW Monitoring Rpt (2023)",
+       "date_max": "4/9/2019"
+      }
+     }
+    ]
+   },
+   "soil": {
+    "unit": "mg/kg",
+    "limits": [],
+    "locations": [
+     {
+      "loc": "ALL_STOCKPILES",
+      "type": "aggregate",
+      "unit": "mg/kg",
+      "points": [
+       {
+        "k": "max_point",
+        "vtype": "MDC",
+        "v": 310.0,
+        "doc": "Final FS Report (2014)",
+        "date": "2004 PSI",
+        "notes": "Nitrate max across combined stockpile/native/background soil samples; explicitly 'not at concentrations of concern.' Included as a single available soil data point even though the pipeline's default is to omit nitrate/manganese soil columns; no other nitrate mg/kg soil figure appears in this document (2006 SI reports only DI-WET *soluble* (leachate) nitrate in mg/L, a different measurement type, deliberately excluded here to avoid unit conflation)."
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "tds": {
+   "groundwater": {
+    "unit": "mg/L",
+    "limits": [
+     {
+      "label": "Secondary MCL",
+      "value": 500.0,
+      "unit": "mg/L",
+      "doc": "Updated Stat. Eval. Rpt (2024)",
+      "full": "CA Secondary MCL"
+     }
+    ],
+    "locations": []
+   }
+  },
+  "sulfate": {
+   "groundwater": {
+    "unit": "mg/L",
+    "limits": [
+     {
+      "label": "Secondary MCL",
+      "value": 250.0,
+      "unit": "mg/L",
+      "doc": "Updated Stat. Eval. Rpt (2024)",
+      "full": "CA Secondary MCL"
+     }
+    ],
+    "locations": []
+   }
+  }
+ },
+ "site_notes": [
+  {
+   "value_type": "Stockpile_3_status",
+   "value": "removed - material relocated onto Stockpiles 1 and 2",
+   "doc": "Updated Stat. Eval. Rpt (2024)",
+   "citation": "p. 4, 7",
+   "notes": "Page 4 (Introduction): 'Construction of Phase I of the SR 99/SR 132 interchange project began in January 2020. Stockpile 3 was removed and the material placed on Stockpiles 1 and 2.' Page 7 (Discussion/Recommendations): 'Since that time, Stockpile 3 has been removed and the soil placed on top of Stockpiles 1 and 2.'",
+   "status": "VERIFIED - CORRECTS a prior claim that this document describes Stockpile 3 as 'concentration in place under deed restriction'; the document instead describes physical removal and relocation, with no deed restriction/covenant language at all"
+  },
+  {
+   "value_type": "well_decommissioning_recommendation",
+   "value": "recommend decommissioning MW4/MW6/MW9/MW10 and discontinuing groundwater monitoring",
+   "doc": "Updated Stat. Eval. Rpt (2024)",
+   "citation": "p. 7",
+   "notes": "'...we recommend that the remaining four Caltrans monitoring wells be decommissioned and that groundwater monitoring related to the soil stockpiles be discontinued.'",
+   "status": "VERIFIED (re-checked directly against page-6/page-7 text; matches prior finding)"
+  },
+  {
+   "value_type": "well_dry_status_through_Feb_2023",
+   "value": "MW4 dry 4/11 events; MW6 dry 6/11; MW9 dry 8/11; MW10 dry 9/11, all through Feb 2023",
+   "doc": "Updated Stat. Eval. Rpt (2024)",
+   "citation": "p. 5,6",
+   "notes": "Verbatim per-well dry-date lists, e.g. MW10 - 'September 2014 through April 2017, April 2019 through February 2023 (9 of 11 measurements)'",
+   "status": "VERIFIED - confirms wells were dry through the Feb 2023 sampling round, supporting the decommissioning recommendation"
+  }
+ ],
+ "excluded_count": 5
+}
+</script>
+
+<script>
+const DATA = JSON.parse(document.getElementById('raw-data').textContent);
+const ANALYTE_LABELS = {arsenic:'Arsenic',barium:'Barium',lead:'Lead',manganese:'Manganese',
+  strontium:'Strontium',nitrate:'Nitrate',tds:'TDS',sulfate:'Sulfate'};
+const TYPE_COLOR = {well:'var(--well)',zone:'var(--zone)',aggregate:'var(--aggregate)',background:'var(--background)'};
+const TYPE_LABEL = {well:'monitoring well',zone:'stockpile zone',aggregate:'multi-zone aggregate',background:'background reference'};
+const LIMIT_COLORS = ['#c0392b','#c2540a','#b7791f','#3a6ea5','#6a5acd','#2f8f5b'];
+
+let state = {tab:'groundwater', analyte:{groundwater:null, soil:null}};
+
+function analytesFor(medium){
+  return Object.keys(DATA.analytes).filter(a => DATA.analytes[a][medium]).sort((a,b)=>{
+    const order = ['barium','arsenic','lead','manganese','strontium','nitrate','tds','sulfate'];
+    return order.indexOf(a) - order.indexOf(b);
+  });
+}
+function niceLog10Domain(vals){
+  const lo = Math.max(Math.min(...vals) * 0.6, 1e-6);
+  const hi = Math.max(...vals) * 1.6;
+  const loE = Math.floor(Math.log10(lo));
+  const hiE = Math.ceil(Math.log10(hi));
+  return [Math.pow(10, loE), Math.pow(10, hiE)];
+}
+function fmtNum(v){
+  if (v >= 1000) return v.toLocaleString(undefined,{maximumFractionDigits:0});
+  if (v >= 1) return v.toLocaleString(undefined,{maximumFractionDigits:2});
+  return v.toPrecision(2);
+}
+function locSortKey(loc){
+  const order = {well:0, zone:1, aggregate:2, background:3};
+  return [order[loc.type] ?? 4, loc.loc];
+}
+
+function renderTabs(){
+  const tabs = [['groundwater','Groundwater'],['soil','Soil'],['notes','Site Notes'],['reference','Standards Reference']];
+  document.getElementById('tabs').innerHTML = tabs.map(([id,label])=>
+    `<button class="tab ${state.tab===id?'active':''}" data-tab="${id}">${label}</button>`
+  ).join('');
+  document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{state.tab=b.dataset.tab; render();});
+}
+
+function renderChartTab(medium){
+  const analytes = analytesFor(medium);
+  if (!state.analyte[medium]) state.analyte[medium] = analytes[0];
+  if (!analytes.includes(state.analyte[medium])) state.analyte[medium] = analytes[0];
+  const analyte = state.analyte[medium];
+  const d = DATA.analytes[analyte][medium];
+
+  const chips = analytes.map(a=>{
+    const nLoc = (DATA.analytes[a][medium].locations||[]).length;
+    return `<button class="chip ${a===analyte?'active':''}" data-a="${a}">${ANALYTE_LABELS[a]}<span class="n">${nLoc||''}</span></button>`;
+  }).join('');
+
+  let body;
+  if (!d.locations || d.locations.length === 0){
+    body = `<div class="caveat">No individual per-location detections recorded for ${ANALYTE_LABELS[analyte]} in ${medium} — only sitewide regulatory reference values were found in the source documents.</div>` +
+      renderLimitList(d.limits, d.unit);
+  } else {
+    body = renderChart(d, analyte, medium);
+  }
+
+  return `
+    <div class="controls">
+      <span class="lbl">Analyte</span>${chips}
+      <span class="unit-note">unit: ${d.unit}</span>
+    </div>
+    ${body}
+  `;
+}
+
+function renderLimitList(limits, unit){
+  if (!limits.length) return '';
+  return `<div class="ref-grid">${limits.map((l,i)=>`
+    <div class="ref-card">
+      <h4 style="color:${LIMIT_COLORS[i%LIMIT_COLORS.length]}">${l.label}</h4>
+      <p>${fmtNum(l.value)} ${unit} &nbsp;·&nbsp; source: ${l.doc}${l.full && l.full!==l.label ? ' — '+l.full : ''}</p>
+    </div>`).join('')}</div>`;
+}
+
+function renderChart(d, analyte, medium){
+  const locs = d.locations.slice().sort((a,b)=>{
+    const ka = locSortKey(a), kb = locSortKey(b);
+    if (ka[0]!==kb[0]) return ka[0]-kb[0];
+    return ka[1].localeCompare(kb[1]);
+  });
+
+  const allVals = [];
+  locs.forEach(l=>{
+    if (l.range) allVals.push(l.range[0], l.range[1]);
+    (l.points||[]).forEach(p=>{
+      if (p.k==='background_range') allVals.push(p.lo, p.hi);
+      else allVals.push(p.v);
+    });
+  });
+  d.limits.forEach(l=>allVals.push(l.value));
+  const [domLo, domHi] = niceLog10Domain(allVals);
+  const W = 640, ROWH = 30;
+  const lx = v => ((Math.log10(Math.max(v,domLo)) - Math.log10(domLo)) / (Math.log10(domHi) - Math.log10(domLo))) * W;
+
+  // ticks
+  const ticks = [];
+  for (let e = Math.log10(domLo); e <= Math.log10(domHi)+1e-9; e++){
+    const v = Math.pow(10,e);
+    ticks.push({x:lx(v), label: v>=1000? (v/1000)+'k' : v>=1? String(v) : v.toString()});
+  }
+
+  const limitLegend = d.limits.map((l,i)=>
+    `<span class="item"><span class="swatch" style="background:${LIMIT_COLORS[i%LIMIT_COLORS.length]}"></span>${l.label}: ${fmtNum(l.value)} ${d.unit}</span>`
+  ).join('');
+
+  const typeLegend = ['well','zone','aggregate','background'].filter(t=>locs.some(l=>l.type===t)).map(t=>
+    `<span class="item"><span class="dot" style="background:${TYPE_COLOR[t]}"></span>${TYPE_LABEL[t]}</span>`
+  ).join('');
+  const statusLegend = `
+    <span class="item"><span class="dot" style="background:var(--good)"></span>below all limits</span>
+    <span class="item"><span class="dot" style="background:var(--warn)"></span>within 2× of lowest limit</span>
+    <span class="item"><span class="dot" style="background:var(--critical)"></span>exceeds lowest limit</span>`;
+
+  const axisSvg = `<svg viewBox="0 0 ${W} 16" width="100%" height="16" style="display:block">
+    ${ticks.map(t=>`<line x1="${t.x}" y1="0" x2="${t.x}" y2="8" stroke="var(--border)"/>
+      <text x="${t.x}" y="15" text-anchor="middle" font-size="8.5" fill="var(--text-muted)">${t.label}</text>`).join('')}
+  </svg>`;
+
+  const rowsHtml = locs.map((l,ri)=>{
+    const lowestLimit = d.limits.length ? Math.min(...d.limits.map(x=>x.value)) : null;
+    let status = 'var(--text-muted)';
+    let maxVal = l.range ? l.range[1] : Math.max(...(l.points||[]).map(p=>p.v ?? p.hi ?? -Infinity));
+    if (lowestLimit && isFinite(maxVal)){
+      if (maxVal > lowestLimit) status = 'var(--critical)';
+      else if (maxVal > lowestLimit*0.5) status = 'var(--warn)';
+      else status = 'var(--good)';
+    }
+
+    const marks = [];
+    if (l.range){
+      const x1 = lx(l.range[0]), x2 = lx(l.range[1]);
+      const meta = l.meta||{};
+      const title = `${ANALYTE_LABELS[analyte]} at ${l.loc}: ${fmtNum(l.range[0])}–${fmtNum(l.range[1])} ${d.unit} (n=${meta.n||'?'}, max on ${meta.date_max||'?'}, ${meta.doc||''})`;
+      marks.push(`<g class="bar-fg"><title>${esc(title)}</title>
+        <line x1="${x1}" y1="15" x2="${x2}" y2="15" stroke="${status}" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+        <circle cx="${x1}" cy="15" r="3" fill="${status}"/>
+        <circle cx="${x2}" cy="15" r="4.5" fill="${status}"/>
+      </g>`);
+    }
+    (l.points||[]).forEach(p=>{
+      if (p.k === 'background_range'){
+        const x1 = lx(p.lo), x2 = lx(p.hi);
+        marks.push(`<g><title>${esc(`Background range: ${fmtNum(p.lo)}–${fmtNum(p.hi)} ${d.unit} (${p.doc})`)}</title>
+          <line x1="${x1}" y1="15" x2="${x2}" y2="15" stroke="var(--background)" stroke-width="3" stroke-linecap="round" opacity="0.6" stroke-dasharray="1,3"/>
+        </g>`);
+      } else {
+        const x = lx(p.v);
+        const shape = p.k==='central' ? 'square' : p.k==='outlier' ? 'diamond' : p.k==='background_point' ? 'circle-open' : 'circle';
+        const title = `${p.vtype}: ${fmtNum(p.v)} ${d.unit} — ${p.doc}${p.date? ' ('+p.date+')':''}`;
+        let shapeEl;
+        if (shape==='square') shapeEl = `<rect x="${x-4}" y="11" width="8" height="8" fill="${status}" opacity="0.9"/>`;
+        else if (shape==='diamond') shapeEl = `<polygon points="${x},9 ${x+6},15 ${x},21 ${x-6},15" fill="var(--serious)" opacity="0.85"/>`;
+        else if (shape==='circle-open') shapeEl = `<circle cx="${x}" cy="15" r="4.5" fill="none" stroke="var(--background)" stroke-width="1.8"/>`;
+        else shapeEl = `<circle cx="${x}" cy="15" r="4" fill="${status}" opacity="0.85"/>`;
+        marks.push(`<g><title>${esc(title)}</title>${shapeEl}</g>`);
+      }
+    });
+
+    const limitLines = d.limits.map((lim,i)=>{
+      const x = lx(lim.value);
+      if (x < -2 || x > W+2) return '';
+      return `<line x1="${x}" y1="0" x2="${x}" y2="30" stroke="${LIMIT_COLORS[i%LIMIT_COLORS.length]}" stroke-width="1" stroke-dasharray="3,2" opacity="0.55"/>`;
+    }).join('');
+
+    return `<div class="row">
+      <div class="row-label">
+        <div class="name">${l.loc}</div>
+        <div class="type"><span class="dot" style="background:${TYPE_COLOR[l.type]};width:7px;height:7px;display:inline-block;border-radius:50%"></span>${TYPE_LABEL[l.type]}</div>
+      </div>
+      <div class="row-svg">
+        <svg viewBox="0 0 ${W} 30" width="100%" height="30" style="display:block">
+          ${limitLines}
+          ${marks.join('')}
+        </svg>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `
+    <div class="limitline-legend">${limitLegend}</div>
+    <div class="legend">${typeLegend}${statusLegend}
+      <span class="item">■ range/point &nbsp; ◆ isolated outlier &nbsp; ○ background stat</span>
+    </div>
+    <div class="axis-row"><div class="axis-label">location</div><div class="axis-svg">${axisSvg}</div></div>
+    <div class="rows">${rowsHtml}</div>
+  `;
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+
+function renderNotesTab(){
+  const cards = DATA.site_notes.map(n=>`
+    <div class="note-card">
+      <div class="k">${n.value_type.replace(/_/g,' ').toUpperCase()}</div>
+      <div class="v">${esc(n.value)}</div>
+      <div class="meta">${n.doc} · ${n.citation}</div>
+      <div class="body">${esc(n.notes)}</div>
+    </div>`).join('');
+  return `
+    <div class="caveat">${DATA.excluded_count} rows from the source transcription were flagged as unsupported or fabricated during verification and are excluded from every chart and list on this page. The items below are verified narrative facts (not concentration data) about site status.</div>
+    <div class="notes-list">${cards}</div>
+  `;
+}
+
+const REF_CARDS = [
+  ['MCL','Maximum Contaminant Level — California\'s legally enforceable drinking-water standard (primary, health-based).'],
+  ['Secondary MCL','Aesthetic/nuisance drinking-water standard (taste, odor, staining) — not health-based, still legally enforceable.'],
+  ['CA DPH Action Level','A California Dept. of Public Health monitoring trigger for lead in drinking water — explicitly NOT an MCL per the source report\'s own footnote.'],
+  ['EPA DWHA','EPA Drinking Water Health Advisory — a non-enforceable health-based guidance level used when no MCL exists.'],
+  ['FMC Site-Specific Target Level (SSTL)','A cleanup target level derived specifically for this site\'s risk assessment, distinct from a generic MCL.'],
+  ['FMC Upgradient Background','The background (naturally occurring / non-site-related) concentration measured upgradient of the site, used as a comparison baseline.'],
+  ['TTLC','Total Threshold Limit Concentration — California\'s hazardous-waste classification threshold for soil (exceeding it makes soil a regulated hazardous waste).'],
+  ['10x STLC','Ten times the Soluble Threshold Limit Concentration — a California hazardous-waste screening shortcut; exceeding it triggers the more expensive TCLP leachability test.'],
+  ['CHHSL (industrial)','California Human Health Screening Level for industrial/commercial land use — a risk-based soil screening number, less strict than the residential value.'],
+  ['CHHSL (residential)','California Human Health Screening Level for residential land use — the strictest standard risk-based soil screening number.'],
+  ['MDC','Maximum Detected Concentration — the single highest detected value reported for a dataset.'],
+  ['EPC','Exposure Point Concentration — the statistic (often the 95% UCL) actually used to estimate human health risk in an HHRA, not necessarily the maximum detected value.'],
+  ['95% UCL','95% Upper Confidence Limit on the mean — a statistical estimate of the true average concentration, commonly used as the EPC.'],
+  ['Background range/mean/95UCL','Concentrations measured at an off-site or upgradient reference location, used to judge whether stockpile-area concentrations are naturally elevated or site-related.'],
+];
+
+function renderReferenceTab(){
+  return `
+    <div class="caveat">Values here are as transcribed from the cited PDF pages of the six source reports (2006–2024); they have not been independently re-verified against original lab data sheets. Treat this dashboard as a navigation aid to the source documents, not a substitute for them.</div>
+    <div class="ref-grid">${REF_CARDS.map(([k,v])=>`<div class="ref-card"><h4>${k}</h4><p>${v}</p></div>`).join('')}</div>
+  `;
+}
+
+function render(){
+  renderTabs();
+  const panel = document.getElementById('panel');
+  if (state.tab==='groundwater' || state.tab==='soil'){
+    panel.innerHTML = renderChartTab(state.tab);
+    panel.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{state.analyte[state.tab]=c.dataset.a; render();});
+  } else if (state.tab==='notes'){
+    panel.innerHTML = renderNotesTab();
+  } else {
+    panel.innerHTML = renderReferenceTab();
+  }
+}
+render();
+</script>
