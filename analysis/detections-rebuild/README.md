@@ -144,6 +144,72 @@ which matched exactly.
   document is unsupported (neither "CHHSL" nor "80 mg" appears anywhere in the
   source).
 
+**Soil — the 2019–2022 construction-phase data (RACR, the latest on file):**
+
+`S1908-01-01 Caltrans Modesto Stockpile Interim RACR_12.22 (1).pdf`, dated
+December 1, 2022 and **accepted as final by DTSC on January 18, 2023** — despite
+"Interim" in the title there is no separate Final RACR; Phase 2 build-out and
+its RACR are 8–10 years out. This is the newest soil data in the document set:
+nothing after December 2022 contains soil results (the 2023 GW report, 2024
+statistical evaluation, 2024–2026 stormwater reports, 2025 well destruction
+report and annual inspections are all other media). Scripts:
+`../scripts/extract_racr_soil_tables.py` and
+`../scripts/aggregate_racr_soil_detections.py`.
+
+**Scope caution: these tables report barium and lead only.** They are
+construction verification sampling, not characterisation — for the full
+multi-metal picture the 2013 SSI Report / HHRA UPDATE remain the comprehensive
+source. Four distinct tables were extracted (105 samples, 210 detections):
+
+| Pages | Table | Samples |
+|---|---|---|
+| 40–41 | BCS Removal Verification (Stockpile 3, Stockpile 2 W/E) | 53 |
+| 60 | Stockpile 1 MSE Wall Footing | 15 |
+| 214 | Stockpile 2 MSE Wall Footing | 29 |
+| 305 | Carpenter Road Shoofly | 8 |
+
+Appendix copies at pp. 72 and 132 reproduce the BCS-removal data and p. 186 is
+byte-identical to p. 60; these are deliberately **not** extracted, to avoid
+double-counting the same samples.
+
+**Verification.** Three independent signals agree exactly:
+
+1. The 106 BCS-removal cells on pp. 40–41 match the appendix copies at
+   pp. 72/132 **cell-for-cell with zero mismatches** — an end-to-end check
+   equivalent to the surface-water cross-document check.
+2. The seven samples computed as over the 1,000 mg/kg barium threshold are
+   *exactly* the seven whose COMMENTS column reads "Area Excavated", and each
+   has exactly one "A"-suffixed confirmation resample — an internal consistency
+   check across three separate table features.
+3. The highest-value rows were re-read as page images. Worth knowing: the PDF
+   **highlights exceedances in yellow**, a visual encoding that neither
+   `pdftotext` nor marker captures at all. The computed threshold comparison
+   reproduces the highlighting independently, but any text-only read of these
+   tables loses the source's own exceedance marking.
+
+**What the data shows.** Seven barium results exceeded the 1,000 mg/kg BCS
+removal verification threshold — S3 9-0 at 7,000, S3 10-0 at 5,100, S2E 8-0 at
+4,100, S2W 1-0 at 3,200, S3 11-0 at 2,200, S2E 3-0 at 1,400, S2W 3-0 at 1,100.
+Every one triggered excavation, and every post-excavation resample came back far
+below threshold (63–570 mg/kg). **Lead never exceeded its threshold anywhere in
+this dataset** — the maximum lead result across all 105 samples is 53 mg/kg
+against an 80 mg/kg threshold.
+
+**On the two reference values, which are not interchangeable:**
+
+- *BCS removal verification threshold* — barium 1,000 / lead 80 mg/kg. The
+  action level; stated in the RACR's own tables (pp. 41, 60, 214).
+- *Maximum site-specific background* — barium 120 / lead 3.8 mg/kg. A
+  characterisation reference, **not** an action level. Most samples sit above
+  the barium background and that is expected here; do not report "above
+  background" as a compliance failure.
+
+Note on the number 80: the lead **80 mg/kg** in these tables is the BCS Removal
+Verification Threshold, *not* a CHHSL. The old fabricated CSV attributed an "80
+mg/kg lead CHHSL" to the FS Report and DEIR/EA, where no such value appears
+(see the soil entries above). This is the real 80 in the record — a different
+document, and a different meaning.
+
 **Groundwater statistics rollup:**
 - `S2350-01-02 Updated Statistical Evaluation Report_2.24.pdf` — confirmed
   real figures (FMC background 151 µg/L, SSTL 6,210 µg/L barium /
@@ -155,9 +221,108 @@ which matched exactly.
   relocated onto Stockpiles 1 and 2, not capped in place under a deed
   restriction.
 
-**Not yet reconciled:** the soil-side outputs use two different raw-CSV
-schemas (see Layout above) and haven't been merged into one cross-document
-soil summary table the way the groundwater side has a single script. The
-groundwater and soil summary CSVs also haven't been joined into one final
-"primary contaminant detections" table spanning both media — each document's
-`summary/*.csv` currently stands alone.
+**Surface water / stormwater — 2 documents, covering the whole record
+2013–2026:**
+
+Same consolidating trick as the groundwater pilot. Two documents each carry a
+*historical* table that subsumes the individual event letters, so the ~11
+separate event reports were deliberately **not** re-extracted:
+
+- `06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf` — **Table 4**
+  (pp. 19–22, historical Title 22 dissolved metals, 23 analytes) and **Table 5**
+  (pp. 23–26, historical general minerals, 9 analytes). Covers locations
+  PL1–PL7, BG1–BG3 across 19 sampling dates, 4/4/2013 → 3/10/2023.
+- `S2350-01-02_2.17.2026 Stormwater Sampling Report_5.26.pdf` — **Table 2**
+  (p. 10, metals, reduced 18-analyte list) and **Table 1** (p. 9, TDS and
+  sulfate). Covers SW-East/SW-West/BG-West across 5 dates, 3/10/2023 →
+  2/17/2026. This table is itself cumulative, so it subsumes the 2024 and 2025
+  reports.
+
+Scripts: `../scripts/extract_stormwater_tables.py` (transcription) and
+`../scripts/aggregate_stormwater_detections.py` (aggregation).
+
+**Why positional extraction was required here.** These tables float J-flag
+qualifiers and wrapped values onto adjacent text lines, so a `pdftotext -layout`
+whitespace split silently shifts values between analyte columns — precisely the
+transposition failure mode this rebuild exists to prevent. The extractor bins
+words into columns by x-coordinate from `pdftotext -bbox-layout` instead.
+Three real defects were caught and fixed this way, each of which would have
+corrupted values had the transcription been eyeballed:
+
+1. The CVRWQCB split sample (a duplicate submitted by the Regional Board to
+   Excelchem, 12/12/2014) wraps its label across three text lines, so
+   id-anchored rows swallowed its values into PL5's row. Rows are now anchored
+   on the date column and the split sample is kept as its own row (`RWQCB`).
+2. The `Sample ID` column heading bled into the first data row of each page.
+3. The `MCLs` row sits directly below the last sample row, and its superscript
+   secondary-MCL markers were being appended to that sample's values — zinc
+   `20` became `201` for BG-West on 2/17/2026.
+
+**Verification.** The 3/10/2023 event appears in *both* documents under
+different location names (Stantec's PL6/PL7/BG3 = Geocon's
+SW-East/SW-West/BG-West, per the latter's own footnote). All **54 overlapping
+cells match exactly** across the two independently prepared documents — an
+end-to-end check on column mapping and transcription. Column order in each
+table was separately confirmed against that table's own `MCLs` row, whose
+values match the published California MCLs analyte-for-analyte (antimony 6.0,
+arsenic 10, barium 1,000, lead 15, thallium 2.0, …), and the highest-value rows
+were re-read as page images per the QA step above.
+
+**What the computed exceedances show.** Seven primary-MCL and six
+secondary-MCL exceedances across the whole 2013–2026 surface-water record.
+Three points matter for interpretation and are easy to get wrong:
+
+- **Two barium exceedances on 3/17/2020 — PL1 at 1,600 µg/L and BG2 at
+  1,700 µg/L against a 1,000 µg/L MCL — appear in no narrative summary in the
+  document set.** Stantec's tables don't bold exceedances (Geocon's later ones
+  do), and no event report for March 2020 is in the corpus; the data survives
+  only inside Table 4. Note the shape: on that same day PL3/PL4/PL5/BG1 read
+  85–160 µg/L, and the **background** station BG2 was the highest of all. BG2
+  also spiked for antimony (10 µg/L) and copper (52 µg/L). A stockpile release
+  cannot raise the background station above the runoff stations, so this reads
+  as a localized sampling/turbidity artifact at two stations, not a site-wide
+  release — the same interpretive pattern as the December 2023 thallium event.
+- The December 2023 thallium exceedance (SW-East 18, SW-West 15, BG-West
+  17 µg/L) likewise includes the background station, and all three sit at or
+  just above the 15 µg/L laboratory reporting limit against a 2.0 µg/L MCL.
+- **Manganese exceedances are of a *secondary* (taste/odour/welfare-based)
+  MCL, not a health-based one**, and manganese is not a designated COC for this
+  site. Two of the six occur at background stations. Do not report these as COC
+  exceedances — the same caution the analyte-set section above gives for
+  arsenic, manganese and nitrate.
+
+Also recorded by the aggregation: analyte/event combinations where the
+laboratory **reporting limit for a non-detect sits above the MCL**, so
+compliance cannot be assessed at all (antimony in the March 2023 round is the
+clearest case, MDL 8.8 µg/L against a 6.0 µg/L MCL). These carry
+`nondetect_rl_above_limit=yes` rather than a misleading "no exceedance".
+
+**Known gaps on the surface-water side:**
+- **Pre-2013 data is not in any table.** The March 2006 Shaw event
+  (SW01–SW07), including the often-cited **2,000 µg/L barium at SW03** on the
+  northwestern side of Stockpile 3, survives only as narrative prose repeated in
+  each later report. Table 4 begins 4/4/2013. That 2,000 µg/L figure is
+  therefore *not* in this dataset and has not been transcribed from a primary
+  table.
+- The 2024–2026 reports disagree with themselves on one date: Table 1 dates the
+  2025 event 2/4/2025, Table 2 dates it 2/5/2025. Transcribed as printed.
+- Several rounds were inspection-only with no samples collected (no qualifying
+  rain event); those are carried as `row_annotation` values ("No Sample - Dry",
+  "Removed From Network", `***` = dry conditions) and excluded from all counts
+  rather than silently dropped.
+
+**Provenance in the raw files.** Every `raw/*.csv` row carries both
+`source_document` (the PDF filename) and `source_page`, so any cell can be
+traced back to the exact page it was transcribed from without consulting this
+README. Soil rows additionally carry `source_table`.
+
+**Not yet reconciled:** the soil-side outputs now use *three* raw-CSV schemas —
+the two pre-existing ones (see Layout above) plus the RACR's long format, which
+is the cleanest of them and the best candidate to standardise on. They still
+haven't been merged into one cross-document soil summary table the way the
+groundwater side has a single script; before adding a fifth soil document,
+unify these rather than writing a fourth variant. The groundwater, soil and
+surface-water summary CSVs are unioned by `combine_detections.py` into
+`combined_detections_summary.csv` (153 groundwater / 196 soil / 518
+surface-water rows), but each document's `summary/*.csv` still stands alone as
+the per-document record.

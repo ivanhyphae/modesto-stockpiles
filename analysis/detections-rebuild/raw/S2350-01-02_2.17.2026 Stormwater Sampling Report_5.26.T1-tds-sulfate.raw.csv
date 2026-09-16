@@ -1,0 +1,13 @@
+sample_id,sample_date,source_document,page,row_annotation,total_dissolved_solids,sulfate
+SW-East,12/19/2023,S2350-01-02_2.17.2026 Stormwater Sampling Report_5.26.pdf,9,,170,22
+SW-East,2/1/2024,S2350-01-02_2.17.2026 Stormwater Sampling Report_5.26.pdf,9,,88,<2.0
+SW-East,2/4/2025,S2350-01-02_2.17.2026 Stormwater Sampling Report_5.26.pdf,9,,210,21
+SW-East,2/17/2026,S2350-01-02_2.17.2026 Stormwater Sampling Report_5.26.pdf,9,,77,5.3
+SW-West,12/19/2023,S2350-01-02_2.17.2026 Stormwater Sampling Report_5.26.pdf,9,,140,11
+SW-West,2/1/2024,S2350-01-02_2.17.2026 Stormwater Sampling Report_5.26.pdf,9,,63,3.6
+SW-West,2/4/2025,S2350-01-02_2.17.2026 Stormwater Sampling Report_5.26.pdf,9,,180,14
+SW-West,2/17/2026,S2350-01-02_2.17.2026 Stormwater Sampling Report_5.26.pdf,9,,98,6.2
+BG-West,12/19/2023,S2350-01-02_2.17.2026 Stormwater Sampling Report_5.26.pdf,9,,180,38
+BG-West,2/1/2024,S2350-01-02_2.17.2026 Stormwater Sampling Report_5.26.pdf,9,,42,6.5
+BG-West,2/4/2025,S2350-01-02_2.17.2026 Stormwater Sampling Report_5.26.pdf,9,,***,***
+BG-West,2/17/2026,S2350-01-02_2.17.2026 Stormwater Sampling Report_5.26.pdf,9,,40,6.0

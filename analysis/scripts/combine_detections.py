@@ -286,6 +286,125 @@ def combine_stat_eval():
     return out
 
 
+SURFACE_WATER_SUMMARIES = [
+    ("06A2542ct_to97_SurfaceWaterLetter_final.20230328.stormwater.summary.csv",
+     "Table 4 (metals) pp. 19-22; Table 5 (general minerals) pp. 23-26"),
+    ("S2350-01-02_2.17.2026 Stormwater Sampling Report_5.26.stormwater.summary.csv",
+     "Table 2 (metals) p. 10; Table 1 (TDS/sulfate) p. 9"),
+]
+
+# BG* locations are the designated upgradient/background stations. Tagging them
+# matters for interpretation: several of this site's headline surface-water
+# exceedances (barium 3/17/2020, thallium 12/19/2023) occur AT the background
+# station as well as at the runoff stations, which is inconsistent with a
+# stockpile release and must not be read as one.
+BACKGROUND_LOCATIONS = {"BG1", "BG2", "BG3", "BG-West"}
+
+
+def combine_surface_water():
+    out = []
+    for fname, citation in SURFACE_WATER_SUMMARIES:
+        path = SUMMARY_DIR / fname
+        if not path.exists():
+            continue
+        with open(path, newline="", encoding="utf-8") as fh:
+            for r in csv.DictReader(fh):
+                loc = r["location"]
+                is_bg = "TRUE" if loc in BACKGROUND_LOCATIONS else ""
+                notes = [f"n_nondetect={r['n_nondetect']}"]
+                if r.get("max_detected_qualifier"):
+                    notes.append(f"max_qualifier={r['max_detected_qualifier']}")
+                if r.get("nondetect_rl_above_limit") == "yes":
+                    notes.append(
+                        "reporting limit for non-detects exceeds the limit -- "
+                        "compliance not assessable for those events"
+                    )
+                for vt, val, date in [
+                    ("min_detected", r["min_detected"], r["min_detected_date"]),
+                    ("max_detected", r["max_detected"], r["max_detected_date"]),
+                ]:
+                    if not val:
+                        continue
+                    out.append(row(
+                        medium="surface_water",
+                        source_document=r["source_document"],
+                        location_or_well=loc,
+                        analyte=r["analyte"],
+                        value_type=f"{vt}_per_location_all_dates",
+                        value=val,
+                        unit=r["unit"],
+                        date_or_event=date,
+                        is_background=is_bg,
+                        n_samples=r["n_analyzed"],
+                        regulatory_limit=r["regulatory_limit"],
+                        limit_type=r["limit_type"],
+                        exceedance_ratio=(
+                            r["exceedance_ratio_at_max"] if vt == "max_detected" else ""
+                        ),
+                        source_citation=citation,
+                        status="VERIFIED (computed from raw transcription)",
+                        notes="; ".join(notes),
+                    ))
+    return out
+
+
+def combine_racr_soil():
+    """RACR (Dec 2022) barium/lead soil results -- the latest soil data on file.
+
+    Two reference values travel with these rows and mean different things: the
+    BCS removal verification threshold (barium 1,000 / lead 80 mg/kg) is the
+    action level that triggered excavation, while the maximum site-specific
+    background (barium 120 / lead 3.8 mg/kg) is a characterisation reference,
+    not a compliance standard.
+    """
+    path = SUMMARY_DIR / "S1908-01-01 Interim RACR_12.22.soil.summary.csv"
+    out = []
+    if not path.exists():
+        return out
+    with open(path, newline="", encoding="utf-8") as fh:
+        for r in csv.DictReader(fh):
+            citation = f"{r['source_table']}, p. {r['source_pages']}"
+            notes = [f"n_nondetect={r['n_nondetect']}"]
+            if r["n_resamples"] != "0":
+                notes.append(
+                    f"{r['n_resamples']} post-excavation confirmation resamples "
+                    "(A-suffixed) included"
+                )
+            if r["samples_over_threshold"]:
+                notes.append(f"over threshold: {r['samples_over_threshold']}")
+            notes.append(
+                f"{r['n_over_background']} of {r['n_detect']} detections above "
+                f"max site-specific background ({r['max_site_specific_background']} mg/kg) "
+                "-- reference only, not an action level"
+            )
+            for vt, val, sample in [
+                ("min_detected", r["min_detected"], r["min_detected_sample"]),
+                ("max_detected", r["max_detected"], r["max_detected_sample"]),
+            ]:
+                if not val:
+                    continue
+                out.append(row(
+                    medium="soil",
+                    source_document=r["source_document"],
+                    location_or_well=r["area"],
+                    analyte=r["analyte"],
+                    value_type=f"{vt}_per_area",
+                    value=val,
+                    unit=r["unit"],
+                    date_or_event=sample,
+                    n_samples=r["n_samples"],
+                    regulatory_limit=r["bcs_removal_verification_threshold"],
+                    limit_type="BCS removal verification threshold",
+                    exceedance_ratio=(
+                        r["exceedance_ratio_at_max"] if vt == "max_detected" else ""
+                    ),
+                    source_citation=citation,
+                    status="VERIFIED (computed from raw transcription)",
+                    notes="; ".join(notes),
+                ))
+    return out
+
+
 def main():
     all_rows = []
     all_rows += combine_groundwater()
@@ -294,6 +413,8 @@ def main():
     all_rows += combine_hhra_update()
     all_rows += combine_deir_ea()
     all_rows += combine_stat_eval()
+    all_rows += combine_surface_water()
+    all_rows += combine_racr_soil()
 
     with open(OUT_PATH, "w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=FIELDS)

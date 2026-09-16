@@ -1,0 +1,1 @@
+{"id":"01a08e8d3dad-f3d43e1d9993022b","time":"2026-09-11T03:40:16.173671381Z","workspace":"modesto-stockpiles","type":"search_performed","data":{"query_hash":"sha256:9c3793df414baeb65f0f326705004afd7a79517bbbcb656f3ccd51cda62ca290","channels":["bm25","vector","graph"],"result_count":10,"duration_ms":4710}}

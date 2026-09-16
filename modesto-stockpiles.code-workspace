@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "../../../../.venvs/surya"
+		},
+		{
+			"path": "../sr132 docs"
 		}
 	],
 	"settings": {}

@@ -1,0 +1,130 @@
+sample_id,sample_date,source_document,page,row_annotation,nitrate_as_n,sulfate,sulfide,total_suspended_solids,chloride,alkalinity_bicarbonate,alkalinity_carbonate,alkalinity_total,total_dissolved_solids
+PL1,4/4/2013,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.34,2.9,<0.010,44,---,---,---,---,---
+PL1,1/30/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,4.7,16,<0.010,32,4.8,28,<5.0,28,110
+PL1,2/6/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,2.9,25,0.025,81,5.5,71,<5.0,71,180
+PL1,2/28/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,1.3,3.3,<0.010,120,1.7,30,<5.0,30,65
+PL1,12/2/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.39,4.3,<0.020,130,1.7,32,<5.0,32,73
+PL1,12/12/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,---,1.4,<0.010,20,0.55,27,<5.0,27,49
+PL1,12/11/2015,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.28,10,0.044,62,6.3,45,<5.0,45,70
+PL1,1/6/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,<0.10,2.8,<0.020,<10,0.87,29,<5.0,29,38
+PL1,3/5/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.24,8.4,0.024,32,1.5,53,<5.0,53,110
+PL1,10/28/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.20,1.1,<0.062J,79,0.35J,12,<1.5J,12,37
+PL1,12/15/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.54,8.0,0.10,"1,100",3.1,50,<5.0,50,180
+PL1,3/24/2017,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,<0.16J,12,<0.004J,<1.1,3.8,93,<1.5J,93,180
+PL1,1/8/2018,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,2.9,5.4,<0.010,23,1.6,28,<5.0,28,82
+PL1,3/22/2018,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.19,11,<0.044J,66,2.0,54,<3.4J,54,120
+PL1,12/4/2019,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.61,---,<0.004,160,---,---,---,---,---
+PL1,3/17/2020,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.29,---,<0.004,39,---,---,---,---,---
+PL1,12/17/2020,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,No Sample - Dry,,,,,,,,,
+PL1,2/28/2023,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,Removed From Network,,,,,,,,,
+PL2,4/4/2013,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.26,1.5,<0.020,260,---,---,---,---,---
+PL2,1/30/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,No Sample - Dry,,,,,,,,,
+PL2,2/6/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.73,6.1,<0.050,310,3.2,33,<5.0,33,190
+PL2,2/28/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.31,3.3,0.20,390,1.7,32,<5.0,32,100
+PL2,12/2/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.16,<1.0,<0.020,170,0.64,20,<5.0,20,43
+PL2,12/12/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,---,2.2,<0.010,260,1.1,170,<5.0,170,64
+PL2,12/11/2015,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.23,3.2,0.038,190,5.4,31,<5.0,31,120
+PL2,1/6/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.47,1.8,0.061,180,1.1,25,<5.0,25,57
+PL2,3/5/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.45,5.8,0.019,67,1.2,38,<5.0,38,100
+PL2,10/28/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,1.4,2.1,<0.062J,53,6.6,13,<1.5J,13,91
+PL2,12/15/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.21,2.0,0.065,770,1.4,29,<5.0,29,140
+PL2,3/24/2017,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.29J,8.2,<0.004J,<1.1,3.1,87,<1.5J,87,150
+PL2,1/8/2018,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,2.9,2.5,0.030,18,2.7,17,<5.0,17,65
+PL2,3/22/2018,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,1.7,7.3,0.085,740,2.8,55,<3.4J,55,120
+PL2,12/4/2019,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.52,---,<0.004,62,---,---,---,---,---
+PL2,3/17/2020,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,No Sample - Dry,,,,,,,,,
+PL2,12/17/2020,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,No Sample - Dry,,,,,,,,,
+PL2,2/28/2023,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,Removed From Network,,,,,,,,,
+PL3,4/4/2013,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,2.7,11,0.025,44,---,---,---,---,---
+PL3,1/30/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,6.6,17,0.023,66,8.7,72,<5.0,72,240
+PL3,2/6/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,5.2,8.9,0.040,89,3.4,32,<5.0,32,140
+PL3,2/28/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,4.0,3.5,<0.010,62,2.8,21,<5.0,21,82
+PL3,12/2/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,23,,0.23,<1.0,0.021,70,<0.50,15,<5.0,15,37
+PL3,12/12/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,---,1.5,<0.010,29,0.87,20,<5.0,20,33
+PL3,12/11/2015,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,<0.20,7.5,0.052,81,9.5,99,<5.0,99,110
+PL3,1/6/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.10,1.0,0.029,180,0.82,25,<5.0,25,63
+PL3,3/5/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.85,17,0.013,28,2.1,56,<5.0,56,130
+PL3,10/28/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.19J,1.5,<0.020J,190,0.48J,20,<1.5J,20,40
+PL3,12/15/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,1.9,19,0.040,140,7.6,77,<5.0,77,420
+PL3,3/24/2017,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,<0.16J,2.3J,<0.004J,<1.1,1.6J,53,<1.5J,53,93
+PL3,1/8/2018,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,1.4,2.2,<0.010,16,1.0,31,<5.0,31,76
+PL3,3/22/2018,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.38,5.4,0.10,42,2.0,84,<3.4J,84,130
+PL3,12/4/2019,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.34,---,<0.004,23,---,---,---,---,---
+PL3,3/17/2020,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.22,---,<0.004,<3.3,---,---,---,---,---
+PL3,12/17/2020,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,No Sample - Dry,,,,,,,,,
+PL3,2/28/2023,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,Removed From Network,,,,,,,,,
+PL4,4/4/2013,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,9.9,7.9,<0.020,92,---,---,---,---,---
+PL4,1/30/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,1.4,9.9,0.011,16,6.2,32,<5.0,32,79
+PL4,2/6/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.68,10,0.094,22,7.4,64,<5.0,64,130
+PL4,2/28/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.47,2.5,<0.010,12,1.4,21,<5.0,21,37
+PL4,12/2/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.53,2.6,<0.020,65,2.3,22,<5.0,22,36
+PL4,12/12/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,----,1.5,<0.010,17,0.52,13,<5.0,13,24
+PL4,12/11/2015,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.48,11,0.066,22,11,46,<5.0,46,120
+PL4,1/6/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.37,1.8,0.023,49,1.8,16,<5.0,16,41
+PL4,3/5/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.63,6.9,<0.010,9.0,3.6,26,<5.0,26,61
+PL4,10/28/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.63,2.1,<0.020J,330,1.3,19,<1.5J,19,69
+PL4,12/15/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,<0.10,3.9,<0.010,14,3.1,37,<5.0,40,80
+PL4,3/24/2017,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,<0.16J,3.4,<0.008J,<1.1,3.4,44,<1.5J,44,87
+PL4,1/8/2018,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,1.1,6.9,0.086,30,7.1,33,<5.0,33,94
+PL4,3/22/2018,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.46,4.9,<0.009J,41,3.4,43,<3.4J,43,85
+PL4,12/4/2019,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.67,---,<0.004,12,---,---,---,---,---
+PL4,3/17/2020,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.54,---,<0.004,<10,---,---,---,---,---
+PL4,12/17/2020,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,No Sample - Dry,,,,,,,,,
+PL4,2/28/2023,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,Removed From Network,,,,,,,,,
+PL5,12/12/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,---,<1.0,<0.010,32,<0.50,20,<5.0,20,22
+RWQCB,12/12/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.39,2.0,---,---,---,---,---,---,---
+PL5,12/11/2015,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,No Sample - Dry,,,,,,,,,
+PL5,1/6/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.41,2.6,<0.020,50,2.6,18,<5.0,18,31
+PL5,3/5/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.62,5.9,0.014,12,3.2,25,<5.0,25,74
+PL5,10/28/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.96,4.8,<0.062J,45,2.1,28,<1.5J,28,80
+PL5,12/15/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,No Sample - Dry,,,,,,,,,
+PL5,3/24/2017,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,,0.39J,2.6,<0.004J,<2.0,3.0,21,<1.5J,21,51
+PL5,1/8/2018,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,24,No Sample - Dry,,,,,,,,,
+PL5,3/22/2018,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,No Sample - Dry,,,,,,,,,
+PL5,12/4/2019,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.72,---,<0.004,42,---,---,---,---,---
+PL5,3/17/2020,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.63,---,<0.004,120,---,---,---,---,---
+PL5,12/17/2020,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,No Sample - Dry,,,,,,,,,
+PL5,2/28/2023,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,Removed From Network,,,,,,,,,
+PL6,2/28/2023,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,No Sample - Dry,,,,,,,,,
+PL6,3/10/2023,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.11J-,---,<0.010,1.6,---,---,---,---,---
+PL7,2/28/2023,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,No Sample - Dry,,,,,,,,,
+PL7,3/10/2023,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.18J-,---,<0.010,9.5,---,---,---,---,---
+BG1,4/4/2013,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.35,1.8,0.023,140,---,---,---,---,---
+BG1,1/30/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,2.0,8.7,<0.020,48,4.9,40,<5.0,40,100
+BG1,2/6/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,2.8,11,<0.020,30,3.3,29,<5.0,29,92
+BG1,2/28/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.96,3.5,0.014,35,1.5,16,<5.0,16,40
+BG1,12/2/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.19,1.5,<0.020,43,<0.50,12,<5.0,12,31
+BG1,12/12/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,----,3.2,<0.010,31,1.4,9.8,<5.0,9.8,<10
+BG1,12/11/2015,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,No Sample - Dry,,,,,,,,,
+BG1,1/6/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.12,<1.0,0.020,430,0.74,17,<5.0,17,15
+BG1,3/5/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.15,2.6,0.014,18,1.2,36,<5.0,36,92
+BG1,10/28/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.29,0.80J,<0.062J,53,0.41J,9.2,<1.5J,9.2,46
+BG1,12/15/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.26,8.2,0.028,190,2.9,38,<5.0,38,130
+BG1,3/24/2017,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,No Sample - Dry,,,,,,,,,
+BG1,1/8/2018,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.31,1.1,0.098,30,0.57,15,<5.0,15,24
+BG1,3/22/2018,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,1.4,7.1,<0.044J,2.0,2.6,56,<3.4J,56,140
+BG1,12/4/2019,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.41,---,<0.004,34,---,---,---,---,---
+BG1,3/17/2020,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.17,---,<0.004,240,---,---,---,---,---
+BG1,12/17/2020,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,No Sample - Dry,,,,,,,,,
+BG1,2/28/2023,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,No Sample - Dry,,,,,,,,,
+BG1,3/10/2023,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.2J-,---,<0.010,310,---,---,---,---,---
+BG2,4/4/2013,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.40,2.5,<0.020,96,---,---,---,---,---
+BG2,1/30/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.81,11,0.10,200,8.1,72,<5.0,72,240
+BG2,2/6/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.96,10,0.064,220,7.1,52,<5.0,52,170
+BG2,2/28/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.57,3.1,<0.010,160,1.8,17,<5.0,17,32
+BG2,12/2/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.69,3.6,<0.050,670,2.9,32,<5.0,32,74
+BG2,12/12/2014,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,---,3.1,<0.010,280,1.2,19,<5.0,19,21
+BG2,12/11/2015,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,No Sample - Dry,,,,,,,,,
+BG2,1/6/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.40,5.6,0.023,240,2.5,19,<5.0,19,38
+BG2,3/5/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,No Sample - Dry,,,,,,,,,
+BG2,10/28/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.47,2.0,<0.062J,96,1.3,12,<1.5J,12,57
+BG2,12/15/2016,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,25,,0.47,2.6,0.038,76,2.7,22,<5.0,22,67
+BG2,3/24/2017,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,26,No Sample - Dry,,,,,,,,,
+BG2,1/8/2018,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,26,,0.71,4.2,<0.010,98,2.3,23,<5.0,23,50
+BG2,3/22/2018,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,26,No Sample - Dry,,,,,,,,,
+BG2,12/4/2019,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,26,,0.29,---,<0.004,250,---,---,---,---,---
+BG2,3/17/2020,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,26,,0.38,---,<0.004,46,---,---,---,---,---
+BG2,12/17/2020,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,26,No Sample - Dry,,,,,,,,,
+BG2,2/28/2023,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,26,Removed From Network,,,,,,,,,
+BG3,2/28/2023,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,26,No Sample - Dry,,,,,,,,,
+BG3,3/10/2023,06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf,26,,0.12J-,---,<0.010,5.3,---,---,---,---,---

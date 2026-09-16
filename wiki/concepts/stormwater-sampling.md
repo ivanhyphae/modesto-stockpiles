@@ -7,7 +7,7 @@ confidence: medium
 created_at: 2026-08-18T23:23:15Z
 ---
 
-Stormwater sampling at the [[modesto-soil-stockpiles]] site is the mechanism by which [[thallium]] moved from a soil-only finding into a surface water compliance issue. Thallium had been detected at low concentrations in stockpile soil as far back as the June 2014 Final FS Report and had not previously appeared in groundwater or in surface water. Stormwater sampling in March 2023 did not report thallium above the [[california-primary-mcl]], but the December 2023 stormwater event produced the first reported MCL exceedance for thallium at the site, documented in reports dated February 2024 and February 2025.
+Stormwater sampling at the [[modesto-soil-stockpiles]] site produced the only [[thallium]] MCL exceedance in the site record, in December 2023 — but that event is **not** a surface water compliance issue attributable to the stockpiles, because the background location exceeded alongside the two site locations (see the correction below and [[thallium]]). Thallium had been detected at low concentrations in stockpile soil as far back as the June 2014 Final FS Report and had not previously appeared in groundwater or in surface water. Stormwater sampling in March 2023 did not report thallium above the [[california-primary-mcl]]; the December 2023 event did, at all three sampling locations including background; and it has been non-detect in every event since.
 
 ## What the record shows
 
@@ -23,7 +23,7 @@ The absence of concentration values in the source material means the size of the
 
 ## Significance
 
-The December 2023 result is significant specifically because it breaks a pattern: thallium had been confined to soil and had not shown up in any water medium, surface or groundwater, before this event. That a stormwater sample — rather than a groundwater well — carries the first MCL exceedance for this constituent bears on the site's separate finding that [[groundwater-not-impacted]]; the stormwater pathway and the groundwater pathway are tracked as distinct lines of evidence, and this exceedance is confined to the former in the record as it stands. The record does not describe any agency response, required plan, or resampling triggered by the December 2023 result beyond the February 2024 and February 2025 reports that cover it.
+**Corrected 2026-09-10 — the December 2023 result does not break a pattern in the way the prose suggests.** Table 2 of the February 2024 and February 2026 reports (excluded from the compiled source markdown; read from the PDFs) gives all three locations for December 19, 2023: SW-East 18 µg/L, SW-West 15 µg/L, and **BG-West — the background location — 17 µg/L**, against a 2.0 µg/L MCL and a 15 µg/L laboratory reporting limit. The background sample exceeded alongside the site samples, and all three sit within ~20% of the detection floor. A stockpile release cannot raise the background location to the same level as the site locations, so this does not bear on [[groundwater-not-impacted]] and is not evidence of a surface-water compliance problem attributable to the stockpiles. It is one anomalous sampling day against a standard the method could not resolve. Thallium was non-detect in February 2024, February 2025, and February 2026, and DTSC approved each of those reports with no thallium comment or follow-up requirement. See [[thallium]] for the full record.
 
 ## See also
 
