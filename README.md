@@ -36,11 +36,13 @@ is a snapshot, not a dashboard.
 
 ## Adding new documents
 
-1. Drop the PDF into `raw/`.
+1. Drop the PDF into `raw/` — or leave it where it is and process it by path
+   (step 2).
 2. Run it through marker OCR, **with table recognition disabled**:
    ```bash
-   cd ~/hyphae/hyphae-work/sr132/envirostor-wiki
-   ./scripts/process-pdfs.sh --no-tables
+   cd ~/hyphae/hyphae-work/sr132/modesto-stockpiles
+   ./scripts/process-pdfs.sh --no-tables                          # everything in raw/
+   ./scripts/process-pdfs.sh "raw/_new/Some Doc.pdf" --no-tables  # just one file
    ```
    This writes `wiki/sources/<name>/<name>.md`. Use `--no-tables` (not the
    plain default) — see **Data quality** for why: table recognition on this
@@ -48,6 +50,11 @@ is a snapshot, not a dashboard.
    configured source path is only ever populated via the `--no-tables` run,
    which renders tables as a placeholder and image regions as LLM-generated
    text descriptions instead.
+
+   The script stops `llama-server` before marker starts and starts it again
+   when marker exits — including on failure or Ctrl-C — because it otherwise
+   holds ~6GB of VRAM and makes marker run out of GPU memory. Pass
+   `--keep-llama` to leave it running.
 3. Compile:
    ```bash
    sage-wiki compile --project .

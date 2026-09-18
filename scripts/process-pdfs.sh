@@ -4,17 +4,25 @@
 # Skips PDFs that already have non-empty output directories.
 #
 # Usage:
-#   ./process-pdfs.sh              # process all unprocessed PDFs
-#   ./process-pdfs.sh --force-ocr  # reprocess with --force_ocr (for scanned/image-only PDFs)
-#   ./process-pdfs.sh --reprocess  # reprocess everything (overwrites existing output)
-#   ./process-pdfs.sh --no-tables  # ablation run: skip table recognition/LLM table
-#                                   # correction and render tables as a bare "[Table]"
-#                                   # placeholder. Also replaces extracted images with
-#                                   # LLM-generated text descriptions (--disable_image_extraction),
-#                                   # since sage-wiki only reads markdown text. Always
-#                                   # reprocesses everything, into wiki/sources/ (sage-wiki's
-#                                   # configured source dir -- see config.yaml), so the
-#                                   # original wiki/pdf2md/ corpus is untouched.
+#   ./process-pdfs.sh                  # process all unprocessed PDFs in raw/
+#   ./process-pdfs.sh <file.pdf>       # process one PDF, from any path
+#   ./process-pdfs.sh --force-ocr      # pass --force_ocr (for scanned/image-only PDFs)
+#   ./process-pdfs.sh --reprocess      # reprocess everything (overwrites existing output)
+#   ./process-pdfs.sh --keep-llama     # leave llama-server running (see below)
+#   ./process-pdfs.sh --no-tables      # ablation run: skip table recognition/LLM table
+#                                      # correction and render tables as a bare "[Table]"
+#                                      # placeholder. Also replaces extracted images with
+#                                      # LLM-generated text descriptions (--disable_image_extraction),
+#                                      # since sage-wiki only reads markdown text. Always
+#                                      # reprocesses everything, into wiki/sources/ (sage-wiki's
+#                                      # configured source dir -- see config.yaml), so the
+#                                      # original wiki/pdf2md/ corpus is untouched.
+#
+# llama-server holds ~6GB VRAM, which is enough to make marker's surya models
+# run out of GPU memory. So by default this script stops it right before marker
+# starts and starts it again when marker exits -- including on failure or
+# interrupt. Pass --keep-llama to leave it alone. (--stop-llama is still
+# accepted, but is now a no-op: stopping is the default.)
 #
 # Requires:
 #   - GOOGLE_API_KEY in environment (already in ~/.bashrc)
@@ -42,15 +50,28 @@ WORKERS=1
 # Parse args
 FORCE_OCR=""
 REPROCESS=false
-STOP_LLAMA=false
+STOP_LLAMA=true
 NO_TABLES=false
+SINGLE_PDF=""
+SINGLE_NAME=""
 for arg in "$@"; do
   case "$arg" in
     --force-ocr) FORCE_OCR="--force_ocr" ;;
     --reprocess) REPROCESS=true ;;
-    --stop-llama) STOP_LLAMA=true ;;
+    --stop-llama) STOP_LLAMA=true ;;   # default; kept so old invocations still work
+    --keep-llama) STOP_LLAMA=false ;;
     --no-tables) NO_TABLES=true ;;
-    *) echo "Unknown option: $arg"; exit 1 ;;
+    -*)
+      echo "Unknown option: $arg (see the usage comment at the top of this script)"
+      exit 1
+      ;;
+    *)
+      if [ -n "$SINGLE_PDF" ]; then
+        echo "ERROR: only one PDF path may be given (got '$SINGLE_PDF' and '$arg')"
+        exit 1
+      fi
+      SINGLE_PDF="$arg"
+      ;;
   esac
 done
 
@@ -78,21 +99,8 @@ echo "Logging to $LOG_FILE"
 # Reduce GPU memory fragmentation (recommended by PyTorch for marker's surya models)
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
-# Stop llama-server to free GPU memory for marker's surya models
-if [ "$STOP_LLAMA" = true ]; then
-  if systemctl --user is-active --quiet llama-server.service; then
-    echo "Stopping llama-server to free VRAM..."
-    systemctl --user stop llama-server.service
-  fi
-elif systemctl --user is-active --quiet llama-server.service; then
-  echo "Warning: llama-server is running and consuming ~6GB VRAM."
-  echo "  If marker runs out of GPU memory, stop it first:"
-  echo "    systemctl --user stop llama-server.service"
-  echo "  Or re-run with --stop-llama flag."
-  echo ""
-fi
-
-# Checks
+# Checks -- run these BEFORE touching llama-server, so a run that cannot start
+# doesn't take the LLM down for nothing.
 if [ ! -x "$MARKER_BIN" ]; then
   echo "ERROR: marker not found at $MARKER_BIN"
   exit 1
@@ -105,36 +113,80 @@ if [ -z "${GOOGLE_API_KEY:-}" ]; then
   echo "ERROR: GOOGLE_API_KEY not set in environment"
   exit 1
 fi
+if [ -n "$SINGLE_PDF" ]; then
+  if [ ! -f "$SINGLE_PDF" ]; then
+    echo "ERROR: no such file: $SINGLE_PDF"
+    exit 1
+  fi
+  case "${SINGLE_PDF,,}" in
+    *.pdf) ;;
+    *) echo "ERROR: not a PDF: $SINGLE_PDF"; exit 1 ;;
+  esac
+  # Absolute path, so it still resolves after we cd/run marker.
+  SINGLE_PDF="$(cd "$(dirname "$SINGLE_PDF")" && pwd)/$(basename "$SINGLE_PDF")"
+  # Output dir name marker will use: filename without its extension.
+  SINGLE_NAME="$(basename "$SINGLE_PDF")"
+  SINGLE_NAME="${SINGLE_NAME%.*}"
+fi
 
 mkdir -p "$OUT_DIR"
 
 TMP_DIR=$(mktemp -d)
-trap 'rm -rf "$TMP_DIR"' EXIT
+LLAMA_STOPPED=false
 
+cleanup() {
+  rm -rf "$TMP_DIR"
+  if [ "$LLAMA_STOPPED" = true ]; then
+    echo "Restarting llama-server..."
+    systemctl --user start llama-server.service \
+      || echo "WARNING: could not restart llama-server.service -- start it manually."
+  fi
+}
+trap cleanup EXIT
+
+# Which documents to process.
 count=0
-for f in "$RAW_DIR"/*.pdf; do
-  [ -f "$f" ] || continue
-  name=$(basename "$f" .pdf)
-  out_subdir="$OUT_DIR/$name"
-
-  # Skip if output dir exists and has content (normal mode only)
+if [ -n "$SINGLE_PDF" ]; then
+  # Single-file mode: stage just this PDF into the temp dir, so marker sees a
+  # directory holding one file (marker takes a directory, not a file, as its
+  # positional argument).
+  out_subdir="$OUT_DIR/$SINGLE_NAME"
   if [ "$REPROCESS" = false ] && [ -d "$out_subdir" ] && [ -n "$(ls -A "$out_subdir" 2>/dev/null)" ]; then
-    continue
+    echo "Nothing to process -- $SINGLE_NAME already has output in $out_subdir (use --reprocess to overwrite)."
+    exit 0
   fi
+  cp "$SINGLE_PDF" "$TMP_DIR/"
+  count=1
+else
+  # Glob is case-insensitive by pattern ([pP][dD][fF]) -- some source files in
+  # this corpus are named .PDF, and a plain *.pdf glob silently ignores them.
+  for f in "$RAW_DIR"/*.[pP][dD][fF]; do
+    [ -f "$f" ] || continue
+    name=$(basename "$f"); name="${name%.*}"
+    out_subdir="$OUT_DIR/$name"
 
-  # Only copy to temp dir in normal mode -- reprocess reads from raw/ directly
-  if [ "$REPROCESS" = false ]; then
-    cp "$f" "$TMP_DIR/"
-  fi
-  count=$((count + 1))
-done
+    # Skip if output dir exists and has content (normal mode only)
+    if [ "$REPROCESS" = false ] && [ -d "$out_subdir" ] && [ -n "$(ls -A "$out_subdir" 2>/dev/null)" ]; then
+      continue
+    fi
+
+    # Only copy to temp dir in normal mode -- reprocess reads from raw/ directly
+    if [ "$REPROCESS" = false ]; then
+      cp "$f" "$TMP_DIR/"
+    fi
+    count=$((count + 1))
+  done
+fi
 
 if [ "$count" -eq 0 ]; then
-  echo "Nothing to process — all PDFs already have output."
+  echo "Nothing to process -- all PDFs already have output."
   exit 0
 fi
 
-if [ "$REPROCESS" = true ]; then
+if [ -n "$SINGLE_PDF" ]; then
+  echo "Processing 1 PDF ($SINGLE_NAME) with $WORKERS workers..."
+  TARGET_DIR="$TMP_DIR"
+elif [ "$REPROCESS" = true ]; then
   echo "Reprocessing $count PDF(s) with $WORKERS workers (overwriting existing output)..."
   TARGET_DIR="$RAW_DIR"
 else
@@ -143,6 +195,23 @@ else
 fi
 
 [ -n "$FORCE_OCR" ] && echo "  (--force_ocr enabled)"
+
+# Free VRAM for marker's surya models. Restarted by the EXIT trap above, so
+# this survives failures and Ctrl-C.
+if [ "$STOP_LLAMA" = true ]; then
+  if systemctl --user is-active --quiet llama-server.service; then
+    echo "Stopping llama-server to free VRAM..."
+    systemctl --user stop llama-server.service
+    LLAMA_STOPPED=true
+    sleep 3
+  fi
+elif systemctl --user is-active --quiet llama-server.service; then
+  echo "Warning: llama-server is running and consuming ~6GB VRAM (--keep-llama)."
+  echo "  If marker runs out of GPU memory, either stop it first:"
+  echo "    systemctl --user stop llama-server.service"
+  echo "  or re-run without --keep-llama."
+  echo ""
+fi
 
 # marker batch command
 "$MARKER_BIN" "$TARGET_DIR" \
@@ -160,17 +229,30 @@ echo "Done. Checking results..."
 # Report
 empty=0
 ok=0
-for f in "$RAW_DIR"/*.pdf; do
-  [ -f "$f" ] || continue
-  name=$(basename "$f" .pdf)
-  out_subdir="$OUT_DIR/$name"
+if [ -n "$SINGLE_PDF" ]; then
+  out_subdir="$OUT_DIR/$SINGLE_NAME"
   if [ ! -d "$out_subdir" ] || [ -z "$(ls -A "$out_subdir" 2>/dev/null)" ]; then
-    echo "  EMPTY: $name"
+    echo "  EMPTY: $SINGLE_NAME"
     empty=$((empty + 1))
   else
+    echo "  OK: $SINGLE_NAME -> $out_subdir"
     ok=$((ok + 1))
   fi
-done
+else
+  # Glob is case-insensitive by pattern ([pP][dD][fF]) -- some source files in
+  # this corpus are named .PDF, and a plain *.pdf glob silently ignores them.
+  for f in "$RAW_DIR"/*.[pP][dD][fF]; do
+    [ -f "$f" ] || continue
+    name=$(basename "$f"); name="${name%.*}"
+    out_subdir="$OUT_DIR/$name"
+    if [ ! -d "$out_subdir" ] || [ -z "$(ls -A "$out_subdir" 2>/dev/null)" ]; then
+      echo "  EMPTY: $name"
+      empty=$((empty + 1))
+    else
+      ok=$((ok + 1))
+    fi
+  done
+fi
 
 echo ""
 echo "Results: $ok with content, $empty empty/failed"

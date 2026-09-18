@@ -63,31 +63,24 @@ OBSERVED_MAX_TYPES = ("max_detected", "MDC")
 NARRATIVES = {
     ("barium", "soil"): {
         "short": "Barite (barium sulfate) residue from the former FMC plant — the site's primary contaminant, and largely insoluble.",
-        "why": "The stockpiles are residue from the FMC/Barium Products plant, which processed barite (barium sulfate) and celestite. Barium is the site's primary chemical of potential concern. The highest values sit deep within Stockpiles 2 and 3; surface soil is far lower — the 2012 SSI found a maximum of 4,300 mg/kg in surface samples, with concentrations falling consistently with depth. NOTE ON THIS FIGURE: the 2004 PSI is reported inconsistently across the record — the FS gives a Stockpile 2 maximum of 60,700 mg/kg in §2.2.1 but recalls a range to 196,000 mg/kg in §2.2.3, and the FEIR states 196,000. The 2004 report itself is not in the compiled sources to settle it, so this bar uses the 2012 SSI instead — 130,000 mg/kg in a Cadmium Boring sample at 11 feet depth in Stockpile 2, recorded in that report's own Table 3 and re-verified against the page image. That is a primary measurement rather than a recollection, and it comes from the period when three separate laboratories were producing consistent barium results.",
+        "why": "The stockpiles are residue from the FMC/Barium Products plant, which processed barite (barium sulfate) and celestite. Barium is the site's primary chemical of potential concern. The highest values sit deep within Stockpiles 2 and 3; surface soil is far lower — the 2012 SSI found a maximum of 4,300 mg/kg in surface samples, with concentrations falling consistently with depth. NOTE ON THIS FIGURE: the 2004 PSI was long reported inconsistently — the FS gives a Stockpile 2 maximum of 60,700 mg/kg in §2.2.1 but recalls a range to 196,000 mg/kg in §2.2.3, and the FEIR states 196,000. The 2004 PSI itself was obtained in September 2026 and settles it: the true Stockpile 2 maximum is 60,700 mg/kg, and 196,000 appears nowhere in the report. This bar nonetheless uses the 2012 SSI’s 130,000 mg/kg — a Cadmium Boring sample at 11 feet depth in Stockpile 2, from that report’s own Table 3 and re-verified against the page image — because the 2004 tables have not been transcribed sample-by-sample and the SSI is the primary per-sample source this dataset is built on.",
         "meaning": "The barium here is mostly barite, which is highly insoluble. The FS notes that the Title 22 soluble-threshold criteria “are not strictly applicable to the Site” because the barium present is primarily barium sulfate. That is also why soil concentrations are enormous while groundwater barium stays near background.",
         "action": "DTSC's Human and Ecological Risk Office concluded the stockpiles pose no cancer risk or noncancer hazard “as long as the stockpiles remain in place and are properly managed,” while warning that the elevated concentrations at depth “will have to be evaluated” if the stockpiles were ever graded or removed. Stockpile 3 was removed and Stockpiles 1 and 2 encapsulated beneath SR 132 by October 2021; a recorded land use covenant now bars residential development.",
         "cite": "FS Report pp. 15–17, §3.2; HERO memo 14 Feb 2013; Updated Statistical Evaluation (2024) §1",
     },
-    ("lead", "soil"): {
-        "short": "Two samples out of 278. Soluble lead was low and blood-lead modeling cleared it.",
-        "why": "An isolated result. Of the 278 soil samples analyzed in the 2006 SI, only two contained lead above 50 mg/kg — one at 150 mg/kg and one at 1,500 mg/kg, the value charted here.",
-        "meaning": "Soluble testing on those same two samples returned DI-WET lead of just 0.07 and 0.1 mg/L. Shaw's LeadSpread modeling found an onsite pica child exposed to the 95% UCL lead concentration would not exceed 10 µg/dL blood lead, and that the 1,500 mg/kg maximum works out to a respirable dust concentration of 0.15 µg/m³ — an order of magnitude below the model's own 1.5 µg/m³ default.",
-        "action": "Lead was not a driver of the remedy. It is covered by the same encapsulation and land use covenant as barium.",
-        "cite": "FS Report pp. 15–16, §3.1.4 (soluble metals) and §3.2.2 (LeadSpread)",
-    },
     ("arsenic", "soil"): {
         "short": "Barely above background — and the screening level itself sits below background everywhere in California.",
-        "why": "This is not a stockpile signal. The maximum is 5.5 mg/kg, from one sample at 14 feet depth among the 165 collected across all three stockpiles in the 2006 investigation. The site's own background soil reaches 4.1 mg/kg, with a 95% UCL of 1.2 mg/kg and a mean of 0.97 mg/kg — against a residential CHHSL of 0.07 mg/kg, which essentially all California soil exceeds. For Stockpiles 1 and 3 the risk assessment did not select arsenic as a chemical of potential concern at all, because their maximum detections were at or below the maximum background concentration.",
+        "why": "This is not a stockpile signal. The maximum is 2.1 mg/kg, from the 2012 SSI’s per-boring sampling of Stockpiles 2 and 3. The site’s own background soil reaches 4.1 mg/kg — so the highest arsenic found in the stockpiles is below the highest arsenic found in undisturbed ground nearby — with a 95% UCL of 1.2 mg/kg and a mean of 0.97. The residential CHHSL of 0.07 mg/kg sits below natural background everywhere in California. For Stockpiles 1 and 3 the risk assessment did not select arsenic as a chemical of potential concern at all, because their maximum detections were at or below the maximum background concentration.",
         "meaning": "The risk assessment makes the point arithmetically: Stockpile 2's arsenic cancer risk estimate was 1.45E-5, against 1.15E-5 for background soil — statistically indistinguishable. Arsenic was therefore excluded from Stockpile 2's final risk total, which dropped from 1E-5 to 1E-7.",
         "action": "None. Arsenic is not a designated Chemical of Concern and drove no part of the remedy.",
-        "cite": "HHRA Update, Appendix B Table 5 (PDF p.76) for the 5.5 mg/kg maximum and Tables 2 and 4 for the background comparison; FS Report §3.2.1 for the risk calculation",
+        "cite": "SSI Report Table 2/3 for the 2.1 mg/kg maximum; HHRA Update Appendix B Tables 2 and 4 for the background comparison; FS Report §3.2.1 for the risk calculation",
     },
     ("barium", "surface_water"): {
         "short": "The highest barium in the runoff record, sampled during active excavation of the stockpiles.",
-        "why": "PL1 collected runoff along North Emerald Avenue from Stockpile 1. No report narrating this specific event is in the compiled source set, so no consultant explanation of the value exists here. INFERENCE: the sample date falls inside the window when Stockpile 3 was being removed and the Emerald Avenue bridge abutment end of Stockpile 2 excavated — February to March 2020 — which is when disturbed material would most readily reach runoff. The reports do not themselves draw that link.",
-        "meaning": "An earlier isolated barium high in runoff (2,000 µg/L at SW03) was judged “isolated,” with runoff in the area confined to the Caltrans right-of-way. Barium's MCL is health-based, so an exceedance is meaningful — but this is ponded runoff on a construction site, not a drinking-water supply.",
+        "why": "The event report for this sampling round was obtained in September 2026 and explains it directly: “The elevated concentrations of barium and antimony are likely the result of dissolution associated with surface water runoff contact with stockpile soil material spilled onto Emerald Avenue during excavation of the adjacent Stockpiles 1 and 2.” Stantec adds that recent earthworks “might have altered the runoff flow patterns” toward these locations. PL1 sits on North Emerald Avenue between Stockpiles 1 and 2; PL2 could not be sampled at all that day because re-grading had removed the ponding.",
+        "meaning": "The background station read higher than the site station that day — BG2 at 1,700 µg/L against PL1’s 1,600 — which on its own would argue against a site release. The report explains that too: BG2’s usual spot had no standing water, so the crew lifted the catch-basin grate and sampled inside the basin, where sediment collects. Both readings reflect construction dust and spilled soil washing into the street, not a release from intact stockpiles.",
         "action": "Sampling locations PL1 and PL2 ceased to exist as construction advanced; straw wattles and K-rail best management practices were installed to stop offsite discharge. Every stormwater event since encapsulation (March 2023 through February 2025) reports barium below its MCL.",
-        "cite": "Surface Water Letter 28 Mar 2023, Tables 4–5; Interim RACR §4 (2020 excavation); Stormwater Sampling Report 6/25",
+        "cite": "Surface Water Sampling Report — March 17, 2020 (Stantec, 25 Jun 2020), §Analytical Results and §Surface Water Management; GeoTracker EDF SL0609924194 for the lab values",
     },
     ("lead", "surface_water"): {
         "short": "A street puddle sampled outside the Caltrans fence — flagged by the consultant as the event's one exception.",
@@ -101,7 +94,7 @@ NARRATIVES = {
         "why": "Manganese's 50 µg/L benchmark is a secondary MCL — it governs taste, odor and staining, not health. Manganese is naturally abundant in Central Valley alluvial groundwater and mobilizes readily under low-oxygen conditions.",
         "meaning": "MW-8 is a downgradient well. The 2024 statistical evaluation found that concentrations in downgradient wells MW7 and MW8 are lower than those in upgradient wells MW6 and MW10, which it treats as demonstrating “that Caltrans Stockpile 3 and the eastern part of Stockpile 2 are not impacting groundwater.” Manganese is not a designated Chemical of Concern, and the monitoring record characterises it as “sporadically reported for various wells at concentrations exceeding the secondary MCL; however, the concentrations have not been consistently elevated for any one well.”",
         "action": "MW-8 was decommissioned in 2019 ahead of highway construction, along with five other wells; monitoring had already been reduced from quarterly to annual in 2015 on the 2014 evaluation's recommendation.",
-        "cite": "Updated Statistical Evaluation Report (2.24) §2, conclusions 3–4; GW April 2019 report §Summary; GW Monitoring Report 20230308 Table 3",
+        "cite": "Groundwater Monitoring Report — October 2017 and April 2018 (23 Jul 2018), §Dissolved Metals and §Conclusions; Updated Statistical Evaluation Report (2.24) §2, conclusions 3–4",
     },
     ("manganese", "surface_water"): {
         "short": "The background sampling location exceeded the same aesthetic standard on the same day.",
@@ -119,8 +112,39 @@ NARRATIVES = {
     },
 }
 
+# Soil sources excluded from the maximum-selection. See the "Sample role"
+# section of detections-rebuild/README.md for the full reasoning; in short, a
+# soil value may anchor a bar only if it comes from a primary per-sample table
+# describing material that came out of the stockpiles.
+#
+# Documents excluded for soil: these carry no primary soil table of their own.
+# Their values are narrative restatements of investigations whose sample-level
+# tables are not in the corpus -- and the 2004 PSI, acquired 2026-09-18, showed
+# those restatements are not uniformly reliable (FS 2.2.3's barium and the FS's
+# strontium figure are both wrong at source).
+SOIL_DOCS_EXCLUDED = {
+    "S9800-01-17 Modesto Soil Stockpiles Final FS Report.0614.pdf":
+        "narrative restatement; no primary per-sample soil table",
+    "S9525-06-44 HHRA UPDATE Rev.0313.pdf":
+        "narrative plus Appendix B summary tables only",
+    "SR_132_DEIR_EA.pdf":
+        "narrative only, and the lead figure is an aerially deposited lead "
+        "survey of the SR 99 corridor -- roadway-derived lead in the upper six "
+        "inches, a different contaminant source from the stockpiles entirely",
+}
+
+# Locations excluded for soil: right kind of table, wrong material.
+SOIL_LOCATIONS_EXCLUDED = {
+    "Carpenter Road Shoofly":
+        "clean-fill characterisation of a separate borrow source ~5,000 yd3 of "
+        "native soil excavated elsewhere and approved by DTSC for import as "
+        "cap; also 3-part composites rather than discrete samples",
+}
+
 # Rows excluded from the maximum-selection, with the reason. The combined
 # summary CSV keeps them -- this only stops them anchoring a chart bar.
+# (The barium entry below is now subsumed by SOIL_DOCS_EXCLUDED, since the whole
+# FS Report is out for soil; it is kept because it records the finding.)
 #
 # Selecting a plain maximum across every row assumes the rows do not contradict
 # each other. For 2004 PSI barium they do. The FS reports three different
@@ -215,6 +239,11 @@ def main():
             continue
         if (analyte, r["medium"], r["location_or_well"]) in EXCLUDE_FROM_MAX:
             continue
+        if r["medium"] == "soil":
+            if r["source_document"] in SOIL_DOCS_EXCLUDED:
+                continue
+            if r["location_or_well"] in SOIL_LOCATIONS_EXCLUDED:
+                continue
         try:
             value = float(r["value"])
         except ValueError:

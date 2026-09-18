@@ -1,0 +1,127 @@
+investigation_event,stockpile,sample_id,boring,depth_m,depth_ft,soil_type,sample_date,analyte,value_raw,unit,qualifier,value_type,source_table,source_page,source_document,notes
+2004 PSI,Stockpile 2,SR132-26-4.5,26,4.5,15,Stockpile,01/28/04,barium,7950,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-26-4.5,26,4.5,15,Stockpile,01/28/04,barium,1220,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,highlighted in source (soluble > STLC/TCLP)
+2004 PSI,Stockpile 2,SR132-26-4.5,26,4.5,15,Stockpile,01/28/04,barium,1610,mg/L,,TCLP_extractable,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,highlighted in source (soluble > STLC/TCLP)
+2004 PSI,Stockpile 2,SR132-26-6.0,26,6.0,20,Stockpile,01/28/04,barium,5180,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-26-6.0,26,6.0,20,Stockpile,01/28/04,barium,26.3,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-26-6.0,26,6.0,20,Stockpile,01/28/04,barium,41.8,mg/L,,TCLP_extractable,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-28-3.0,28,3.0,10,Stockpile,01/28/04,arsenic,10,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-28-3.0,28,3.0,10,Stockpile,01/28/04,barium,58200,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,exceeds TTLC 10000
+2004 PSI,Stockpile 2,SR132-28-3.0,28,3.0,10,Stockpile,01/28/04,barium,1260,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-28-3.0,28,3.0,10,Stockpile,01/28/04,barium,5630,mg/L,,TCLP_extractable,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-29-3.0,29,3.0,10,Stockpile,01/28/04,barium,1030,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-29-3.0,29,3.0,10,Stockpile,01/28/04,barium,337,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-31-0.15,31,0.15,0.5,Stockpile,01/28/04,barium,1730,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-31-0.15,31,0.15,0.5,Stockpile,01/28/04,barium,101,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-31-3.0,31,3.0,10,Stockpile,01/28/04,barium,1140,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-31-3.0,31,3.0,10,Stockpile,01/28/04,barium,1220,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-32-0.15,32,0.15,0.5,Stockpile,01/28/04,barium,3880,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-32-0.15,32,0.15,0.5,Stockpile,01/28/04,barium,37.4,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-32-0.15,32,0.15,0.5,Stockpile,01/28/04,barium,4.53,mg/L,,TCLP_extractable,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-35-4.5,35,4.5,15,Stockpile,01/28/04,arsenic,11.3,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-35-4.5,35,4.5,15,Stockpile,01/28/04,barium,60700,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,MAXIMUM total barium in Stockpile 2; exceeds TTLC 10000
+2004 PSI,Stockpile 2,SR132-35-4.5,35,4.5,15,Stockpile,01/28/04,barium,1290,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-35-4.5,35,4.5,15,Stockpile,01/28/04,barium,5600,mg/L,,TCLP_extractable,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-35-6.0,35,6.0,20,Stockpile,01/28/04,barium,20700,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,exceeds TTLC 10000
+2004 PSI,Stockpile 2,SR132-35-6.0,35,6.0,20,Stockpile,01/28/04,barium,283,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-35-6.0,35,6.0,20,Stockpile,01/28/04,barium,37.4,mg/L,,TCLP_extractable,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-37-3.0,37,3.0,10,Stockpile,01/28/04,arsenic,16.7,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-37-3.0,37,3.0,10,Stockpile,01/28/04,barium,57700,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,exceeds TTLC 10000
+2004 PSI,Stockpile 2,SR132-37-3.0,37,3.0,10,Stockpile,01/28/04,barium,1240,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-37-3.0,37,3.0,10,Stockpile,01/28/04,barium,5510,mg/L,,TCLP_extractable,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-37-4.5,37,4.5,15,Stockpile,01/28/04,barium,1300,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-37-4.5,37,4.5,15,Stockpile,01/28/04,barium,112,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-38-4.5,38,4.5,15,Stockpile,01/28/04,barium,5400,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-38-4.5,38,4.5,15,Stockpile,01/28/04,barium,17.3,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-38-4.5,38,4.5,15,Stockpile,01/28/04,barium,3.36,mg/L,,TCLP_extractable,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-39-1.5,39,1.5,5,Stockpile,01/29/04,arsenic,14.2,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-39-1.5,39,1.5,5,Stockpile,01/29/04,barium,57800,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,exceeds TTLC 10000
+2004 PSI,Stockpile 2,SR132-39-1.5,39,1.5,5,Stockpile,01/29/04,barium,1240,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-39-1.5,39,1.5,5,Stockpile,01/29/04,barium,4890,mg/L,,TCLP_extractable,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-40-1.5,40,1.5,5,Stockpile,01/29/04,arsenic,10.8,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-40-1.5,40,1.5,5,Stockpile,01/29/04,barium,46300,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,exceeds TTLC 10000
+2004 PSI,Stockpile 2,SR132-40-1.5,40,1.5,5,Stockpile,01/29/04,barium,1280,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-40-1.5,40,1.5,5,Stockpile,01/29/04,barium,6070,mg/L,,TCLP_extractable,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-40-3.0,40,3.0,10,Stockpile,01/29/04,barium,12300,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,exceeds TTLC 10000
+2004 PSI,Stockpile 2,SR132-40-3.0,40,3.0,10,Stockpile,01/29/04,barium,815,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-40-3.0,40,3.0,10,Stockpile,01/29/04,barium,1360,mg/L,,TCLP_extractable,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-41-6.0,41,6.0,20,Native,01/29/04,arsenic,8.8,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,lowest arsenic detection in the report
+2004 PSI,Stockpile 2,SR132-42-1.5,42,1.5,5,Stockpile,01/29/04,barium,5860,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-42-1.5,42,1.5,5,Stockpile,01/29/04,barium,156,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-42-1.5,42,1.5,5,Stockpile,01/29/04,barium,26,mg/L,,TCLP_extractable,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-42-6.0,42,6.0,20,Native,01/29/04,barium,1760,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,native soil beneath stockpile
+2004 PSI,Stockpile 2,SR132-42-6.0,42,6.0,20,Native,01/29/04,barium,84.9,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-43-6.0,43,6.0,20,Stockpile,01/29/04,barium,4760,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-43-6.0,43,6.0,20,Stockpile,01/29/04,barium,54.3,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-43-6.0,43,6.0,20,Stockpile,01/29/04,barium,217,mg/L,,TCLP_extractable,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-45-3.0,45,3.0,10,Stockpile,01/29/04,arsenic,9.2,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-45-3.0,45,3.0,10,Stockpile,01/29/04,barium,57200,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,exceeds TTLC 10000
+2004 PSI,Stockpile 2,SR132-45-3.0,45,3.0,10,Stockpile,01/29/04,barium,1300,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-45-3.0,45,3.0,10,Stockpile,01/29/04,barium,6580,mg/L,,TCLP_extractable,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-46-4.5,46,4.5,15,Stockpile,01/29/04,barium,2290,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-46-4.5,46,4.5,15,Stockpile,01/29/04,barium,56.9,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-46-4.5,46,4.5,15,Stockpile,01/29/04,barium,193,mg/L,,TCLP_extractable,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,highlighted in source
+2004 PSI,Stockpile 2,SR132-48-1.5,48,1.5,5,Stockpile,01/29/04,barium,7000,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 4 of 4,34,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-48-1.5,48,1.5,5,Stockpile,01/29/04,barium,14.4,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 4 of 4,34,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-48-1.5,48,1.5,5,Stockpile,01/29/04,barium,39.5,mg/L,,TCLP_extractable,Table 3 (Stockpile No. 2) page 4 of 4,34,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-50-0.15,50,0.15,0.5,Stockpile,01/30/04,antimony,42,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 4 of 4,34,6-1-04 Heavy Metal PSI.pdf,only antimony detection in all 244 samples
+2004 PSI,Stockpile 2,SR132-50-0.15,50,0.15,0.5,Stockpile,01/30/04,arsenic,57,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 4 of 4,34,6-1-04 Heavy Metal PSI.pdf,MAXIMUM total arsenic in the report
+2004 PSI,Stockpile 2,SR132-50-0.15,50,0.15,0.5,Stockpile,01/30/04,arsenic,5.8,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 4 of 4,34,6-1-04 Heavy Metal PSI.pdf,exceeds arsenic STLC of 5 mg/L
+2004 PSI,Stockpile 2,SR132-50-0.15,50,0.15,0.5,Stockpile,01/30/04,barium,251,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 4 of 4,34,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-50-1.5,50,1.5,5,Stockpile,01/30/04,barium,1720,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 4 of 4,34,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-50-1.5,50,1.5,5,Stockpile,01/30/04,barium,77.9,mg/L,,WET_extractable,Table 3 (Stockpile No. 2) page 4 of 4,34,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 3,SR132-17-4.5,17,4.5,15,Stockpile,,barium,44300,mg/kg,,total_detection,narrative section 4.4.3 (table pages not yet transcribed),,6-1-04 Heavy Metal PSI.pdf,from narrative; Table 4 not yet transcribed
+2004 PSI,Stockpile 3,SR132-17-4.5,17,4.5,15,Stockpile,,barium,1230,mg/L,,WET_extractable,narrative section 4.4.3 (table pages not yet transcribed),,6-1-04 Heavy Metal PSI.pdf,from narrative
+2004 PSI,Stockpile 3,SR132-17-4.5,17,4.5,15,Stockpile,,barium,5940,mg/L,,TCLP_extractable,narrative section 4.4.3 (table pages not yet transcribed),,6-1-04 Heavy Metal PSI.pdf,from narrative
+2004 PSI,Stockpile 3,SR132-21-3.0,21,3.0,10,Stockpile,,barium,44900,mg/kg,,total_detection,narrative section 4.4.3 (table pages not yet transcribed),,6-1-04 Heavy Metal PSI.pdf,MAXIMUM total barium in Stockpile 3; from narrative
+2004 PSI,Stockpile 3,SR132-21-3.0,21,3.0,10,Stockpile,,barium,1210,mg/L,,WET_extractable,narrative section 4.4.3 (table pages not yet transcribed),,6-1-04 Heavy Metal PSI.pdf,from narrative
+2004 PSI,Stockpile 3,SR132-21-3.0,21,3.0,10,Stockpile,,barium,1860,mg/L,,TCLP_extractable,narrative section 4.4.3 (table pages not yet transcribed),,6-1-04 Heavy Metal PSI.pdf,from narrative
+2004 PSI,Stockpile 1,ALL,,,,,,barium,154,mg/kg,,stockpile_mean,narrative section 4.4.3,,6-1-04 Heavy Metal PSI.pdf,mean concentration
+2004 PSI,Stockpile 2,ALL,,,,,,barium,3607,mg/kg,,stockpile_mean,Table 3 Stockpile #2 Summary,34,6-1-04 Heavy Metal PSI.pdf,mean concentration
+2004 PSI,Stockpile 2,ALL,,,,,,barium,5474,mg/kg,,stockpile_95th_UCL,Table 3 Stockpile #2 Summary,34,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,ALL,,,,,,strontium,79.6,mg/kg,,stockpile_mean,Table 3 Stockpile #2 Summary,34,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,ALL,,,,,,strontium,99.8,mg/kg,,stockpile_95th_UCL,Table 3 Stockpile #2 Summary,34,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,ALL,,,,,,chromium,9.5,mg/kg,,stockpile_mean,Table 3 Stockpile #2 Summary,34,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,ALL,,,,,,chromium,10.2,mg/kg,,stockpile_95th_UCL,Table 3 Stockpile #2 Summary,34,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,ALL,,,,,,iron,14114,mg/kg,,stockpile_mean,Table 3 Stockpile #2 Summary,34,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,ALL,,,,,,iron,14591,mg/kg,,stockpile_95th_UCL,Table 3 Stockpile #2 Summary,34,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 3,ALL,,,,,,barium,1954,mg/kg,,stockpile_mean,narrative executive summary,,6-1-04 Heavy Metal PSI.pdf,mean including borings 17 and 21 hot spots
+2004 PSI,Stockpile 3,ALL,,,,,,barium,177,mg/kg,,stockpile_mean_excluding_hotspots,narrative section 4.4.3,,6-1-04 Heavy Metal PSI.pdf,mean with borings 17 and 21 segregated
+2004 PSI,ALL,REGULATORY,,,,,,barium,10000,mg/kg,,TTLC,Table 3 Stockpile #2 Summary,34,6-1-04 Heavy Metal PSI.pdf,Total Threshold Limit Concentration
+2004 PSI,ALL,REGULATORY,,,,,,barium,100,mg/L,,STLC,Table 3 Stockpile #2 Summary,34,6-1-04 Heavy Metal PSI.pdf,Soluble Threshold Limit Concentration
+2004 PSI,ALL,REGULATORY,,,,,,barium,100,mg/L,,TCLP_regulatory_level,Table 3 Stockpile #2 Summary,34,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,ALL,REGULATORY,,,,,,barium,5400,mg/kg,,PRG_residential,Table 3 Stockpile #2 Summary,34,6-1-04 Heavy Metal PSI.pdf,EPA Region 9 2002 residential PRG
+2004 PSI,ALL,REGULATORY,,,,,,strontium,47000,mg/kg,,PRG_residential,Table 3 Stockpile #2 Summary,34,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,ALL,REGULATORY,,,,,,arsenic,5,mg/L,,STLC,Table 3 Stockpile #2 Summary,34,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,ALL,REGULATORY,,,,,,arsenic,500,mg/kg,,TTLC,Table 3 Stockpile #2 Summary,34,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 2,SR132-28-3.0,28,3.0,10,Stockpile,01/28/04,strontium,765,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 1 of 4,31,6-1-04 Heavy Metal PSI.pdf,MAXIMUM total strontium in the entire report; same sample as barium 58200
+2004 PSI,Stockpile 2,SR132-35-4.5,35,4.5,15,Stockpile,01/28/04,strontium,726,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,same sample as barium 60700
+2004 PSI,Stockpile 2,SR132-37-3.0,37,3.0,10,Stockpile,01/28/04,strontium,665,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,same sample as barium 57700
+2004 PSI,Stockpile 2,SR132-39-1.5,39,1.5,5,Stockpile,01/29/04,strontium,547,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 2 of 4,32,6-1-04 Heavy Metal PSI.pdf,same sample as barium 57800
+2004 PSI,Stockpile 2,SR132-45-3.0,45,3.0,10,Stockpile,01/29/04,strontium,402,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,same sample as barium 57200
+2004 PSI,Stockpile 2,SR132-40-1.5,40,1.5,5,Stockpile,01/29/04,strontium,389,mg/kg,,total_detection,Table 3 (Stockpile No. 2) page 3 of 4,33,6-1-04 Heavy Metal PSI.pdf,same sample as barium 46300
+2004 PSI,Stockpile 1,SR132-14-1.5,14,1.5,5,Stockpile,01/27/04,barium,1730,mg/kg,,total_detection,Table 2 (Stockpile No. 1) page 3 of 3,30,6-1-04 Heavy Metal PSI.pdf,MAXIMUM total barium in Stockpile 1; bold in source (exceeds 10x STLC)
+2004 PSI,Stockpile 1,SR132-14-1.5,14,1.5,5,Stockpile,01/27/04,barium,15.3,mg/L,,WET_extractable,Table 2 (Stockpile No. 1) page 3 of 3,30,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 1,SR132-15-4.5,15,4.5,15,Native,01/27/04,arsenic,13,mg/kg,,total_detection,Table 2 (Stockpile No. 1) page 3 of 3,30,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 1,SR132-09-6.0,9,6.0,20,Native,01/26/04,strontium,231,mg/kg,,total_detection,Table 2 (Stockpile No. 1) page 2 of 3,29,6-1-04 Heavy Metal PSI.pdf,MAXIMUM strontium in Stockpile 1; the figure the FS Report misreports as the site-wide 2004 maximum
+2004 PSI,Stockpile 1,SR132-06-3.0,6,3.0,10,Stockpile,01/26/04,strontium,230,mg/kg,,total_detection,Table 2 (Stockpile No. 1) page 1 of 3,28,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 1,SR132-13-4.5,13,4.5,15,Stockpile,01/27/04,strontium,207,mg/kg,,total_detection,Table 2 (Stockpile No. 1) page 3 of 3,30,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 1,ALL,,,,,,barium,194,mg/kg,,stockpile_95th_UCL,Table 2 Stockpile #1 Summary,30,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 1,ALL,,,,,,strontium,58.4,mg/kg,,stockpile_mean,Table 2 Stockpile #1 Summary,30,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 1,ALL,,,,,,strontium,66.9,mg/kg,,stockpile_95th_UCL,Table 2 Stockpile #1 Summary,30,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 1,ALL,,,,,,chromium,10.7,mg/kg,,stockpile_mean,Table 2 Stockpile #1 Summary,30,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 1,ALL,,,,,,iron,14996,mg/kg,,stockpile_mean,Table 2 Stockpile #1 Summary,30,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 3,SR132-17-4.5,17,4.5,15,Stockpile,01/27/04,arsenic,13,mg/kg,,total_detection,Table 4 (Stockpile No. 3) page 1 of 2,35,6-1-04 Heavy Metal PSI.pdf,transcribed from table; narrative gave the barium values only
+2004 PSI,Stockpile 3,SR132-17-4.5,17,4.5,15,Stockpile,01/27/04,strontium,397,mg/kg,,total_detection,Table 4 (Stockpile No. 3) page 1 of 2,35,6-1-04 Heavy Metal PSI.pdf,MAXIMUM strontium in Stockpile 3
+2004 PSI,Stockpile 3,SR132-21-3.0,21,3.0,10,Stockpile,01/27/04,arsenic,9.6,mg/kg,,total_detection,Table 4 (Stockpile No. 3) page 1 of 2,35,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 3,SR132-21-3.0,21,3.0,10,Stockpile,01/27/04,strontium,392,mg/kg,,total_detection,Table 4 (Stockpile No. 3) page 1 of 2,35,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 3,SR132-18-4.5,18,4.5,15,Stockpile,01/27/04,barium,3000,mg/kg,,total_detection,Table 4 (Stockpile No. 3) page 1 of 2,35,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 3,SR132-18-4.5,18,4.5,15,Stockpile,01/27/04,barium,21.2,mg/L,,WET_extractable,Table 4 (Stockpile No. 3) page 1 of 2,35,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 3,SR132-18-4.5,18,4.5,15,Stockpile,01/27/04,barium,33,mg/L,,TCLP_extractable,Table 4 (Stockpile No. 3) page 1 of 2,35,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 3,SR132-23-3.0,23,3.0,10,Stockpile,01/28/04,barium,895,mg/kg,,total_detection,Table 4 (Stockpile No. 3) page 2 of 2,36,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 3,SR132-16-3.0,16,3.0,10,Stockpile,01/27/04,barium,602,mg/kg,,total_detection,Table 4 (Stockpile No. 3) page 1 of 2,35,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 3,ALL,,,,,,barium,4041,mg/kg,,stockpile_95th_UCL,Table 4 Stockpile 3 Summary,36,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 3,ALL,,,,,,strontium,51,mg/kg,,stockpile_mean,Table 4 Stockpile 3 Summary,36,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 3,ALL,,,,,,strontium,70,mg/kg,,stockpile_95th_UCL,Table 4 Stockpile 3 Summary,36,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 3,ALL,,,,,,chromium,8.6,mg/kg,,stockpile_mean,Table 4 Stockpile 3 Summary,36,6-1-04 Heavy Metal PSI.pdf,
+2004 PSI,Stockpile 3,ALL,,,,,,iron,13323,mg/kg,,stockpile_mean,Table 4 Stockpile 3 Summary,36,6-1-04 Heavy Metal PSI.pdf,

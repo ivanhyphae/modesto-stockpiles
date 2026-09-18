@@ -1,4 +1,4 @@
-<title>COC Detections vs Benchmarks</title>
+<title>COC Detections vs Limits</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
@@ -56,6 +56,8 @@
   --threshold:#e06060;
 }
 *{box-sizing:border-box}
+/* Elements below set display, which would otherwise beat the hidden attribute. */
+[hidden]{display:none!important}
 body{
   background:var(--bg);color:var(--text);font-family:var(--sans);
   font-size:14px;line-height:1.55;padding-block:28px 48px;padding-left:18px;padding-right:18px;
@@ -71,7 +73,7 @@ h1{
   font-size:clamp(23px,3.4vw,31px);line-height:1.18;margin:0;font-weight:700;
   letter-spacing:-.018em;text-wrap:balance;
 }
-.standfirst{margin:0;color:var(--text-2);max-width:66ch;font-size:14.5px}
+.standfirst{margin:0;color:var(--text-2);font-size:14.5px}
 
 .bench{margin:0;display:flex;flex-direction:column}
 .bench-row{
@@ -97,10 +99,18 @@ h1{
   background:var(--surface);border:1px solid var(--border);border-radius:6px;
   padding:16px 18px 18px;display:flex;flex-direction:column;gap:14px;
 }
-.toolbar{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
-.legend{display:flex;flex-wrap:wrap;gap:15px;align-items:center}
+.toolbar{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.legend{display:flex;flex-wrap:wrap;gap:15px;align-items:center;margin-top:-6px}
 .lg{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--text-2)}
-.sw{width:11px;height:11px;border-radius:2px;flex-shrink:0;border:1px solid rgba(0,0,0,.12)}
+/* Browsers drop background colors when printing unless told otherwise, which
+   left the legend keys as empty outlines on paper. */
+.sw{
+  width:11px;height:11px;border-radius:2px;flex-shrink:0;border:1px solid rgba(0,0,0,.12);
+  -webkit-print-color-adjust:exact;print-color-adjust:exact;
+}
+.sw-soil{background:var(--soil)}
+.sw-gw{background:var(--gw)}
+.sw-sw{background:var(--sw)}
 .lg .rule{width:16px;height:0;border-top:2px dashed var(--threshold);flex-shrink:0}
 .filters{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
 .filter-label{
@@ -108,9 +118,12 @@ h1{
   color:var(--text-muted);margin-left:8px;
 }
 .filters .filter-label:first-child{margin-left:0}
-.scale-note{
-  margin:-4px 0 0;font-size:12px;color:var(--text-muted);max-width:82ch;line-height:1.5;
-}
+.dist-controls{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.dist-controls .filter-label{margin-left:0}
+/* Explanatory text sits below the plot only, and runs the full panel width so
+   the lines don't rag short against a wide chart. */
+.notes{display:flex;flex-direction:column;gap:5px;margin-top:-2px}
+.scale-note{margin:0;font-size:12px;color:var(--text-muted);line-height:1.5}
 .chip{
   font-family:var(--mono);font-size:11.5px;font-weight:500;padding:4px 11px;border-radius:13px;
   border:1px solid var(--border-strong);background:var(--surface-2);color:var(--text-2);cursor:pointer;
@@ -118,7 +131,8 @@ h1{
 .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
 .chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-.chart-scroll{overflow-x:auto;position:relative}
+.chart-wrap{position:relative}
+.chart-scroll{overflow-x:auto}
 .chart-scroll svg{display:block;min-width:700px;width:100%;height:auto}
 .axis-title{font-family:var(--mono);font-size:10.5px;fill:var(--text-muted);letter-spacing:.06em}
 .tick-label{font-family:var(--mono);font-size:10.5px;fill:var(--text-muted)}
@@ -130,6 +144,14 @@ h1{
 .bar-label,.nd-label{stroke:var(--surface);stroke-width:3px;paint-order:stroke fill}
 .bar-label{font-family:var(--mono);font-size:10px;font-weight:500;fill:var(--text-2)}
 .nd-label{font-family:var(--mono);font-size:9.5px;fill:var(--text-muted)}
+/* Distribution marks. Drawn in ink rather than the series hue: the bar behind
+   them already carries the medium's identity, and ink stays legible on top of
+   all three fills in both themes. */
+.pt{fill:var(--text);fill-opacity:.5;stroke:var(--surface);stroke-width:.4}
+.wh{stroke:var(--text);stroke-width:1.2;stroke-opacity:.75}
+.bx{fill:var(--surface);fill-opacity:.9;stroke:var(--text);stroke-width:1.2}
+.md{stroke:var(--threshold);stroke-width:2.4;stroke-linecap:round}
+
 .bar{cursor:crosshair}
 .bar-over{cursor:pointer}
 .bar-label.over{fill:var(--threshold);font-weight:600}
@@ -142,7 +164,7 @@ h1{
   position:absolute;pointer-events:none;opacity:0;transition:opacity .1s;
   background:var(--surface);border:1px solid var(--border-strong);border-radius:5px;
   padding:9px 11px;font-size:12px;box-shadow:0 4px 14px rgba(0,0,0,.14);
-  max-width:270px;z-index:4;
+  max-width:270px;z-index:20;
 }
 .tip .t-head{font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:6px}
 .tip .t-row{font-family:var(--mono);font-size:11px;color:var(--text-2);display:flex;gap:7px;justify-content:space-between}
@@ -175,7 +197,7 @@ h1{
   margin:0;font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
   color:var(--accent);font-weight:600;
 }
-.detail .d-block p{margin:0;font-size:13px;color:var(--text-2);line-height:1.6;max-width:84ch}
+.detail .d-block p{margin:0;font-size:13px;color:var(--text-2);line-height:1.6}
 .detail .d-cite{
   font-family:var(--mono);font-size:10.5px;color:var(--text-muted);line-height:1.5;
   border-top:1px solid var(--border);padding-top:9px;
@@ -207,7 +229,7 @@ tbody tr:hover{background:var(--surface-2)}
   border:1px solid var(--accent);color:var(--accent);margin-left:6px;vertical-align:1px;
 }
 
-footer{font-size:12px;color:var(--text-muted);line-height:1.6;max-width:80ch}
+footer{font-size:12px;color:var(--text-muted);line-height:1.6}
 footer p{margin:0 0 7px}
 footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
 
@@ -215,16 +237,42 @@ footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
   .toolbar{flex-direction:column;align-items:flex-start;gap:11px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+@media print{
+  /* Print the light palette regardless of the viewer's theme, and keep every
+     fill that carries meaning -- legend keys, the active chip, the severity
+     stripe on a narrative panel. */
+  :root{
+    color-scheme:light;
+    --bg:#ffffff; --surface:#ffffff; --surface-2:#f4f4f1;
+    --border:#c9c9c2; --border-strong:#9a9a92;
+    --text:#000000; --text-2:#333330; --text-muted:#5a5a55;
+  }
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{padding:0;font-size:11pt}
+  /* Keep small units intact, but never a whole panel or table -- one taller
+     than a page cannot be honored and the browser emits a blank sheet instead. */
+  .detail,.bench-row,.chart-scroll,tr{break-inside:avoid}
+  thead{display:table-header-group}
+  .chart-scroll{overflow:visible}
+  .chart-scroll svg{min-width:0;width:100%}
+  .table-scroll{overflow:visible}
+  table{min-width:0;font-size:9pt}
+  .chip{border-color:var(--border-strong)}
+  /* Controls are inert on paper; the notes below the chart say what is shown. */
+  .filters{display:none}
+  .tip{display:none!important}
+}
 </style>
 
 <div class="wrap">
   <header>
     <p class="eyebrow">SR 132 · Modesto Soil Stockpiles</p>
-    <h1>Peak detections as a share of their regulatory benchmark</h1>
+    <h1>Peak detections as a share of their regulatory limit</h1>
     <p class="standfirst">
       For each chemical, the highest verified detection in soil, groundwater and stormwater,
-      divided by the benchmark that applies to that medium. Anything above the 100% line
-      exceeded its benchmark at least once between 2004 and 2023.
+      divided by the regulatory limit that applies to that medium. Anything above the 100% line
+      exceeded its limit at least once between 2004 and 2023.
     </p>
     <p class="standfirst">
       Barium, lead and strontium are the site's designated <strong>Chemicals of Concern
@@ -233,7 +281,7 @@ footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
   </header>
 
   <section class="panel">
-    <h2 class="sect">The benchmarks</h2>
+    <h2 class="sect">Regulatory limits and screening levels</h2>
     <dl class="bench">
       <div class="bench-row">
         <dt>Primary MCL<span>Maximum Contaminant Level</span></dt>
@@ -258,19 +306,19 @@ footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
       <div class="bench-row">
         <dt>CHHSL, residential<span>California Human Health Screening Level</span></dt>
         <dd>
-          Soil screening level in mg/kg, below which no further evaluation is needed. MCLs apply
-          only to water, so soil is screened against a CHHSL instead — those bars are hatched to
-          keep the two apart. Strontium has no CHHSL and uses the U.S. EPA Regional Screening
-          Level (RSL) instead.
+          Soil screening level in mg/kg, below which no further evaluation is needed. It is a
+          trigger for further study, not an enforceable limit. MCLs apply only to water, so soil
+          is screened against a CHHSL instead. Strontium has no CHHSL and uses the U.S. EPA
+          Regional Screening Level (RSL) instead.
         </dd>
         <dd class="vals">Soil · arsenic 0.07 · barium 5,200 · lead 80 · strontium 47,000 (RSL)</dd>
       </div>
       <div class="bench-row">
         <dt>CHHSL, commercial/industrial<span>California Human Health Screening Level</span></dt>
         <dd>
-          The same screening level under a workplace rather than a residential exposure scenario,
-          so the thresholds are far less strict. Which one applies is genuinely contested here —
-          use the <strong>Soil vs</strong> control on the chart to switch between them.
+          The same screening level calculated for a workplace exposure scenario — adults on site
+          during working hours — rather than people living on the site continuously, so the
+          thresholds are substantially higher.
         </dd>
         <dd class="vals">Soil · arsenic 0.24 · barium 63,000 · lead 320 · strontium 610,000</dd>
       </div>
@@ -279,38 +327,61 @@ footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
 
   <section class="panel">
     <div class="toolbar">
-      <div class="legend">
-        <span class="lg"><span class="sw" style="background:var(--soil)"></span>Soil <span style="color:var(--text-muted)">(vs CHHSL)</span></span>
-        <span class="lg"><span class="sw" style="background:var(--gw)"></span>Groundwater</span>
-        <span class="lg"><span class="sw" style="background:var(--sw)"></span>Stormwater</span>
-        <span class="lg"><span class="rule"></span>Benchmark (100%)</span>
-      </div>
       <div class="filters">
         <span class="filter-label">Scale</span>
         <button class="chip" id="chip-log" type="button" aria-pressed="true">Log</button>
         <button class="chip" id="chip-linear" type="button" aria-pressed="false">Linear</button>
-        <span class="filter-label">Soil vs</span>
-        <button class="chip" id="chip-res" type="button" aria-pressed="true">Residential</button>
-        <button class="chip" id="chip-ind" type="button" aria-pressed="false">Industrial</button>
+        <span class="dist-controls" id="dist-controls">
+          <span class="filter-label">Samples</span>
+          <button class="chip" id="chip-dist-off" type="button" aria-pressed="true"
+                  title="Show only the single highest result">Peak</button>
+          <button class="chip" id="chip-dist-dots" type="button" aria-pressed="false"
+                  title="Show one dot per individual sample">Every sample</button>
+          <button class="chip" id="chip-dist-box" type="button" aria-pressed="false"
+                  title="Show the middle half of samples and the median">Typical range</button>
+        </span>
+        <span class="filter-label">Soil</span>
+        <button class="chip" id="chip-res" type="button" aria-pressed="true"
+                title="Screen soil against the residential CHHSL">Residential</button>
+        <button class="chip" id="chip-ind" type="button" aria-pressed="false"
+                title="Screen soil against the commercial/industrial CHHSL">Industrial</button>
         <span class="filter-label">Show</span>
-        <button class="chip" id="chip-all" type="button" aria-pressed="true">All 6 parameters</button>
-        <button class="chip" id="chip-coc" type="button" aria-pressed="false">Designated COCs only</button>
+        <button class="chip" id="chip-all" type="button" aria-pressed="true"
+                title="Show all six parameters">All 6</button>
+        <button class="chip" id="chip-coc" type="button" aria-pressed="false"
+                title="Show only the three designated Chemicals of Concern">COCs</button>
       </div>
     </div>
 
-    <p class="scale-note" id="soil-note"></p>
-    <p class="scale-note" id="scale-note"></p>
+    <div class="legend">
+      <span class="lg"><span class="sw sw-soil"></span>Soil <span style="color:var(--text-muted)">(vs CHHSL)</span></span>
+      <span class="lg"><span class="sw sw-gw"></span>Groundwater</span>
+      <span class="lg"><span class="sw sw-sw"></span>Stormwater</span>
+      <span class="lg"><span class="rule"></span>Regulatory limit (100%)</span>
+    </div>
 
-    <div class="chart-scroll" id="chart-scroll">
-      <svg id="chart" viewBox="0 0 980 470" role="img"
-           aria-label="Grouped bar chart of maximum detected concentration as a percentage of the applicable regulatory benchmark, by chemical and medium, on a logarithmic scale."></svg>
+
+    <div class="chart-wrap" id="chart-wrap">
+      <div class="chart-scroll" id="chart-scroll">
+        <svg id="chart" viewBox="0 0 980 470" role="img"
+             aria-label="Grouped bar chart of maximum detected concentration as a percentage of the applicable regulatory limit, by chemical and medium, on a logarithmic scale."></svg>
+      </div>
+      <!-- The tooltip lives outside the scrolling container: inside it, any part
+           extending past the chart's edge was clipped by overflow. -->
       <div class="tip" id="tip" role="status" aria-live="polite"></div>
+    </div>
+
+    <div class="notes">
+      <p class="scale-note" id="dist-note"></p>
+      <p class="scale-note" id="soil-note"></p>
+      <p class="scale-note" id="scale-note"></p>
     </div>
 
     <div class="detail" id="detail" tabindex="-1" hidden></div>
     <p class="scale-note" id="detail-hint">
-      Eight bars cross the 100% line. Select any red bar — click, or tab to it and press Enter —
-      for what the reports say about why it happened, what it means, and what followed.
+      <span id="hint-count">Seven bars</span> cross the 100% line. Select any red bar — click, or
+      tab to it and press Enter — for what the reports say about why it happened, what it means,
+      and what followed.
     </p>
   </section>
 
@@ -324,8 +395,10 @@ footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
         <thead>
           <tr>
             <th>Chemical</th><th>Medium</th><th style="text-align:right">Max detected</th>
-            <th style="text-align:right">Benchmark</th><th>Basis</th>
-            <th style="text-align:right">% of benchmark</th><th>Where / when</th><th>Source</th>
+            <th style="text-align:right">Limit</th><th>Basis</th>
+            <th style="text-align:right">% of limit</th>
+            <th style="text-align:right">Typical sample</th><th style="text-align:right">Detected in</th>
+            <th>Where / when</th><th>Source</th>
           </tr>
         </thead>
         <tbody id="tbody"></tbody>
@@ -347,11 +420,25 @@ footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
     </p>
     <p>
       Every maximum is drawn from <code>analysis/detections-rebuild/combined_detections_summary.csv</code>,
-      restricted to verified observed maxima at non-background locations — consultant-derived
-      statistics (exposure point concentration, 95% upper confidence limit, maximum detected
-      concentration) are excluded, as are rows flagged unsupported. Percentages are
-      computed by <code>analysis/scripts/build_percent_of_benchmark.py</code>, never asserted by hand.
+      restricted to verified observed maxima at non-background locations. Derived statistics
+      (exposure point concentration, 95% upper confidence limit) are excluded, as are rows flagged
+      unsupported. Soil values must additionally come from a primary per-sample table describing
+      material that came out of the stockpiles: the reports that only restate earlier
+      investigations in narrative are excluded, as is soil characterised as a candidate clean-fill
+      source from elsewhere, and so is the SR 99 aerially deposited lead survey, which measures
+      roadway-derived lead rather than stockpile contamination. Percentages are computed by
+      <code>analysis/scripts/build_percent_of_benchmark.py</code>, never asserted by hand.
       Manganese and nitrate were not analyzed in soil in the compiled reports.
+    </p>
+    <p>
+      Every bar is now the highest value in its own set of dots — the peak and the distribution
+      describe the same samples. Excluded from both: background stations, the confirmation
+      resamples taken after contaminated soil had already been dug out, split duplicates, and the
+      regulatory reference values that sit in the source tables in the same shape as results.
+      Non-detects are counted but not plotted: a result of "less than 1.0" is not a measurement of
+      1.0, and drawing it as one would invent data at the reporting limit.
+      Distributions are generated by <code>analysis/scripts/build_sample_points.py</code> and ship
+      as a separate file, <code>points.js</code>.
     </p>
     <p>
       Soil sampling events in the table: <strong>PSI</strong> — Preliminary Site Investigation
@@ -362,8 +449,9 @@ footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
   </footer>
 </div>
 
+<script src="points.js"></script>
 <script id="data" type="application/json">
-[{"analyte":"Barium","analyte_kind":"coc","medium":"Soil","no_data":false,"max_value":130000.0,"unit":"mg/kg","benchmark":5200.0,"benchmark_label":"CHHSL, residential","benchmark_is_mcl":false,"percent_of_benchmark":2500.0,"soil_scenarios":{"residential":{"benchmark":5200.0,"benchmark_label":"CHHSL, residential","percent_of_benchmark":2500.0},"industrial":{"benchmark":63000.0,"benchmark_label":"CHHSL, commercial/industrial","percent_of_benchmark":206.35}},"narrative":{"short":"Barite (barium sulfate) residue from the former FMC plant \u2014 the site's primary contaminant, and largely insoluble.","why":"The stockpiles are residue from the FMC/Barium Products plant, which processed barite (barium sulfate) and celestite. Barium is the site's primary chemical of potential concern. The highest values sit deep within Stockpiles 2 and 3; surface soil is far lower \u2014 the 2012 SSI found a maximum of 4,300 mg/kg in surface samples, with concentrations falling consistently with depth. NOTE ON THIS FIGURE: the 2004 PSI is reported inconsistently across the record \u2014 the FS gives a Stockpile 2 maximum of 60,700 mg/kg in \u00a72.2.1 but recalls a range to 196,000 mg/kg in \u00a72.2.3, and the FEIR states 196,000. The 2004 report itself is not in the compiled sources to settle it, so this bar uses the 2012 SSI instead \u2014 130,000 mg/kg in a Cadmium Boring sample at 11 feet depth in Stockpile 2, recorded in that report's own Table 3 and re-verified against the page image. That is a primary measurement rather than a recollection, and it comes from the period when three separate laboratories were producing consistent barium results.","meaning":"The barium here is mostly barite, which is highly insoluble. The FS notes that the Title 22 soluble-threshold criteria \u201care not strictly applicable to the Site\u201d because the barium present is primarily barium sulfate. That is also why soil concentrations are enormous while groundwater barium stays near background.","action":"DTSC's Human and Ecological Risk Office concluded the stockpiles pose no cancer risk or noncancer hazard \u201cas long as the stockpiles remain in place and are properly managed,\u201d while warning that the elevated concentrations at depth \u201cwill have to be evaluated\u201d if the stockpiles were ever graded or removed. Stockpile 3 was removed and Stockpiles 1 and 2 encapsulated beneath SR 132 by October 2021; a recorded land use covenant now bars residential development.","cite":"FS Report pp. 15\u201317, \u00a73.2; HERO memo 14 Feb 2013; Updated Statistical Evaluation (2024) \u00a71"},"location":"Stockpile 2","location_as_reported":"Stockpile 2","date":"2012 SSI","source_document":"S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf","source_citation":"SSI Report Table 2/3","value_type":"max_detected"},{"analyte":"Barium","analyte_kind":"coc","medium":"Groundwater","no_data":false,"max_value":410.0,"unit":"ug/L","benchmark":1000.0,"benchmark_label":"Primary MCL","benchmark_is_mcl":true,"percent_of_benchmark":41.0,"soil_scenarios":null,"narrative":null,"location":"MW-5","location_as_reported":"MW-5","date":"10/5/2006","source_document":"06A2542ct_TO97_GW Rpt_final.20230308.pdf","source_citation":"Table 3, pp. 21-29 (values); 30 (footnote key); 29 (MCL row)","value_type":"max_detected_per_well_all_dates"},{"analyte":"Barium","analyte_kind":"coc","medium":"Stormwater","no_data":false,"max_value":1600.0,"unit":"ug/L","benchmark":1000.0,"benchmark_label":"Primary MCL","benchmark_is_mcl":true,"percent_of_benchmark":160.0,"soil_scenarios":null,"narrative":{"short":"The highest barium in the runoff record, sampled during active excavation of the stockpiles.","why":"PL1 collected runoff along North Emerald Avenue from Stockpile 1. No report narrating this specific event is in the compiled source set, so no consultant explanation of the value exists here. INFERENCE: the sample date falls inside the window when Stockpile 3 was being removed and the Emerald Avenue bridge abutment end of Stockpile 2 excavated \u2014 February to March 2020 \u2014 which is when disturbed material would most readily reach runoff. The reports do not themselves draw that link.","meaning":"An earlier isolated barium high in runoff (2,000 \u00b5g/L at SW03) was judged \u201cisolated,\u201d with runoff in the area confined to the Caltrans right-of-way. Barium's MCL is health-based, so an exceedance is meaningful \u2014 but this is ponded runoff on a construction site, not a drinking-water supply.","action":"Sampling locations PL1 and PL2 ceased to exist as construction advanced; straw wattles and K-rail best management practices were installed to stop offsite discharge. Every stormwater event since encapsulation (March 2023 through February 2025) reports barium below its MCL.","cite":"Surface Water Letter 28 Mar 2023, Tables 4\u20135; Interim RACR \u00a74 (2020 excavation); Stormwater Sampling Report 6/25"},"location":"PL1","location_as_reported":"PL1","date":"3/17/2020","source_document":"06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf (Table 4 pp.19-22; Table 5 pp.23-26)","source_citation":"Table 4 (metals) pp. 19-22; Table 5 (general minerals) pp. 23-26","value_type":"max_detected_per_location_all_dates"},{"analyte":"Lead","analyte_kind":"coc","medium":"Soil","no_data":false,"max_value":1500.0,"unit":"mg/kg","benchmark":80.0,"benchmark_label":"CHHSL, residential","benchmark_is_mcl":false,"percent_of_benchmark":1875.0,"soil_scenarios":{"residential":{"benchmark":80.0,"benchmark_label":"CHHSL, residential","percent_of_benchmark":1875.0},"industrial":{"benchmark":320.0,"benchmark_label":"CHHSL, commercial/industrial","percent_of_benchmark":468.75}},"narrative":{"short":"Two samples out of 278. Soluble lead was low and blood-lead modeling cleared it.","why":"An isolated result. Of the 278 soil samples analyzed in the 2006 SI, only two contained lead above 50 mg/kg \u2014 one at 150 mg/kg and one at 1,500 mg/kg, the value charted here.","meaning":"Soluble testing on those same two samples returned DI-WET lead of just 0.07 and 0.1 mg/L. Shaw's LeadSpread modeling found an onsite pica child exposed to the 95% UCL lead concentration would not exceed 10 \u00b5g/dL blood lead, and that the 1,500 mg/kg maximum works out to a respirable dust concentration of 0.15 \u00b5g/m\u00b3 \u2014 an order of magnitude below the model's own 1.5 \u00b5g/m\u00b3 default.","action":"Lead was not a driver of the remedy. It is covered by the same encapsulation and land use covenant as barium.","cite":"FS Report pp. 15\u201316, \u00a73.1.4 (soluble metals) and \u00a73.2.2 (LeadSpread)"},"location":"Stockpiles \u00b7 2006 SI (2 of 278 samples)","location_as_reported":"Stockpiles (2 of 278 samples, stockpile unspecified)","date":"2006 SI","source_document":"S9800-01-17 Modesto Soil Stockpiles Final FS Report.0614.pdf","source_citation":"FS Report, printed p.15","value_type":"max_detected"},{"analyte":"Lead","analyte_kind":"coc","medium":"Groundwater","no_data":false,"max_value":3.4,"unit":"ug/L","benchmark":15.0,"benchmark_label":"CDPH regulatory action level - not an MCL","benchmark_is_mcl":false,"percent_of_benchmark":22.67,"soil_scenarios":null,"narrative":null,"location":"MW-6","location_as_reported":"MW-6","date":"6/14/2006","source_document":"06A2542ct_TO97_GW Rpt_final.20230308.pdf","source_citation":"Table 3, pp. 21-29 (values); 30 (footnote key); 29 (MCL row)","value_type":"max_detected_per_well_all_dates"},{"analyte":"Lead","analyte_kind":"coc","medium":"Stormwater","no_data":false,"max_value":46.0,"unit":"ug/L","benchmark":15.0,"benchmark_label":"CDPH regulatory action level - not an MCL","benchmark_is_mcl":false,"percent_of_benchmark":306.67,"soil_scenarios":null,"narrative":{"short":"A street puddle sampled outside the Caltrans fence \u2014 flagged by the consultant as the event's one exception.","why":"PL3 was a puddle where Bennett Street meets the alley behind Loletta Street. Geocon's own description places it \u201coutside the Caltrans right-of-way beyond the chainlink fence that encloses the south side of Stockpile 2.\u201d","meaning":"Geocon singled it out: \u201cExcept for the elevated concentration of lead in the sample collected outside the right-of-way at location PL3, analytical results for the remainder of the samples... are generally consistent with the results from previous events.\u201d Because the sample is an offsite street puddle, an ordinary urban-runoff source for the lead cannot be ruled out.","action":"Site reconnaissance that day identified no location where stormwater appeared to be migrating offsite, and runoff was judged to be retained within the right-of-way. Vegetative cover, straw wattles and the Bennett Street interceptor berm were maintained, and further sampling was scheduled for later in 2018.","cite":"Modesto Stockpiles March 2018 SW Sampling report (04.18), \u00a7Analytical Results and \u00a7Surface Water Management"},"location":"PL3","location_as_reported":"PL3","date":"3/22/2018","source_document":"06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf (Table 4 pp.19-22; Table 5 pp.23-26)","source_citation":"Table 4 (metals) pp. 19-22; Table 5 (general minerals) pp. 23-26","value_type":"max_detected_per_location_all_dates"},{"analyte":"Strontium","analyte_kind":"coc","medium":"Soil","no_data":false,"max_value":270.0,"unit":"mg/kg","benchmark":47000.0,"benchmark_label":"USEPA RSL, residential (no CHHSL for strontium)","benchmark_is_mcl":false,"percent_of_benchmark":0.57,"soil_scenarios":{"residential":{"benchmark":47000.0,"benchmark_label":"USEPA RSL, residential (no CHHSL for strontium)","percent_of_benchmark":0.57},"industrial":{"benchmark":610000.0,"benchmark_label":"CHHSL, commercial/industrial","percent_of_benchmark":0.04}},"narrative":null,"location":"Stockpile 2 - SOUTH SIDE","location_as_reported":"Stockpile 2 - SOUTH SIDE","date":"2012 SSI","source_document":"S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf","source_citation":"SSI Report Table 2/3","value_type":"max_detected"},{"analyte":"Strontium","analyte_kind":"coc","medium":"Groundwater","no_data":false,"max_value":1400.0,"unit":"ug/L","benchmark":4000.0,"benchmark_label":"EPA drinking-water health advisory - not an MCL","benchmark_is_mcl":false,"percent_of_benchmark":35.0,"soil_scenarios":null,"narrative":null,"location":"MW-1","location_as_reported":"MW-1","date":"4/12/2018","source_document":"06A2542ct_TO97_GW Rpt_final.20230308.pdf","source_citation":"Table 3, pp. 21-29 (values); 30 (footnote key); 29 (MCL row)","value_type":"max_detected_per_well_all_dates"},{"analyte":"Strontium","analyte_kind":"coc","medium":"Stormwater","no_data":false,"max_value":460.0,"unit":"ug/L","benchmark":4000.0,"benchmark_label":"EPA drinking-water health advisory - not an MCL","benchmark_is_mcl":false,"percent_of_benchmark":11.5,"soil_scenarios":null,"narrative":null,"location":"PL4","location_as_reported":"PL4","date":"3/24/2017","source_document":"06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf (Table 4 pp.19-22; Table 5 pp.23-26)","source_citation":"Table 4 (metals) pp. 19-22; Table 5 (general minerals) pp. 23-26","value_type":"max_detected_per_location_all_dates"},{"analyte":"Arsenic","analyte_kind":"context","medium":"Soil","no_data":false,"max_value":5.5,"unit":"mg/kg","benchmark":0.07,"benchmark_label":"CHHSL, residential","benchmark_is_mcl":false,"percent_of_benchmark":7857.14,"soil_scenarios":{"residential":{"benchmark":0.07,"benchmark_label":"CHHSL, residential","percent_of_benchmark":7857.14},"industrial":{"benchmark":0.24,"benchmark_label":"CHHSL, commercial/industrial","percent_of_benchmark":2291.67}},"narrative":{"short":"Barely above background \u2014 and the screening level itself sits below background everywhere in California.","why":"This is not a stockpile signal. The maximum is 5.5 mg/kg, from one sample at 14 feet depth among the 165 collected across all three stockpiles in the 2006 investigation. The site's own background soil reaches 4.1 mg/kg, with a 95% UCL of 1.2 mg/kg and a mean of 0.97 mg/kg \u2014 against a residential CHHSL of 0.07 mg/kg, which essentially all California soil exceeds. For Stockpiles 1 and 3 the risk assessment did not select arsenic as a chemical of potential concern at all, because their maximum detections were at or below the maximum background concentration.","meaning":"The risk assessment makes the point arithmetically: Stockpile 2's arsenic cancer risk estimate was 1.45E-5, against 1.15E-5 for background soil \u2014 statistically indistinguishable. Arsenic was therefore excluded from Stockpile 2's final risk total, which dropped from 1E-5 to 1E-7.","action":"None. Arsenic is not a designated Chemical of Concern and drove no part of the remedy.","cite":"HHRA Update, Appendix B Table 5 (PDF p.76) for the 5.5 mg/kg maximum and Tables 2 and 4 for the background comparison; FS Report \u00a73.2.1 for the risk calculation"},"location":"Stockpiles 1-3 combined (0-20ft bgs)","location_as_reported":"Stockpiles 1-3 combined (0-20ft bgs)","date":"2006 Shaw site investigation (reproduced in HHRA UPDATE Table 5 (SP#1/2/3 combined construction-zone COPC selection))","source_document":"S9525-06-44 HHRA UPDATE Rev.0313.pdf","source_citation":"HHRA UPDATE","value_type":"MDC"},{"analyte":"Arsenic","analyte_kind":"context","medium":"Groundwater","no_data":false,"max_value":9.9,"unit":"ug/L","benchmark":10.0,"benchmark_label":"Primary MCL","benchmark_is_mcl":true,"percent_of_benchmark":99.0,"soil_scenarios":null,"narrative":null,"location":"MW-4","location_as_reported":"MW-4","date":"10/4/2006","source_document":"06A2542ct_TO97_GW Rpt_final.20230308.pdf","source_citation":"Table 3, pp. 21-29 (values); 30 (footnote key); 29 (MCL row)","value_type":"max_detected_per_well_all_dates"},{"analyte":"Arsenic","analyte_kind":"context","medium":"Stormwater","no_data":false,"max_value":9.2,"unit":"ug/L","benchmark":10.0,"benchmark_label":"Primary MCL","benchmark_is_mcl":true,"percent_of_benchmark":92.0,"soil_scenarios":null,"narrative":null,"location":"PL6","location_as_reported":"PL6","date":"3/10/2023","source_document":"06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf (Table 4 pp.19-22; Table 5 pp.23-26)","source_citation":"Table 4 (metals) pp. 19-22; Table 5 (general minerals) pp. 23-26","value_type":"max_detected_per_location_all_dates"},{"analyte":"Manganese","analyte_kind":"context","medium":"Soil","no_data":true,"reason":"not analyzed in this medium in the compiled reports"},{"analyte":"Manganese","analyte_kind":"context","medium":"Groundwater","no_data":false,"max_value":410.0,"unit":"ug/L","benchmark":50.0,"benchmark_label":"Secondary MCL (aesthetic, not health-based)","benchmark_is_mcl":false,"percent_of_benchmark":820.0,"soil_scenarios":null,"narrative":{"short":"An aesthetic standard, in a downgradient well that reads lower than the upgradient wells.","why":"Manganese's 50 \u00b5g/L benchmark is a secondary MCL \u2014 it governs taste, odor and staining, not health. Manganese is naturally abundant in Central Valley alluvial groundwater and mobilizes readily under low-oxygen conditions.","meaning":"MW-8 is a downgradient well. The 2024 statistical evaluation found that concentrations in downgradient wells MW7 and MW8 are lower than those in upgradient wells MW6 and MW10, which it treats as demonstrating \u201cthat Caltrans Stockpile 3 and the eastern part of Stockpile 2 are not impacting groundwater.\u201d Manganese is not a designated Chemical of Concern, and the monitoring record characterises it as \u201csporadically reported for various wells at concentrations exceeding the secondary MCL; however, the concentrations have not been consistently elevated for any one well.\u201d","action":"MW-8 was decommissioned in 2019 ahead of highway construction, along with five other wells; monitoring had already been reduced from quarterly to annual in 2015 on the 2014 evaluation's recommendation.","cite":"Updated Statistical Evaluation Report (2.24) \u00a72, conclusions 3\u20134; GW April 2019 report \u00a7Summary; GW Monitoring Report 20230308 Table 3"},"location":"MW-8","location_as_reported":"MW-8","date":"4/11/2018","source_document":"06A2542ct_TO97_GW Rpt_final.20230308.pdf","source_citation":"Table 3, pp. 21-29 (values); 30 (footnote key); 29 (MCL row)","value_type":"max_detected_per_well_all_dates"},{"analyte":"Manganese","analyte_kind":"context","medium":"Stormwater","no_data":false,"max_value":370.0,"unit":"ug/L","benchmark":50.0,"benchmark_label":"Secondary MCL (aesthetic, not health-based)","benchmark_is_mcl":false,"percent_of_benchmark":740.0,"soil_scenarios":null,"narrative":{"short":"The background sampling location exceeded the same aesthetic standard on the same day.","why":"Same sampling event as the PL3 lead exceedance. Geocon reported manganese between 54 and 370 \u00b5g/L across PL2, PL3, PL4 \u2014 and BG1, the background location.","meaning":"Because the background sample exceeded the secondary MCL too, this is a characteristic of local water rather than a stockpile signal. The standard is aesthetic, not health-based.","action":"No action is triggered by a secondary MCL exceedance. Manganese remained within the routine analyte list for subsequent events.","cite":"Modesto Stockpiles March 2018 SW Sampling report (04.18), \u00a7Dissolved Metals"},"location":"PL3","location_as_reported":"PL3","date":"3/22/2018","source_document":"06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf (Table 4 pp.19-22; Table 5 pp.23-26)","source_citation":"Table 4 (metals) pp. 19-22; Table 5 (general minerals) pp. 23-26","value_type":"max_detected_per_location_all_dates"},{"analyte":"Nitrate (as N)","analyte_kind":"context","medium":"Soil","no_data":true,"reason":"not analyzed in this medium in the compiled reports"},{"analyte":"Nitrate (as N)","analyte_kind":"context","medium":"Groundwater","no_data":false,"max_value":40000.0,"unit":"ug/L","benchmark":10000.0,"benchmark_label":"Primary MCL (health-based), 10 mg/L as N","benchmark_is_mcl":true,"percent_of_benchmark":400.0,"soil_scenarios":null,"narrative":{"short":"Four times a health-based MCL \u2014 but in a well the site's own evaluation attributes to the FMC plume, not the stockpiles.","why":"Nitrate is one of the constituents the Regional Board identified in groundwater beneath the FMC property, and it is also ubiquitous in Central Valley groundwater from agriculture. Nitrate in the stockpile soil itself was measured within the range of background. This is not a single-well anomaly: in the April 2019 event nitrate ranged from 2.3 to 40 mg/L across the wells, with four of them \u2014 MW-1, MW-2, MW-5 and MW-6 \u2014 above the 10 mg/L MCL, and the monitoring record describes nitrate as consistently exceeding it in MW-1, MW-5, MW-6 and MW-10.","meaning":"The 2024 statistical evaluation groups MW-5 with the wells that \u201ctypically have elevated levels of most constituents of concern,\u201d and attributes their declining trends to FMC's groundwater extraction and treatment system rather than to anything at the stockpiles \u2014 concluding that \u201cthe groundwater impacts in wells MW5, MW6, and MW10 did not originate from the Caltrans soil stockpiles.\u201d This is nonetheless the largest exceedance of a genuinely health-based drinking-water standard on this chart.","action":"MW-5 was decommissioned in 2019. Preventing future impact to groundwater remains a stated Remedial Action Objective, and the Central Valley Regional Water Quality Control Board's concern about water-quality degradation is recorded as still open.","cite":"Updated Statistical Evaluation Report (2.24) \u00a72, conclusion 3; GW April 2019 report \u00a7General Minerals; FS Report \u00a73.3; GW Monitoring Report 20230308 Table 4"},"location":"MW-5","location_as_reported":"MW-5","date":"4/9/2019","source_document":"06A2542ct_TO97_GW Rpt_final.20230308.pdf","source_citation":"Table 4, pp. 31-39 (values); 39 (MCL row)","value_type":"max_detected_per_well_all_dates"},{"analyte":"Nitrate (as N)","analyte_kind":"context","medium":"Stormwater","no_data":false,"max_value":9900.0,"unit":"ug/L","benchmark":10000.0,"benchmark_label":"Primary MCL (health-based), 10 mg/L as N","benchmark_is_mcl":true,"percent_of_benchmark":99.0,"soil_scenarios":null,"narrative":null,"location":"PL4","location_as_reported":"PL4","date":"4/4/2013","source_document":"06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf (Table 4 pp.19-22; Table 5 pp.23-26)","source_citation":"Table 4 (metals) pp. 19-22; Table 5 (general minerals) pp. 23-26","value_type":"max_detected_per_location_all_dates"}]
+[{"analyte":"Barium","analyte_kind":"coc","medium":"Soil","no_data":false,"max_value":130000.0,"unit":"mg/kg","benchmark":5200.0,"benchmark_label":"CHHSL, residential","benchmark_is_mcl":false,"percent_of_benchmark":2500.0,"soil_scenarios":{"residential":{"benchmark":5200.0,"benchmark_label":"CHHSL, residential","percent_of_benchmark":2500.0},"industrial":{"benchmark":63000.0,"benchmark_label":"CHHSL, commercial/industrial","percent_of_benchmark":206.35}},"narrative":{"short":"Barite (barium sulfate) residue from the former FMC plant \u2014 the site's primary contaminant, and largely insoluble.","why":"The stockpiles are residue from the FMC/Barium Products plant, which processed barite (barium sulfate) and celestite. Barium is the site's primary chemical of potential concern. The highest values sit deep within Stockpiles 2 and 3; surface soil is far lower \u2014 the 2012 SSI found a maximum of 4,300 mg/kg in surface samples, with concentrations falling consistently with depth. NOTE ON THIS FIGURE: the 2004 PSI was long reported inconsistently \u2014 the FS gives a Stockpile 2 maximum of 60,700 mg/kg in \u00a72.2.1 but recalls a range to 196,000 mg/kg in \u00a72.2.3, and the FEIR states 196,000. The 2004 PSI itself was obtained in September 2026 and settles it: the true Stockpile 2 maximum is 60,700 mg/kg, and 196,000 appears nowhere in the report. This bar nonetheless uses the 2012 SSI\u2019s 130,000 mg/kg \u2014 a Cadmium Boring sample at 11 feet depth in Stockpile 2, from that report\u2019s own Table 3 and re-verified against the page image \u2014 because the 2004 tables have not been transcribed sample-by-sample and the SSI is the primary per-sample source this dataset is built on.","meaning":"The barium here is mostly barite, which is highly insoluble. The FS notes that the Title 22 soluble-threshold criteria \u201care not strictly applicable to the Site\u201d because the barium present is primarily barium sulfate. That is also why soil concentrations are enormous while groundwater barium stays near background.","action":"DTSC's Human and Ecological Risk Office concluded the stockpiles pose no cancer risk or noncancer hazard \u201cas long as the stockpiles remain in place and are properly managed,\u201d while warning that the elevated concentrations at depth \u201cwill have to be evaluated\u201d if the stockpiles were ever graded or removed. Stockpile 3 was removed and Stockpiles 1 and 2 encapsulated beneath SR 132 by October 2021; a recorded land use covenant now bars residential development.","cite":"FS Report pp. 15\u201317, \u00a73.2; HERO memo 14 Feb 2013; Updated Statistical Evaluation (2024) \u00a71"},"location":"Stockpile 2","location_as_reported":"Stockpile 2","date":"2012 SSI","source_document":"S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf","source_citation":"SSI Report Table 2/3","value_type":"max_detected"},{"analyte":"Barium","analyte_kind":"coc","medium":"Groundwater","no_data":false,"max_value":410.0,"unit":"ug/L","benchmark":1000.0,"benchmark_label":"Primary MCL","benchmark_is_mcl":true,"percent_of_benchmark":41.0,"soil_scenarios":null,"narrative":null,"location":"MW-5","location_as_reported":"MW-5","date":"10/5/2006","source_document":"06A2542ct_TO97_GW Rpt_final.20230308.pdf","source_citation":"Table 3, pp. 21-29 (values); 30 (footnote key); 29 (MCL row)","value_type":"max_detected_per_well_all_dates"},{"analyte":"Barium","analyte_kind":"coc","medium":"Stormwater","no_data":false,"max_value":1600.0,"unit":"ug/L","benchmark":1000.0,"benchmark_label":"Primary MCL","benchmark_is_mcl":true,"percent_of_benchmark":160.0,"soil_scenarios":null,"narrative":{"short":"The highest barium in the runoff record, sampled during active excavation of the stockpiles.","why":"The event report for this sampling round was obtained in September 2026 and explains it directly: \u201cThe elevated concentrations of barium and antimony are likely the result of dissolution associated with surface water runoff contact with stockpile soil material spilled onto Emerald Avenue during excavation of the adjacent Stockpiles 1 and 2.\u201d Stantec adds that recent earthworks \u201cmight have altered the runoff flow patterns\u201d toward these locations. PL1 sits on North Emerald Avenue between Stockpiles 1 and 2; PL2 could not be sampled at all that day because re-grading had removed the ponding.","meaning":"The background station read higher than the site station that day \u2014 BG2 at 1,700 \u00b5g/L against PL1\u2019s 1,600 \u2014 which on its own would argue against a site release. The report explains that too: BG2\u2019s usual spot had no standing water, so the crew lifted the catch-basin grate and sampled inside the basin, where sediment collects. Both readings reflect construction dust and spilled soil washing into the street, not a release from intact stockpiles.","action":"Sampling locations PL1 and PL2 ceased to exist as construction advanced; straw wattles and K-rail best management practices were installed to stop offsite discharge. Every stormwater event since encapsulation (March 2023 through February 2025) reports barium below its MCL.","cite":"Surface Water Sampling Report \u2014 March 17, 2020 (Stantec, 25 Jun 2020), \u00a7Analytical Results and \u00a7Surface Water Management; GeoTracker EDF SL0609924194 for the lab values"},"location":"PL1","location_as_reported":"PL1","date":"3/17/2020","source_document":"06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf (Table 4 pp.19-22; Table 5 pp.23-26)","source_citation":"Table 4 (metals) pp. 19-22; Table 5 (general minerals) pp. 23-26","value_type":"max_detected_per_location_all_dates"},{"analyte":"Lead","analyte_kind":"coc","medium":"Soil","no_data":false,"max_value":53.0,"unit":"mg/kg","benchmark":80.0,"benchmark_label":"CHHSL, residential","benchmark_is_mcl":false,"percent_of_benchmark":66.25,"soil_scenarios":{"residential":{"benchmark":80.0,"benchmark_label":"CHHSL, residential","percent_of_benchmark":66.25},"industrial":{"benchmark":320.0,"benchmark_label":"CHHSL, commercial/industrial","percent_of_benchmark":16.56}},"narrative":null,"location":"Stockpile 3 Complete Removal","location_as_reported":"Stockpile 3 Complete Removal","date":"S3 3-0","source_document":"S1908-01-01 Caltrans Modesto Stockpile Interim RACR_12.22 (1).pdf","source_citation":"Table 1 - BCS Removal Verification Soil Sample Analytical Results, p. 40","value_type":"max_detected_per_area"},{"analyte":"Lead","analyte_kind":"coc","medium":"Groundwater","no_data":false,"max_value":3.4,"unit":"ug/L","benchmark":15.0,"benchmark_label":"CDPH regulatory action level - not an MCL","benchmark_is_mcl":false,"percent_of_benchmark":22.67,"soil_scenarios":null,"narrative":null,"location":"MW-6","location_as_reported":"MW-6","date":"6/14/2006","source_document":"06A2542ct_TO97_GW Rpt_final.20230308.pdf","source_citation":"Table 3, pp. 21-29 (values); 30 (footnote key); 29 (MCL row)","value_type":"max_detected_per_well_all_dates"},{"analyte":"Lead","analyte_kind":"coc","medium":"Stormwater","no_data":false,"max_value":46.0,"unit":"ug/L","benchmark":15.0,"benchmark_label":"CDPH regulatory action level - not an MCL","benchmark_is_mcl":false,"percent_of_benchmark":306.67,"soil_scenarios":null,"narrative":{"short":"A street puddle sampled outside the Caltrans fence \u2014 flagged by the consultant as the event's one exception.","why":"PL3 was a puddle where Bennett Street meets the alley behind Loletta Street. Geocon's own description places it \u201coutside the Caltrans right-of-way beyond the chainlink fence that encloses the south side of Stockpile 2.\u201d","meaning":"Geocon singled it out: \u201cExcept for the elevated concentration of lead in the sample collected outside the right-of-way at location PL3, analytical results for the remainder of the samples... are generally consistent with the results from previous events.\u201d Because the sample is an offsite street puddle, an ordinary urban-runoff source for the lead cannot be ruled out.","action":"Site reconnaissance that day identified no location where stormwater appeared to be migrating offsite, and runoff was judged to be retained within the right-of-way. Vegetative cover, straw wattles and the Bennett Street interceptor berm were maintained, and further sampling was scheduled for later in 2018.","cite":"Modesto Stockpiles March 2018 SW Sampling report (04.18), \u00a7Analytical Results and \u00a7Surface Water Management"},"location":"PL3","location_as_reported":"PL3","date":"3/22/2018","source_document":"06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf (Table 4 pp.19-22; Table 5 pp.23-26)","source_citation":"Table 4 (metals) pp. 19-22; Table 5 (general minerals) pp. 23-26","value_type":"max_detected_per_location_all_dates"},{"analyte":"Strontium","analyte_kind":"coc","medium":"Soil","no_data":false,"max_value":270.0,"unit":"mg/kg","benchmark":47000.0,"benchmark_label":"USEPA RSL, residential (no CHHSL for strontium)","benchmark_is_mcl":false,"percent_of_benchmark":0.57,"soil_scenarios":{"residential":{"benchmark":47000.0,"benchmark_label":"USEPA RSL, residential (no CHHSL for strontium)","percent_of_benchmark":0.57},"industrial":{"benchmark":610000.0,"benchmark_label":"CHHSL, commercial/industrial","percent_of_benchmark":0.04}},"narrative":null,"location":"Stockpile 2 - SOUTH SIDE","location_as_reported":"Stockpile 2 - SOUTH SIDE","date":"2012 SSI","source_document":"S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf","source_citation":"SSI Report Table 2/3","value_type":"max_detected"},{"analyte":"Strontium","analyte_kind":"coc","medium":"Groundwater","no_data":false,"max_value":1400.0,"unit":"ug/L","benchmark":4000.0,"benchmark_label":"EPA drinking-water health advisory - not an MCL","benchmark_is_mcl":false,"percent_of_benchmark":35.0,"soil_scenarios":null,"narrative":null,"location":"MW-1","location_as_reported":"MW-1","date":"4/12/2018","source_document":"06A2542ct_TO97_GW Rpt_final.20230308.pdf","source_citation":"Table 3, pp. 21-29 (values); 30 (footnote key); 29 (MCL row)","value_type":"max_detected_per_well_all_dates"},{"analyte":"Strontium","analyte_kind":"coc","medium":"Stormwater","no_data":false,"max_value":460.0,"unit":"ug/L","benchmark":4000.0,"benchmark_label":"EPA drinking-water health advisory - not an MCL","benchmark_is_mcl":false,"percent_of_benchmark":11.5,"soil_scenarios":null,"narrative":null,"location":"PL4","location_as_reported":"PL4","date":"3/24/2017","source_document":"06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf (Table 4 pp.19-22; Table 5 pp.23-26)","source_citation":"Table 4 (metals) pp. 19-22; Table 5 (general minerals) pp. 23-26","value_type":"max_detected_per_location_all_dates"},{"analyte":"Arsenic","analyte_kind":"context","medium":"Soil","no_data":false,"max_value":2.1,"unit":"mg/kg","benchmark":0.07,"benchmark_label":"CHHSL, residential","benchmark_is_mcl":false,"percent_of_benchmark":3000.0,"soil_scenarios":{"residential":{"benchmark":0.07,"benchmark_label":"CHHSL, residential","percent_of_benchmark":3000.0},"industrial":{"benchmark":0.24,"benchmark_label":"CHHSL, commercial/industrial","percent_of_benchmark":875.0}},"narrative":{"short":"Barely above background \u2014 and the screening level itself sits below background everywhere in California.","why":"This is not a stockpile signal. The maximum is 2.1 mg/kg, from the 2012 SSI\u2019s per-boring sampling of Stockpiles 2 and 3. The site\u2019s own background soil reaches 4.1 mg/kg \u2014 so the highest arsenic found in the stockpiles is below the highest arsenic found in undisturbed ground nearby \u2014 with a 95% UCL of 1.2 mg/kg and a mean of 0.97. The residential CHHSL of 0.07 mg/kg sits below natural background everywhere in California. For Stockpiles 1 and 3 the risk assessment did not select arsenic as a chemical of potential concern at all, because their maximum detections were at or below the maximum background concentration.","meaning":"The risk assessment makes the point arithmetically: Stockpile 2's arsenic cancer risk estimate was 1.45E-5, against 1.15E-5 for background soil \u2014 statistically indistinguishable. Arsenic was therefore excluded from Stockpile 2's final risk total, which dropped from 1E-5 to 1E-7.","action":"None. Arsenic is not a designated Chemical of Concern and drove no part of the remedy.","cite":"SSI Report Table 2/3 for the 2.1 mg/kg maximum; HHRA Update Appendix B Tables 2 and 4 for the background comparison; FS Report \u00a73.2.1 for the risk calculation"},"location":"Stockpile 2 - SOUTH SIDE","location_as_reported":"Stockpile 2 - SOUTH SIDE","date":"2012 SSI","source_document":"S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.pdf","source_citation":"SSI Report Table 2/3","value_type":"max_detected"},{"analyte":"Arsenic","analyte_kind":"context","medium":"Groundwater","no_data":false,"max_value":9.9,"unit":"ug/L","benchmark":10.0,"benchmark_label":"Primary MCL","benchmark_is_mcl":true,"percent_of_benchmark":99.0,"soil_scenarios":null,"narrative":null,"location":"MW-4","location_as_reported":"MW-4","date":"10/4/2006","source_document":"06A2542ct_TO97_GW Rpt_final.20230308.pdf","source_citation":"Table 3, pp. 21-29 (values); 30 (footnote key); 29 (MCL row)","value_type":"max_detected_per_well_all_dates"},{"analyte":"Arsenic","analyte_kind":"context","medium":"Stormwater","no_data":false,"max_value":9.2,"unit":"ug/L","benchmark":10.0,"benchmark_label":"Primary MCL","benchmark_is_mcl":true,"percent_of_benchmark":92.0,"soil_scenarios":null,"narrative":null,"location":"PL6","location_as_reported":"PL6","date":"3/10/2023","source_document":"06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf (Table 4 pp.19-22; Table 5 pp.23-26)","source_citation":"Table 4 (metals) pp. 19-22; Table 5 (general minerals) pp. 23-26","value_type":"max_detected_per_location_all_dates"},{"analyte":"Manganese","analyte_kind":"context","medium":"Soil","no_data":true,"reason":"not analyzed in this medium in the compiled reports"},{"analyte":"Manganese","analyte_kind":"context","medium":"Groundwater","no_data":false,"max_value":410.0,"unit":"ug/L","benchmark":50.0,"benchmark_label":"Secondary MCL (aesthetic, not health-based)","benchmark_is_mcl":false,"percent_of_benchmark":820.0,"soil_scenarios":null,"narrative":{"short":"An aesthetic standard, in a downgradient well that reads lower than the upgradient wells.","why":"Manganese's 50 \u00b5g/L benchmark is a secondary MCL \u2014 it governs taste, odor and staining, not health. Manganese is naturally abundant in Central Valley alluvial groundwater and mobilizes readily under low-oxygen conditions.","meaning":"MW-8 is a downgradient well. The 2024 statistical evaluation found that concentrations in downgradient wells MW7 and MW8 are lower than those in upgradient wells MW6 and MW10, which it treats as demonstrating \u201cthat Caltrans Stockpile 3 and the eastern part of Stockpile 2 are not impacting groundwater.\u201d Manganese is not a designated Chemical of Concern, and the monitoring record characterises it as \u201csporadically reported for various wells at concentrations exceeding the secondary MCL; however, the concentrations have not been consistently elevated for any one well.\u201d","action":"MW-8 was decommissioned in 2019 ahead of highway construction, along with five other wells; monitoring had already been reduced from quarterly to annual in 2015 on the 2014 evaluation's recommendation.","cite":"Groundwater Monitoring Report \u2014 October 2017 and April 2018 (23 Jul 2018), \u00a7Dissolved Metals and \u00a7Conclusions; Updated Statistical Evaluation Report (2.24) \u00a72, conclusions 3\u20134"},"location":"MW-8","location_as_reported":"MW-8","date":"4/11/2018","source_document":"06A2542ct_TO97_GW Rpt_final.20230308.pdf","source_citation":"Table 3, pp. 21-29 (values); 30 (footnote key); 29 (MCL row)","value_type":"max_detected_per_well_all_dates"},{"analyte":"Manganese","analyte_kind":"context","medium":"Stormwater","no_data":false,"max_value":370.0,"unit":"ug/L","benchmark":50.0,"benchmark_label":"Secondary MCL (aesthetic, not health-based)","benchmark_is_mcl":false,"percent_of_benchmark":740.0,"soil_scenarios":null,"narrative":{"short":"The background sampling location exceeded the same aesthetic standard on the same day.","why":"Same sampling event as the PL3 lead exceedance. Geocon reported manganese between 54 and 370 \u00b5g/L across PL2, PL3, PL4 \u2014 and BG1, the background location.","meaning":"Because the background sample exceeded the secondary MCL too, this is a characteristic of local water rather than a stockpile signal. The standard is aesthetic, not health-based.","action":"No action is triggered by a secondary MCL exceedance. Manganese remained within the routine analyte list for subsequent events.","cite":"Modesto Stockpiles March 2018 SW Sampling report (04.18), \u00a7Dissolved Metals"},"location":"PL3","location_as_reported":"PL3","date":"3/22/2018","source_document":"06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf (Table 4 pp.19-22; Table 5 pp.23-26)","source_citation":"Table 4 (metals) pp. 19-22; Table 5 (general minerals) pp. 23-26","value_type":"max_detected_per_location_all_dates"},{"analyte":"Nitrate (as N)","analyte_kind":"context","medium":"Soil","no_data":true,"reason":"not analyzed in this medium in the compiled reports"},{"analyte":"Nitrate (as N)","analyte_kind":"context","medium":"Groundwater","no_data":false,"max_value":40000.0,"unit":"ug/L","benchmark":10000.0,"benchmark_label":"Primary MCL (health-based), 10 mg/L as N","benchmark_is_mcl":true,"percent_of_benchmark":400.0,"soil_scenarios":null,"narrative":{"short":"Four times a health-based MCL \u2014 but in a well the site's own evaluation attributes to the FMC plume, not the stockpiles.","why":"Nitrate is one of the constituents the Regional Board identified in groundwater beneath the FMC property, and it is also ubiquitous in Central Valley groundwater from agriculture. Nitrate in the stockpile soil itself was measured within the range of background. This is not a single-well anomaly: in the April 2019 event nitrate ranged from 2.3 to 40 mg/L across the wells, with four of them \u2014 MW-1, MW-2, MW-5 and MW-6 \u2014 above the 10 mg/L MCL, and the monitoring record describes nitrate as consistently exceeding it in MW-1, MW-5, MW-6 and MW-10.","meaning":"The 2024 statistical evaluation groups MW-5 with the wells that \u201ctypically have elevated levels of most constituents of concern,\u201d and attributes their declining trends to FMC's groundwater extraction and treatment system rather than to anything at the stockpiles \u2014 concluding that \u201cthe groundwater impacts in wells MW5, MW6, and MW10 did not originate from the Caltrans soil stockpiles.\u201d This is nonetheless the largest exceedance of a genuinely health-based drinking-water standard on this chart.","action":"MW-5 was decommissioned in 2019. Preventing future impact to groundwater remains a stated Remedial Action Objective, and the Central Valley Regional Water Quality Control Board's concern about water-quality degradation is recorded as still open.","cite":"Updated Statistical Evaluation Report (2.24) \u00a72, conclusion 3; GW April 2019 report \u00a7General Minerals; FS Report \u00a73.3; GW Monitoring Report 20230308 Table 4"},"location":"MW-5","location_as_reported":"MW-5","date":"4/9/2019","source_document":"06A2542ct_TO97_GW Rpt_final.20230308.pdf","source_citation":"Table 4, pp. 31-39 (values); 39 (MCL row)","value_type":"max_detected_per_well_all_dates"},{"analyte":"Nitrate (as N)","analyte_kind":"context","medium":"Stormwater","no_data":false,"max_value":9900.0,"unit":"ug/L","benchmark":10000.0,"benchmark_label":"Primary MCL (health-based), 10 mg/L as N","benchmark_is_mcl":true,"percent_of_benchmark":99.0,"soil_scenarios":null,"narrative":null,"location":"PL4","location_as_reported":"PL4","date":"4/4/2013","source_document":"06A2542ct_to97_SurfaceWaterLetter_final.20230328.pdf (Table 4 pp.19-22; Table 5 pp.23-26)","source_citation":"Table 4 (metals) pp. 19-22; Table 5 (general minerals) pp. 23-26","value_type":"max_detected_per_location_all_dates"}]
 </script>
 <script>
 (function(){
@@ -376,10 +464,11 @@ footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
     {key:"Groundwater", color:"var(--gw)", hatched:false},
     {key:"Stormwater", color:"var(--sw)", hatched:false}
   ];
-  var state = {cocOnly:false, scale:"log", soil:"residential"};
+  var state = {cocOnly:false, scale:"log", soil:"residential", dist:"off"};
   var svg = document.getElementById("chart");
   var tip = document.getElementById("tip");
   var scroll = document.getElementById("chart-scroll");
+  var wrap = document.getElementById("chart-wrap");
   var NS = "http://www.w3.org/2000/svg";
 
   // Left margin fits the widest linear tick label ("4,000%") plus the rotated
@@ -409,14 +498,14 @@ footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
         mode:"linear",
         y: function(v){ return M.t + PH * (1 - v / n.top); },
         ticks: n.ticks.slice(1),      // the zero tick is the baseline itself
-        title: "% OF BENCHMARK · LINEAR SCALE"
+        title: "% OF REGULATORY LIMIT · LINEAR SCALE"
       };
     }
     return {
       mode:"log",
       y: function(v){ return M.t + PH * (1 - (Math.log10(Math.max(v, LO)) - l0) / (l1 - l0)); },
       ticks: [1, 10, 100, 1000],
-      title: "% OF BENCHMARK · LOG SCALE"
+      title: "% OF REGULATORY LIMIT · LOG SCALE"
     };
   }
 
@@ -449,6 +538,40 @@ footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
            " L" + (x + w - r) + "," + top +
            " Q" + (x + w) + "," + top + " " + (x + w) + "," + (top + r) +
            " L" + (x + w) + "," + b + " Z";
+  }
+
+  // Per-sample results ship as a separate script (points.js) rather than being
+  // embedded here. If it failed to load the page still works -- the sample
+  // controls simply go away.
+  var POINTS = (typeof window !== "undefined" && window.__POINTS__) || null;
+  function cellPoints(analyte, medium){
+    if (!POINTS) return null;
+    var e = POINTS[analyte + "|" + medium];
+    if (!e) return null;
+    var ind = medium === "Soil" && state.soil === "industrial";
+    return {
+      pts: (ind && e.pts_ind) ? e.pts_ind : e.pts,
+      stats: (ind && e.stats_ind) ? e.stats_ind : e.stats,
+      n: e.n_detected, nd: e.n_nondetect, coversMax: e.covers_max
+    };
+  }
+  // The median is taken over detections only, because non-detects have no
+  // value to take a median of. Where most samples found nothing, quoting that
+  // detected-only median as "the typical sample" would overstate what was in
+  // the ground or water -- the honest typical result there is "not detected".
+  function mostlyAbsent(cp){ return cp.nd > cp.n; }
+  function typicalText(cp){
+    if (mostlyAbsent(cp))
+      return '<span class="src" title="Most samples found none at all. Among the ' + cp.n +
+             " that did detect it, the median was " + fmtPct(cp.stats.median) +
+             ' of the limit.">not detected</span>';
+    return fmtPct(cp.stats.median);
+  }
+
+  // A stable pseudo-random spread, so dots don't jump between redraws.
+  function jitter(i){
+    var x = Math.sin(i * 12.9898) * 43758.5453;
+    return x - Math.floor(x);
   }
 
   // Soil records carry both CHHSL land-use scenarios; resolve the active one so
@@ -513,7 +636,7 @@ footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
     svg.appendChild(el("text", {x:M.l + PW + 7, y:yb - 2, "text-anchor":"start",
                                 class:"bar-label", fill:"var(--threshold)"}, "100%"));
     svg.appendChild(el("text", {x:M.l + PW + 7, y:yb + 10, "text-anchor":"start",
-                                class:"bar-label", fill:"var(--threshold)"}, "benchmark"));
+                                class:"bar-label", fill:"var(--threshold)"}, "limit"));
 
     // ---- groups
     var n = analytes.length;
@@ -546,11 +669,45 @@ footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
           "aria-label": analyte + ", " + med.key + ": " + fmtPct(p) + " of " +
                         d.benchmark_label + (tellable ? ". Exceeds benchmark; select for detail." : "")
         });
+        // The bar recedes when samples are drawn over it, so the distribution
+        // reads as the foreground and the bar as the envelope around it.
         g.appendChild(el("path", {d:barPath(bx, top, barW, h, 4),
-                                  fill: med.hatched ? med.fill : med.color}));
+                                  fill: med.hatched ? med.fill : med.color,
+                                  opacity: state.dist === "off" ? "1" : "0.3"}));
         if (med.hatched)
           g.appendChild(el("path", {d:barPath(bx, top, barW, h, 4), fill:"none",
                                     stroke:"var(--soil)", "stroke-width":"1.2"}));
+        // ---- distribution overlay
+        var cp = state.dist === "off" ? null : cellPoints(analyte, med.key);
+        if (cp && cp.stats) {
+          var mx = bx + barW / 2;
+          if (state.dist === "dots") {
+            var spread = Math.max(barW - 6, 6);
+            for (var pi = 0; pi < cp.pts.length; pi++) {
+              var py = y(cp.pts[pi]);
+              if (py > M.t + PH || py < M.t) continue;
+              g.appendChild(el("circle", {
+                cx: bx + 3 + jitter(pi + gi * 97 + mi * 13) * spread,
+                cy: py, r:"1.7", class:"pt"
+              }));
+            }
+          } else {
+            var bw = Math.max(barW * 0.5, 9);
+            var yq1 = y(cp.stats.q1), yq3 = y(cp.stats.q3);
+            var ymin = y(cp.stats.min), ymax = y(cp.stats.max);
+            g.appendChild(el("line", {x1:mx, x2:mx, y1:ymax, y2:ymin, class:"wh"}));
+            g.appendChild(el("line", {x1:mx - bw / 3, x2:mx + bw / 3,
+                                      y1:ymax, y2:ymax, class:"wh"}));
+            g.appendChild(el("line", {x1:mx - bw / 3, x2:mx + bw / 3,
+                                      y1:ymin, y2:ymin, class:"wh"}));
+            g.appendChild(el("rect", {x:mx - bw / 2, y:Math.min(yq1, yq3),
+                                      width:bw, height:Math.max(Math.abs(yq1 - yq3), 1.5),
+                                      rx:"1.5", class:"bx"}));
+            g.appendChild(el("line", {x1:mx - bw / 2, x2:mx + bw / 2,
+                                      y1:y(cp.stats.median), y2:y(cp.stats.median),
+                                      class:"md"}));
+          }
+        }
         g.appendChild(el("text", {x:bx + barW / 2, y:top - 5,
                                   class:"bar-label" + (tellable ? " over" : ""),
                                   "text-anchor":"middle"}, fmtPct(p)));
@@ -586,21 +743,38 @@ footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
       '<div class="t-head"><span class="sw" style="background:' + color + '"></span>' +
       d.analyte + " · " + d.medium + "</div>" +
       '<div class="t-row"><span>Max detected</span><b>' + fmtVal(d.max_value, d.unit) + "</b></div>" +
-      '<div class="t-row"><span>Benchmark</span><b>' + fmtVal(d.benchmark, d.unit) + "</b></div>" +
+      '<div class="t-row"><span>Limit</span><b>' + fmtVal(d.benchmark, d.unit) + "</b></div>" +
       '<div class="t-row"><span>Share</span><b>' + fmtPct(d.percent_of_benchmark) + "</b></div>" +
       '<div class="t-note">' + d.benchmark_label + "<br>" +
       d.location + " · " + d.date + "</div>" +
+      (function(){
+        var cp = cellPoints(d.analyte, d.medium);
+        if (!cp || !cp.stats) return "";
+        return '<div class="t-why">' +
+          (mostlyAbsent(cp)
+            ? "Typical sample: <b>not detected</b><br>median of the " + cp.n +
+              " that did detect it was " + fmtPct(cp.stats.median) + " of the limit<br>"
+            : "Typical sample: <b>" + fmtPct(cp.stats.median) + "</b> of the limit<br>") +
+          cp.n + " samples detected it" +
+          (cp.nd ? ", " + cp.nd + " did not" : "") +
+          (cp.coversMax ? "" :
+            "<br><span style=\"color:var(--threshold)\">Peak above is from a study with no sample-level data</span>") +
+          "</div>";
+      })() +
       (d.percent_of_benchmark >= 100 && d.narrative
         ? '<div class="t-why">' + esc(d.narrative.short) +
           '<span class="t-more">Click the bar for the full account →</span></div>'
         : "");
-    var box = scroll.getBoundingClientRect();
-    var x = clientX - box.left + scroll.scrollLeft + 14;
-    var yy = clientY - box.top - 10;
-    if (x + 280 > scroll.scrollLeft + box.width) x = x - 300;
-    tip.style.left = Math.max(4, x) + "px";
-    tip.style.top = Math.max(4, yy) + "px";
+    // Positioned against the wrapper, which does not scroll or clip, so the
+    // tooltip can extend past the chart's edges instead of being cut off.
+    var box = wrap.getBoundingClientRect();
     tip.style.opacity = "1";
+    var w = tip.offsetWidth || 270, h = tip.offsetHeight || 120;
+    var x = clientX - box.left + 14;
+    var yy = clientY - box.top - 10;
+    if (x + w > box.width) x = clientX - box.left - w - 14;
+    tip.style.left = Math.max(4, Math.min(x, box.width - w - 4)) + "px";
+    tip.style.top = Math.max(4, yy) + "px";
   }
   svg.addEventListener("mousemove", function(e){
     var g = e.target.closest ? e.target.closest(".bar") : null;
@@ -683,7 +857,7 @@ footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
             "<td>" + name + "</td>" +
             '<td><span class="medium-cell"><span class="sw" style="background:' + med.color +
               '"></span>' + med.key + "</span></td>" +
-            '<td colspan="6" class="src">' + d.reason + "</td>";
+            '<td colspan="8" class="src">' + d.reason + "</td>";
         } else {
           tr.innerHTML =
             "<td>" + name + "</td>" +
@@ -694,6 +868,14 @@ footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
             "<td>" + d.benchmark_label + "</td>" +
             '<td class="num pct' + (d.percent_of_benchmark >= 100 ? " over" : "") + '">' +
               fmtPct(d.percent_of_benchmark) + "</td>" +
+            (function(){
+              var cp = cellPoints(d.analyte, d.medium);
+              if (!cp || !cp.stats)
+                return '<td class="num src">—</td><td class="num src">—</td>';
+              return '<td class="num">' + typicalText(cp) +
+                (cp.coversMax ? "" : ' <span class="src" title="The maximum above comes from a study reported only in aggregate, so it is not among these samples.">†</span>') +
+                '</td><td class="num src">' + cp.n + " of " + (cp.n + cp.nd) + "</td>";
+            })() +
             "<td>" + d.location +
               (d.location.indexOf(d.date) >= 0 ? ""
                 : "<br><span class=\"src\">" + d.date + "</span>") + "</td>" +
@@ -709,25 +891,52 @@ footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
   var chipCoc = document.getElementById("chip-coc");
   var chipLog = document.getElementById("chip-log");
   var chipLin = document.getElementById("chip-linear");
+  var chipDistOff = document.getElementById("chip-dist-off");
+  var chipDistDots = document.getElementById("chip-dist-dots");
+  var chipDistBox = document.getElementById("chip-dist-box");
+  var distNote = document.getElementById("dist-note");
   var chipRes = document.getElementById("chip-res");
   var chipInd = document.getElementById("chip-ind");
   var scaleNote = document.getElementById("scale-note");
   var soilNote = document.getElementById("soil-note");
 
   function apply(){
+    var visible = state.cocOnly ? COCS : ORDER;
+    // Smallest and largest bars actually on screen, so the scale note quotes
+    // real values instead of hard-coded ones.
+    var spanLo = Infinity, spanHi = 0;
+    visible.forEach(function(a){
+      MEDIA.forEach(function(m){
+        var d = byPair(a, m.key);
+        if (!d || d.no_data) return;
+        spanLo = Math.min(spanLo, d.percent_of_benchmark);
+        spanHi = Math.max(spanHi, d.percent_of_benchmark);
+      });
+    });
     chipAll.setAttribute("aria-pressed", String(!state.cocOnly));
     chipCoc.setAttribute("aria-pressed", String(state.cocOnly));
     chipLog.setAttribute("aria-pressed", String(state.scale === "log"));
     chipLin.setAttribute("aria-pressed", String(state.scale === "linear"));
     scaleNote.textContent = state.scale === "log"
-      ? "Log scale: each gridline is 10× the one below, so a 0.6% bar and a 3,769% bar are both readable — but equal bar heights are not equal differences."
+      ? "Log scale: each gridline is 10× the one below, so a " + fmtPct(spanLo) +
+        " bar and a " + fmtPct(spanHi) + " bar are both readable — but equal bar heights are not equal differences."
       : "Linear scale: bar heights are directly comparable, but the tallest bar compresses everything under ~100% to a sliver. Value labels stay on every bar.";
+    chipDistOff.setAttribute("aria-pressed", String(state.dist === "off"));
+    chipDistDots.setAttribute("aria-pressed", String(state.dist === "dots"));
+    chipDistBox.setAttribute("aria-pressed", String(state.dist === "box"));
+    distNote.textContent =
+      state.dist === "off"
+        ? "Each bar is the single highest result ever recorded. Turn on samples to see whether that peak is typical or an outlier."
+        : state.dist === "dots"
+        ? "One dot per individual sample that detected the chemical, spread sideways so they don't overlap. Where the dots sit low and the bar reaches high, the peak is a one-off. Samples that found nothing are not drawn, so a sparse column can mean the chemical was rarely there at all \u2014 the table's Detected in column says how often."
+        : "The box covers the middle half of samples that detected the chemical, the red line is the typical (median) result, and the thin line reaches the lowest and highest. Samples that found nothing are excluded, so where detections were rare the box sits higher than the medium typically was.";
+    distNote.hidden = !POINTS;
+    document.getElementById("dist-controls").hidden = !POINTS;
     chipRes.setAttribute("aria-pressed", String(state.soil === "residential"));
     chipInd.setAttribute("aria-pressed", String(state.soil === "industrial"));
     soilNote.textContent = state.soil === "residential"
-      ? "Soil vs residential CHHSLs — the scenario the 2012 SSI and the FS report state their conclusions against, and the one matching the offsite resident/trespasser receptor the risk assessment is driven by."
-      : "Soil vs commercial/industrial CHHSLs — the scenario matching the site's actual use as a fenced Caltrans right-of-way, and the one the 2004 PSI framed its findings against. Water bars are unaffected.";
-    var visible = state.cocOnly ? COCS : ORDER;
+      ? "Soil vs residential CHHSLs — the scenario the 2012 SSI and the FS report state their conclusions against, and the one matching the offsite resident/trespasser receptor the risk assessment is driven by. Soil bars are hatched because they are measured against a screening level rather than an MCL."
+      : "Soil vs commercial/industrial CHHSLs — the scenario matching the site's actual use as a fenced Caltrans right-of-way, and the one the 2004 PSI framed its findings against. Water bars are unaffected, and soil bars are hatched because they are measured against a screening level rather than an MCL.";
     render(visible, state.scale);
     renderTable();
     tip.style.opacity = "0";
@@ -742,8 +951,27 @@ footer code{font-family:var(--mono);font-size:11.5px;color:var(--text-2)}
   chipCoc.addEventListener("click", function(){ state.cocOnly = true; apply(); });
   chipLog.addEventListener("click", function(){ state.scale = "log"; apply(); });
   chipLin.addEventListener("click", function(){ state.scale = "linear"; apply(); });
+  chipDistOff.addEventListener("click", function(){ state.dist = "off"; apply(); });
+  chipDistDots.addEventListener("click", function(){ state.dist = "dots"; apply(); });
+  chipDistBox.addEventListener("click", function(){ state.dist = "box"; apply(); });
   chipRes.addEventListener("click", function(){ state.soil = "residential"; apply(); });
   chipInd.addEventListener("click", function(){ state.soil = "industrial"; apply(); });
+
+  // Counted from the data rather than written into the prose, so the sentence
+  // cannot go stale when the underlying dataset is rebuilt.
+  (function(){
+    var n = 0;
+    ORDER.forEach(function(a){
+      MEDIA.forEach(function(m){
+        var d = byPair(a, m.key);
+        if (d && !d.no_data && d.percent_of_benchmark >= 100 && d.narrative) n++;
+      });
+    });
+    var words = ["No","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten",
+                 "Eleven","Twelve"];
+    var el2 = document.getElementById("hint-count");
+    if (el2) el2.textContent = (words[n] || n) + (n === 1 ? " bar" : " bars");
+  })();
 
   apply();
 })();

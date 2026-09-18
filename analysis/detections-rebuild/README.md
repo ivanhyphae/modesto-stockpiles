@@ -29,6 +29,309 @@ barium, lead, and strontium columns/rows; the arsenic, manganese, and nitrate
 columns/rows are included for context and should be labeled as such wherever this
 data is summarized elsewhere.
 
+## Sample role: not every transcribed row belongs in a distribution
+
+*Added 2026-09-18, from a colleague's review of the dashboard's distribution
+overlay. Assessment below was checked against the source documents; where the
+check disagreed with the review, that is stated.*
+
+The analyte-set section above says the six analytes are not all the same kind of
+thing. The same is true of the **samples**. Every row in `raw/` is a faithful
+transcription, but they were collected to answer different questions, and mixing
+them into one distribution answers none of them:
+
+- **Site samples** — characterise the contaminated material. These belong in a
+  distribution of site conditions.
+- **Control / background samples** — deliberately collected *away from* the
+  contamination to establish what the local baseline is. Plotting them alongside
+  site results makes the site look cleaner than it is and makes the background
+  look contaminated. Surface water `BG1`, `BG2`, `BG3`, `BG-West` are these.
+- **Clean-fill suitability samples** — test whether some *other* material is
+  clean enough to be imported as cap. A low result here is a property of the
+  candidate fill, not of the stockpiles.
+- **Post-excavation confirmation resamples** — measure material that replaced
+  what was removed. Including them alongside the pre-excavation results
+  double-counts the same location and drags the distribution down. The RACR
+  carries 14 such rows (7 barium + 7 lead), flagged `is_resample=yes`, one for
+  each location that exceeded the removal threshold.
+
+**Current state, checked 2026-09-18.** Background samples are already handled:
+`build_percent_of_benchmark.py` skips `is_background`, and
+`build_sample_points.py` additionally drops any stormwater `sample_id` starting
+`BG`, so no `BG1/BG2/BG3/BG-West` result reaches either the maxima or the
+distributions. **Resamples are not handled** — `build_sample_points.py` does not
+read `is_resample`, so all 14 confirmation resamples are currently plotted as if
+they were independent site results. That is a live defect regardless of how the
+document-level question below is settled.
+
+**A distribution must state which of these it contains.** A maximum can be drawn
+from a wider set than a distribution, but then the two are not describing the
+same population and the chart has to say so.
+
+### Soil documents: which to use
+
+| # | File | Use? | Why |
+|---|---|---|---|
+| 1 | `S9800-01-17 ... Final FS Report.0614.raw.csv` | **omit** | Narrative restatement of earlier investigations; contains no primary data table of its own |
+| 2 | `S9525-06-44 Modesto Stockpiles SSI Report Rev.0313.raw.csv` | **use** | The 2012 per-boring/per-depth primary data |
+| 3 | `S9525-06-44 HHRA UPDATE Rev.0313.raw.csv` | **omit** | Narrative, plus an Appendix B Shaw report carrying only summary tabular data |
+| 4 | `S1908-01-01 Interim RACR_12.22.soil.raw.csv` | **partly** | Four tables, different purposes — see below |
+
+**Confirmed.** Files 1 and 3 hold no primary per-sample soil data. This matches
+what the Status section below already records for file 1 ("contains **no raw
+boring-level data table**; every soil concentration in it is a narrative summary
+statistic"). Their values are real and correctly transcribed, but they are
+*reported statistics* (MDC / 95% UCL / EPC / range) restating investigations
+whose sample-level tables are not in the corpus. They can support a cited
+maximum; they cannot contribute points to a distribution.
+
+**RACR (file 4), table by table** — page assignments verified against
+`source_page` in the raw CSV:
+
+| Page | Table | n (Ba) | Max Ba | Purpose per the RACR's own text | Review says |
+|---|---|---|---|---|---|
+| 40–41 | BCS Removal Verification (Stk 3; Stk 2 E/W) | 53 | 7,000 | Verification that contaminated material was removed; contains all seven >1,000 mg/kg exceedances | **use** |
+| 60 | Stockpile 1 MSE Wall Footing | 15 | 420 | "sampled ... to determine if the excavated soil was suitable for clean capping material" (§3.5.3) | **omit** |
+| 214 | Stockpile 2 MSE Wall Footing | 29 | 930 | same evaluation, Stockpile 2 side (§3.5.3; Appendix A clean-fill source memo) | **use** |
+| 305 | Carpenter Road Shoofly | 8 | 96 | "clean fill characterization testing" on ~5,000 yd³ of native soil excavated *elsewhere*, for import as cap | **omit** |
+
+**Confirmed: pages 40–41 in, page 305 out.** The shoofly material is not
+stockpile soil at all — it is a separate borrow source being qualified for
+import, and its eight results are **3-part composites**, not discrete samples,
+so they could not go into a discrete-sample distribution even if the location
+were right.
+
+**Resolved 2026-09-18: both MSE footing tables are in.** The question above was
+settled by asking *where the footings are*, rather than what the test was for.
+§3.5.3 — titled "**BCS** Stockpiles 1 and 2 MSE Wall Soil Removal/Placement" —
+puts them inside the stockpile footprint: "The southerly slopes of BCS
+Stockpiles 1 and 2 were excavated (steepened) in March and April 2020 to
+facilitate clean construction of the MSE walls", and the footing soil was
+sampled in those excavations after the slope BCS was scraped off.
+
+So this is not imported candidate fill, it is **soil from within the historic
+stockpiles**, and the RACR confirms how it was ultimately classified: "Based on
+the elevated barium concentrations, all of the excavated MSE wall footing
+material was placed in the Stockpile 1 and 2 BCS Containment Zones." It failed
+the clean-fill test and went back into containment as contaminated material.
+
+The depth profiles corroborate it — contamination at the surface, attenuating
+to background with depth, exactly as §3.5.3 describes ("generally to a depth of
+3 feet"):
+
+| Depth | Stk 1 footing (p.60) median / max | Stk 2 footing (p.214) median / max |
+|---|---|---|
+| 0 ft | 240 / 420 | 290 / 930 |
+| 1 ft | 120 / 140 | 87 / 580 |
+| 2 ft | 97 / 130 | 96 / 320 |
+| 3–4 ft | 71–120 / 130 | 65–82 / 140 |
+
+against a maximum site-specific background of 120 mg/kg.
+
+**The operative distinction is provenance, not purpose.** A sample belongs to
+the site dataset if the *material* came from the stockpiles, whatever question
+the sampling was meant to answer. That keeps pages 40–41, 60 and 214, and still
+excludes page 305: the shoofly is a different location entirely (Carpenter Road),
+and its material *passed* the clean-cap criteria and was approved by DTSC for
+import. Under this rule the RACR contributes 90 discrete samples (excluding the
+14 confirmation resamples), barium max 7,000 mg/kg, lead max 53 mg/kg.
+
+**Bent 2 checked, and it stays out.** A *bent* is the bridge-engineering term
+for an intermediate substructure support — the columns and cap holding up a
+span, numbered along the structure — so "Bent 2" is a foundation excavation for
+the SR 132 overcrossing, not a place. Its memo puts it "just westerly of State
+Route 99" and describes the material as "approximately 4,000 cubic yards of
+**native soil**". That is a borrow source like the shoofly, not stockpile
+material, so the provenance rule excludes it.
+
+Two things make it confusing at first glance, and neither changes the answer:
+the excavated soil was *placed* in end-dump rows on top of Stockpile 2, which is
+where the samples were taken and where the photos show it; and unlike the other
+candidate sources it **failed** the clean-cap criterion (barium 31–230 mg/kg
+against the 120 mg/kg background), so the RACR notes that "with the exception of
+the Bent 2 excavation stockpiles, each of the identified clean fill source areas
+was approved by DTSC". Failing that test does not make it site material — it was
+native soil that came back dirtier than expected, possibly because the piles sat
+on Stockpile 2 and on a berm built from MSE footing spoil while awaiting
+testing.
+
+The original analysis follows, kept because it records why the split looked
+arbitrary before the location question was asked.
+
+**Not confirmed on the data alone: the page 60 / page 214 split.** Both tables are the *same
+test* — MSE wall footing excavations along the southern boundaries of Stockpiles
+1 and 2, sampled at one-foot intervals to determine suitability as clean cover
+fill (RACR §3.5.3 and the Appendix A clean-fill source memo). Their data is also alike: medians 97 and
+110 mg/kg, maxima 420 and 930 mg/kg, and **neither table contains a single
+result above the 1,000 mg/kg removal threshold**. And the RACR states the
+outcome for both together: "Based on the elevated barium concentrations, all of
+the excavated MSE wall footing material was placed in the Stockpile 1 and 2 BCS
+Containment Zones" (§3.5.3). So the ground for separating them is not in the
+documents — whichever rule is chosen should apply to both:
+
+- If the rule is *"exclude clean-fill suitability testing"*, both go.
+- If the rule is *"include material that ended up classified as BCS"*, both stay
+  — and then page 305 still goes, since that material was approved as clean cap.
+
+That decision has since been made — see the resolution above; both are in.
+
+**Also not extracted:** a fifth RACR table, Bent 2 excavation end-dump piles
+(10 discrete samples, barium 31–230 mg/kg). It is another clean-fill suitability
+test, so it stays out under either rule — but it is absent from `raw/` by
+oversight rather than by decision, and the Status section's "four distinct
+tables" should be read with that in mind.
+
+### Impact on the dashboard if this is applied
+
+`visualization/coc-percent-of-benchmark.html` and
+`../scripts/build_percent_of_benchmark.py` currently draw soil maxima from all
+four files. Restricting to files 2 and 4 (the RACR tables kept either way):
+
+| Soil bar | Now | Source now | Would become | Source then |
+|---|---|---|---|---|
+| Barium | 130,000 mg/kg | SSI (file 2) | **unchanged** | SSI |
+| Strontium | 270 mg/kg | SSI (file 2) | **unchanged** | SSI |
+| Arsenic | 5.5 mg/kg | HHRA Appx B (file 3) | **2.1 mg/kg** | SSI |
+| Lead | 1,500 mg/kg | FS Report (file 1) | **53 mg/kg** | RACR pp. 40–41 |
+
+Two consequences worth deciding on deliberately:
+
+1. **Lead in soil stops being an exceedance.** 1,875% of the residential CHHSL
+   becomes 66%, and 53 mg/kg is below the 80 mg/kg removal threshold too. Its
+   narrative panel ("two samples out of 278") would be removed along with the
+   value it explains, dropping the chart from eight exceedances to seven.
+2. **Arsenic in soil falls from 7,857% to 3,000%** of its residential CHHSL —
+   still an exceedance, and still explained by the CHHSL sitting below natural
+   background.
+
+Both changes *narrow* what the chart claims, and both remove the two bars whose
+`covers_max` flag already warned that no sample-level data stood behind them.
+That is a consistency argument for the change: those were exactly the two bars
+where the distribution overlay could not reach the peak.
+
+### Open question on the groundwater side
+
+The review covers soil. The same principle has an unresolved case in
+groundwater: `raw/06A2542ct_TO97_GW Rpt_final.20230308.raw.csv` has **no
+upgradient/background column at all**, so every well is treated as a site well.
+But the 2024 statistical evaluation treats MW-6 and MW-10 as *upgradient*, and
+concludes that elevated constituents in **MW-5, MW-6 and MW-10** "did not
+originate from the Caltrans soil stockpiles" (§2, conclusion 3). The chart's
+nitrate bar — the largest health-based exceedance on it, 400% of the MCL — is
+MW-5. Whether upgradient wells are controls for this purpose is a judgement
+call, but the raw file should carry the gradient designation either way so the
+choice can be made in code rather than being unavailable.
+
+## The 2004 PSI, acquired 2026-09-18 — and what it overturns
+
+`raw/6-1-04 Heavy Metal PSI.pdf`, OCR'd to
+`wiki/sources/6-1-04 Heavy Metal PSI/`. This is Shaw's *Heavy Metal
+Contamination Preliminary Site Investigation Report* (June 1, 2004), the primary
+source every later document restates when it says "the 2004 PSI". It was
+acquired specifically to settle the contradictions the aggregation audit found.
+It settles them, and it overturns a claim repeated across five documents.
+
+**The PSI never analysed cadmium or lead.** Confirmed three independent ways:
+the Task Order scope in the Executive Summary; §2.3 Laboratory Analyses
+("analysis for total concentrations of arsenic, barium, chromium, iron, and
+strontium", plus PAHs/nitrate/pH on selected samples); and the column headers on
+the results tables themselves. The string "cadmium" appears **zero times** in the
+report, and "lead" once, in a bibliography entry about a different site.
+
+This matters because the FS Report, SSI Report, RAP, FEIR and DEIR all state
+that "the Shaw 2004 PSI identified elevated cadmium concentrations (exceeding
+the industrial CHHSL for cadmium of 7.5 mg/kg) for eleven soil samples ... with
+corresponding elevated barium concentrations (25,800 to 196,000 mg/kg)."
+**Neither half of that sentence is supported by the PSI.** Cadmium was not an
+analyte, and neither 25,800 nor 196,000 appears anywhere in the report. The
+later documents' conclusion that the 2004 cadmium data was unreliable was
+therefore generous: by the PSI's own scope there was no 2004 cadmium data.
+
+One coincidence, offered as a hypothesis and nothing more: the PSI reports
+arsenic detected in exactly **11 samples** of 244. The downstream documents
+attribute elevated cadmium to exactly **eleven samples**. An analyte confusion
+propagated forward would explain both the phantom cadmium and its
+irreproducibility, but nothing in the record proves it.
+
+**The disputed maxima, resolved against the primary tables:**
+
+| Question | Answer from the PSI |
+|---|---|
+| Stockpile 2 max barium — FS §2.2.1 says 60,700; FS §2.2.3 and FEIR imply 196,000 | **60,700 mg/kg** at SR132-35-4.5. FS §2.2.1 is correct; 196,000 does not exist |
+| Stockpile 3 max barium — FS §2.2.1 says 44,900; FEIR says 126,000 | **44,900 mg/kg** at SR132-21-3.0. FS §2.2.1 correct; FEIR wrong |
+| Stockpile 1 max barium | mean 154 mg/kg; no sample near the TTLC |
+| Max arsenic | **57 mg/kg** at SR132-50-0.15 (soluble 5.8 mg/L, over the 5 mg/L STLC) |
+
+So **FS §2.2.1 is the reliable restatement of the 2004 PSI, and §2.2.3 is not** —
+which is what the `EXCLUDE_FROM_MAX` entry in
+`../scripts/build_percent_of_benchmark.py` already assumed on internal evidence.
+The exclusion stands, now on primary-source grounds rather than inference.
+
+**Partial transcription: `raw/6-1-04 Heavy Metal PSI.hotspots.raw.csv`** (95
+rows). Scoped to hot spots and summary statistics, not the full 244-sample
+grid: every Stockpile 2 sample with barium ≥1,000 mg/kg, every arsenic
+detection, both Stockpile 3 hot spots, the Stockpile 2 summary block, and the
+regulatory reference values. Depth is recorded in **metres** as the sample ID
+uses it (0.15/1.5/3.0/4.5/6.0 m = 0.5/5/10/15/20 ft) — a trap for anyone reading
+`SR132-35-4.5` as 4.5 feet.
+
+**Verification.** The eight Stockpile 2 samples transcribed as exceeding the
+10,000 mg/kg TTLC are exactly the eight the narrative counts ("Eight soil
+samples had total barium concentrations greater than the TTLC"), and the
+transcribed arsenic maximum and soluble-arsenic value match §4.4.2 exactly. As
+with the RACR, the source encodes meaning in **highlighting** — bold for results
+exceeding ten-times the STLC, yellow fill for soluble barium over the STLC or
+TCLP — which no text extraction captures; the `notes` column records it.
+
+### Strontium: the FS is the wrong one here
+
+Tables 2 and 4 have since been read, and the strontium contradiction is
+resolved — **in the opposite direction to barium**:
+
+**765 mg/kg is correct.** It is SR132-28-3.0 (Stockpile 2, 3.0 m / 10 ft), the
+same sample as the 58,200 mg/kg barium result. The SSI Report and HHRA Update
+are right; **the FS Report's 231 mg/kg is wrong**. 231 is real, but it is only
+the *Stockpile 1* maximum (SR132-09-6.0, a native-soil sample) — the FS
+promotes a per-stockpile figure to a site-wide one.
+
+Strontium tracks barium closely, which is what the site's history predicts: the
+FMC plant processed barite (barium sulfate) *and* celestite (strontium
+sulfate). The five highest strontium results are all hot-spot samples:
+
+| Sample | Strontium | Barium in the same sample |
+|---|---|---|
+| SR132-28-3.0 (Stk 2) | **765** | 58,200 |
+| SR132-35-4.5 (Stk 2) | 726 | 60,700 |
+| SR132-37-3.0 (Stk 2) | 665 | 57,700 |
+| SR132-39-1.5 (Stk 2) | 547 | 57,800 |
+| SR132-17-4.5 (Stk 3) | 397 | 44,300 |
+
+**So neither restating document is uniformly reliable.** FS §2.2.1 is right
+about barium and wrong about strontium; the SSI/HHRA are right about strontium.
+Any value taken from a narrative restatement needs checking against the PSI
+individually — the document-level judgement in the table above governs which
+*tables* to use, not which *sentences* to believe.
+
+**Stockpile maxima and summary statistics, all now from the primary tables:**
+
+| | Stk 1 | Stk 2 | Stk 3 |
+|---|---|---|---|
+| Max total barium | 1,730 | **60,700** | 44,900 |
+| Mean barium | 154 | 3,607 | 1,954 |
+| 95% UCL barium | 194 | 5,474 | 4,041 |
+| Max strontium | 231 | **765** | 397 |
+| Mean strontium | 58.4 | 79.6 | 51 |
+
+**Second verification.** The 11 arsenic detections transcribed across all three
+tables are exactly the 11 the narrative counts, spanning exactly its stated
+8.8–57 mg/kg range — an independent check on Tables 2 and 4 equivalent to the
+eight-over-TTLC check on Table 3.
+
+**Still not transcribed:** the ~190 samples that are neither hot spots nor
+detections. Those are needed only if the PSI is ever to contribute
+*distribution* points rather than maxima; the maxima, means and 95% UCLs are now
+all primary-sourced.
+
 ## Why a rebuild instead of a patch
 
 Spot-checking the old CSV against source PDFs found errors were systematic, not
